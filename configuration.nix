@@ -167,6 +167,7 @@
     partition-manager
     nextcloud-client
     gnupg
+    pinentry-qt
   ];
 
   services.flatpak.enable = true;
@@ -174,6 +175,12 @@
   programs.zsh.enable = true;
   programs.steam.enable = true;
   programs.gnome-disks.enable = true;
+
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+    pinentryFlavor = "qt";
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
