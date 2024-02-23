@@ -125,6 +125,7 @@
       vscode
       yakuake
       keybase-gui
+      kbfs
       hugo
       go
       php
@@ -164,6 +165,7 @@
     packagekit
     libsForQt5.packagekit-qt
     partition-manager
+    nextcloud-client
   ];
 
   services.flatpak.enable = true;
