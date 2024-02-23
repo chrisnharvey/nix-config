@@ -125,6 +125,9 @@
       vscode
       yakuake
       keybase-gui
+      hugo
+      go
+      php
     ];
   };
 
