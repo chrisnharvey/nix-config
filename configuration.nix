@@ -166,6 +166,7 @@
     libsForQt5.packagekit-qt
     partition-manager
     nextcloud-client
+    gnupg
   ];
 
   services.flatpak.enable = true;
