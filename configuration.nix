@@ -35,7 +35,7 @@
   boot.kernelParams = [ "quiet" "udev.log_level=0" ]; 
 
   networking.hostId = "98e54f8e";
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "dell-laptop"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
