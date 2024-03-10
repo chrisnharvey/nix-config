@@ -1,0 +1,5 @@
+{ ... }: {
+	imports = [
+		./duplicacy-web.nix
+	];
+}
