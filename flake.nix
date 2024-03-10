@@ -97,7 +97,7 @@
           # Import the configuration.nix here, so that the
           # old configuration file can still take effect.
           # Note: configuration.nix itself is also a Nixpkgs Module,
-          ./configuration.nix
+          ./dell-laptop/configuration.nix
 
           home-manager.nixosModules.home-manager
           {
@@ -107,8 +107,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
 
-            # TODO replace ryan with your own username
-            home-manager.users.chris = import ./home.nix;
+            home-manager.users.chris = import ./dell-laptop/home.nix;
 
             # Optionally, use home-manager.extraSpecialArgs to pass arguments to home.nix
           }
