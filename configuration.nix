@@ -50,6 +50,7 @@
   virtualisation.docker.storageDriver = "btrfs";
   #virtualisation.virtualbox.host.enable = true;
   #virtualisation.virtualbox.host.enableExtensionPack = true;
+  virtualisation.libvirtd.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/London";
@@ -175,6 +176,7 @@
   programs.zsh.enable = true;
   programs.steam.enable = true;
   programs.gnome-disks.enable = true;
+  programs.virt-manager.enable = true;
 
   programs.gnupg.agent = {
     enable = true;
