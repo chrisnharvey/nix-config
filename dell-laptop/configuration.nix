@@ -160,6 +160,7 @@
     htop
     keybase
     discover
+    spectacle
     brave
     vlc
     signal-desktop
