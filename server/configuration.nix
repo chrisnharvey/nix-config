@@ -16,6 +16,8 @@
   boot.loader.grub.device = "/dev/vda";
   boot.loader.grub.useOSProber = true;
 
+  boot.supportedFilesystems = [ "zfs" ];
+
   services.cockpit.enable = true;
   services.cockpit.openFirewall = true;
 
