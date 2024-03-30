@@ -10,15 +10,15 @@
       };
 
       configFile = {
-        "baloofilerc"."General"."only basic indexing" = true;
-        "kcminputrc"."Libinput.1739.52631.DELL08E0:00 06CB:CD97 Touchpad"."DisableWhileTyping" = false;
-        "kcminputrc"."Libinput.1739.52631.DELL08E0:00 06CB:CD97 Touchpad"."NaturalScroll" = true;
-        "ksplashrc"."KSplash"."Engine" = "none";
-        "kwinrc"."TabBox"."LayoutName" = "thumbnail_grid";
-        "ksmserverrc"."General"."loginMode" = "restoreSavedSession";
+        "baloofilerc"."General"."only basic indexing".value = true;
+        "kcminputrc"."Libinput.1739.52631.DELL08E0:00 06CB:CD97 Touchpad"."DisableWhileTyping".value = false;
+        "kcminputrc"."Libinput.1739.52631.DELL08E0:00 06CB:CD97 Touchpad"."NaturalScroll".value = true;
+        "ksplashrc"."KSplash"."Engine".value = "none";
+        "kwinrc"."TabBox"."LayoutName".value = "thumbnail_grid";
+        "ksmserverrc"."General"."loginMode".value = "restoreSavedSession";
 
         /* disable hotcorners */
-        "kwinrc"."Effect-windowview"."BorderActivateAll" = 9;
+        "kwinrc"."Effect-windowview"."BorderActivateAll".value = 9;
       };
     };
 
