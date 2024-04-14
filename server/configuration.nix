@@ -25,6 +25,7 @@
   services.cockpit.openFirewall = true;
 
   host.services.duplicacy-web.enable = true;
+  host.services.duplicacy-web.autostart = false;
   host.services.duplicacy-web.environment = "/data/data/duplicacy-environment";
 
   networking.hostId = "c1613a14";
@@ -104,6 +105,7 @@
   #services.k3s.role = "server";
 
   virtualisation.docker.enable = true;
+  virtualisation.docker.enableOnBoot = false;
   virtualisation.docker.storageDriver = "zfs";
   virtualisation.docker.daemon.settings = {
     data-root = "/vms/docker";
