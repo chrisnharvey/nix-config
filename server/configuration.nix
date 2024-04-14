@@ -27,6 +27,36 @@
   services.tailscale.enable = true;
   services.tailscale.useRoutingFeatures = "server";
 
+  services.telegraf.enable = true;
+  services.telegraf.extraConfig.inputs = {
+    mem = {};
+    processes = {};
+    swap = {};
+    system = {};
+    zfs = {
+        poolMetrics = true;
+        datasetMetrics = true;
+    };
+    cpu = {
+        percpu = true;
+        totalcpu = true;
+        collect_cpu_time = false;
+        report_active = false;
+        core_tags = false;
+    };
+    disk = {
+        ignore_fs = ["tmpfs" "devtmpfs" "devfs" "iso9660" "overlay" "aufs" "squashfs"];
+    };
+    diskio = {};
+    kernel = {};
+#    smart = {
+#        use_sudo = true;
+#    };
+  };
+  services.telegraf.extraConfig.outputs.prometheus_client = {
+    listen = ":9273";
+  };
+
   host.services.duplicacy-web.enable = true;
   host.services.duplicacy-web.autostart = false;
   host.services.duplicacy-web.environment = "/data/data/duplicacy-environment";
@@ -90,6 +120,8 @@
     wget
     git
     tailscale
+    smartmontools
+    htop
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
