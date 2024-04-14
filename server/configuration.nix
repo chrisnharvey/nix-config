@@ -27,6 +27,7 @@
   host.services.duplicacy-web.enable = true;
   host.services.duplicacy-web.environment = "/data/data/duplicacy-environment";
 
+  networking.hostId = "c1613a14";
   networking.hostName = "server"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
