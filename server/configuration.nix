@@ -24,6 +24,9 @@
   services.cockpit.enable = true;
   services.cockpit.openFirewall = true;
 
+  services.tailscale.enable = true;
+  services.tailscale.useRoutingFeatures = "server";
+
   host.services.duplicacy-web.enable = true;
   host.services.duplicacy-web.autostart = false;
   host.services.duplicacy-web.environment = "/data/data/duplicacy-environment";
@@ -86,6 +89,7 @@
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     git
+    tailscale
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
