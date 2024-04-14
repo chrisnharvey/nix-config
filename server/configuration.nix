@@ -19,6 +19,7 @@
   ];
 
   boot.supportedFilesystems = [ "zfs" ];
+  boot.zfs.extraPools = [ "data" "vms" ];
 
   services.cockpit.enable = true;
   services.cockpit.openFirewall = true;
