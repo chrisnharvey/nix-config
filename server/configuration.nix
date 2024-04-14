@@ -25,7 +25,7 @@
   services.cockpit.openFirewall = true;
 
   host.services.duplicacy-web.enable = true;
-  host.services.duplicacy-web.environment = "${config.users.users.chris.home}";
+  host.services.duplicacy-web.environment = "/data/data/duplicacy-environment";
 
   networking.hostName = "server"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
