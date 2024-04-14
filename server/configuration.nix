@@ -71,7 +71,7 @@
   users.users.chris = {
     isNormalUser = true;
     description = "Chris";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "docker" "wheel" ];
     packages = with pkgs; [];
   };
 
@@ -99,8 +99,14 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
-  services.k3s.enable = true;
-  services.k3s.role = "server";
+  #services.k3s.enable = true;
+  #services.k3s.role = "server";
+
+  virtualisation.docker.enable = true;
+  virtualisation.docker.storageDriver = "zfs";
+  virtualisation.docker.daemon.settings = {
+    data-root = "/vms/docker";
+  };
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 6443 ];
