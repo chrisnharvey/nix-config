@@ -57,6 +57,37 @@
     listen = ":9273";
   };
 
+  services.nfs.server.enable = true;
+  services.nfs.server.exports = ''
+    "/data/data/files/HomeAssistant" 192.168.10.11(rw,sync,no_subtree_check,no_root_squash)
+    "/data/data/files/Share" 192.168.10.0/24(rw,sync,no_subtree_check,no_root_squash)
+    "/data/data" *(rw,sync,no_subtree_check,no_root_squash)
+  '';
+
+  services.samba = {
+    enable = true;
+    securityType = "user";
+    openFirewall = true;
+
+    shares = {
+      Share = {
+        path = "/data/data/files/Share";
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+        "force user" = "chris";
+        "force group" = "users";
+      };
+    };
+  };
+
+  services.samba-wsdd = {
+    enable = true;
+    openFirewall = true;
+  };
+
   host.services.duplicacy-web.enable = true;
   host.services.duplicacy-web.autostart = false;
   host.services.duplicacy-web.environment = "/data/data/duplicacy-environment";
