@@ -49,13 +49,13 @@
     };
     diskio = {};
     kernel = {};
-#    smart = {
-#        use_sudo = true;
-#    };
   };
   services.telegraf.extraConfig.outputs.prometheus_client = {
     listen = ":9273";
   };
+
+  services.prometheus.exporters.zfs.enable = true;
+  services.prometheus.exporters.smartctl.enable = true;
 
   services.nfs.server.enable = true;
   services.nfs.server.exports = ''
