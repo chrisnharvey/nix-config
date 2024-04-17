@@ -8,6 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./filesystems.nix
     ];
 
   nix = {
@@ -23,8 +24,12 @@
   # Auto upgrade
   system.autoUpgrade.enable = true;
 
+  powerManagement.enable = true;
+
+  # required for hibernation
+  security.protectKernelImage = false;
+
   # Bootloader.
-  boot.supportedFilesystems = ["zfs"];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.timeout = 0;
@@ -32,7 +37,8 @@
   boot.initrd.systemd.enable = true;
   boot.initrd.verbose = false;
   boot.consoleLogLevel = 0;
-  boot.kernelParams = [ "quiet" "udev.log_level=0" ]; 
+  boot.resumeDevice = "/dev/mapper/ROOT";
+  boot.kernelParams = [ "quiet" "udev.log_level=0" "resume_offset=56975616" ];
 
   networking.hostId = "98e54f8e";
   networking.hostName = "dell-laptop"; # Define your hostname.
