@@ -8,35 +8,80 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
-  boot.initrd.kernelModules = [ ];
+  boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "sd_mod" ];
+  boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
-
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/d828df68-6ccf-4e07-99c4-f525ada7d21e";
-      fsType = "ext4";
-    };
-
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/1C42-1B81";
-      fsType = "vfat";
-      options = [ "fmask=0022" "dmask=0022" ];
-    };
-
-  swapDevices = [ ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.br-b49119652bd6.useDHCP = lib.mkDefault true;
-  # networking.interfaces.br-ec6750a4b18b.useDHCP = lib.mkDefault true;
+  # networking.interfaces.br-2a27d776977f.useDHCP = lib.mkDefault true;
+  # networking.interfaces.br-33caae53bca5.useDHCP = lib.mkDefault true;
+  # networking.interfaces.br-3b08eeef3b5b.useDHCP = lib.mkDefault true;
+  # networking.interfaces.br-5d5d39353fa1.useDHCP = lib.mkDefault true;
+  # networking.interfaces.br-5dc77cdf12d7.useDHCP = lib.mkDefault true;
+  # networking.interfaces.br-885a1bc8aea3.useDHCP = lib.mkDefault true;
+  # networking.interfaces.br-98ef6cbc9876.useDHCP = lib.mkDefault true;
+  # networking.interfaces.br-a5131a9954d9.useDHCP = lib.mkDefault true;
+  # networking.interfaces.br-af5667d98f47.useDHCP = lib.mkDefault true;
+  # networking.interfaces.br-b343854639a1.useDHCP = lib.mkDefault true;
+  # networking.interfaces.br-c3f20a79c739.useDHCP = lib.mkDefault true;
+  # networking.interfaces.br-da363a7f928a.useDHCP = lib.mkDefault true;
+  # networking.interfaces.br-ddb1ae9c663d.useDHCP = lib.mkDefault true;
+  # networking.interfaces.br-df8fa048897a.useDHCP = lib.mkDefault true;
+  # networking.interfaces.br-e1aad7498d05.useDHCP = lib.mkDefault true;
   # networking.interfaces.docker0.useDHCP = lib.mkDefault true;
+  # networking.interfaces.enp0s20u5.useDHCP = lib.mkDefault true;
+  # networking.interfaces.enp2s0.useDHCP = lib.mkDefault true;
   # networking.interfaces.tailscale0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.vethcd1984f.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlo1.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth04b3b51.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth08c8021.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth12024c9.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth1586ab0.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth213d76a.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth29dbd22.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth33c7dd2.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth3418ea0.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth38cd847.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth3de919f.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth4a876cf.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth4b2c35a.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth503d387.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth5238f24.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth58fba47.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth5b6baab.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth5bb37fb.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth61abe26.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth6315620.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth64e2352.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth656818a.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth6ad7502.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth70b455a.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth71cc4a4.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth7222cf8.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth723d6c4.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth74b5e39.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth829390e.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth8e50513.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth904c251.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth95e7e0d.useDHCP = lib.mkDefault true;
+  # networking.interfaces.vetha7bfe09.useDHCP = lib.mkDefault true;
+  # networking.interfaces.vethaf60f18.useDHCP = lib.mkDefault true;
+  # networking.interfaces.vethb0459bb.useDHCP = lib.mkDefault true;
+  # networking.interfaces.vethbadcdb5.useDHCP = lib.mkDefault true;
+  # networking.interfaces.vethbb7a75e.useDHCP = lib.mkDefault true;
+  # networking.interfaces.vethbed2125.useDHCP = lib.mkDefault true;
+  # networking.interfaces.vethc53e024.useDHCP = lib.mkDefault true;
+  # networking.interfaces.vethc72143d.useDHCP = lib.mkDefault true;
+  # networking.interfaces.vethd03008d.useDHCP = lib.mkDefault true;
+  # networking.interfaces.vethd0473c8.useDHCP = lib.mkDefault true;
+  # networking.interfaces.vethe3e732d.useDHCP = lib.mkDefault true;
+  # networking.interfaces.vethf9dc978.useDHCP = lib.mkDefault true;
+  # networking.interfaces.vlan40.useDHCP = lib.mkDefault true;
+  # networking.interfaces.vlan50.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
