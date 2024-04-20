@@ -40,6 +40,10 @@
   boot.resumeDevice = "/dev/mapper/ROOT";
   boot.kernelParams = [ "quiet" "udev.log_level=0" "resume_offset=56975616" ];
 
+  security.tpm2.enable = true;
+  security.tpm2.pkcs11.enable = true;
+  security.tpm2.tctiEnvironment.enable = true;
+
   networking.hostId = "98e54f8e";
   networking.hostName = "dell-laptop"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
