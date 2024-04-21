@@ -84,6 +84,11 @@
   services.xserver.enable = true;
   services.keybase.enable = true;
 
+  services.fwupd.enable = true;
+  services.fprintd.enable = true;
+  services.fprintd.tod.enable = true;
+  services.fprintd.tod.driver = pkgs.callPackage ./libfprint-2-tod1-broadcom { };
+
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
