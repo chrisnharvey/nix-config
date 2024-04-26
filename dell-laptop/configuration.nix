@@ -80,8 +80,9 @@
     LC_TIME = "en_GB.UTF-8";
   };
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  # Disable the X11 windowing system.
+  services.xserver.enable = false;
+
   services.keybase.enable = true;
 
   services.fwupd.enable = true;
@@ -93,12 +94,6 @@
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
   services.desktopManager.plasma6.enable = true;
-
-  # Configure keymap in X11
-  services.xserver = {
-    xkb.layout = "gb";
-    xkb.variant = "";
-  };
 
   # Configure console keymap
   console.keyMap = "uk";
