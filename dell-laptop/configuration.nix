@@ -143,6 +143,7 @@
       hugo
       go
       php
+      distrobox
     ];
   };
 
