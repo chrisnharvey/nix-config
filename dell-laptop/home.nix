@@ -18,6 +18,7 @@
         "ksmserverrc"."General"."loginMode".value = "restoreSavedSession";
 
         /* disable hotcorners */
+        "kwinrc"."Effect-overview"."BorderActivate".value = 9;
         "kwinrc"."Effect-windowview"."BorderActivateAll".value = 9;
       };
     };
