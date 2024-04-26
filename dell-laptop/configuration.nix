@@ -176,7 +176,7 @@
     vlc
     signal-desktop
     packagekit
-    libsForQt5.packagekit-qt
+    kdePackages.sddm-kcm
     partition-manager
     nextcloud-client
     gnupg
