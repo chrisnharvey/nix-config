@@ -5,6 +5,8 @@
       ../common/home.nix
     ];
 
+    programs.zsh.autosuggestion.enable = true;
+
     programs.plasma = {
       enable = true;
 
