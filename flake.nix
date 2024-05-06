@@ -78,6 +78,19 @@
           # old configuration file can still take effect.
           # Note: configuration.nix itself is also a Nixpkgs Module,
           ./server/configuration.nix
+
+          home-manager-unstable.nixosModules.home-manager
+          {
+            home-manager.sharedModules = [
+                inputs.plasma-manager.homeManagerModules.plasma-manager
+            ];
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+
+            home-manager.users.chris = import ./dell-laptop/home.nix;
+
+            # Optionally, use home-manager.extraSpecialArgs to pass arguments to home.nix
+          }
         ];
       };
     };
