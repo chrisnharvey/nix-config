@@ -134,6 +134,8 @@
   # Configure console keymap
   console.keyMap = "uk";
 
+  users.defaultUserShell = pkgs.zsh;
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.chris = {
     isNormalUser = true;
@@ -173,6 +175,8 @@
 
   #services.k3s.enable = true;
   #services.k3s.role = "server";
+
+  programs.zsh.enable = true;
 
   virtualisation.docker.enable = true;
   virtualisation.docker.enableOnBoot = false;
