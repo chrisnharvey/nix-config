@@ -87,7 +87,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
 
-            home-manager.users.chris = import ./dell-laptop/home.nix;
+            home-manager.users.chris = import ./server/home.nix;
 
             # Optionally, use home-manager.extraSpecialArgs to pass arguments to home.nix
           }
