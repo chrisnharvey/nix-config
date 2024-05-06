@@ -35,7 +35,7 @@
   # 
   # The `@` syntax here is used to alias the attribute set of the
   # inputs's parameter, making it convenient to use inside the function.
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager-unstable, ... }@inputs: {
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, home-manager-unstable, ... }@inputs: {
     nixosConfigurations = {
       # By default, NixOS will try to refer the nixosConfiguration with
       # its hostname, so the system named `nixos-test` will use this one.
@@ -79,7 +79,7 @@
           # Note: configuration.nix itself is also a Nixpkgs Module,
           ./server/configuration.nix
 
-          home-manager-unstable.nixosModules.home-manager
+          home-manager.nixosModules.home-manager
           {
             home-manager.sharedModules = [
                 inputs.plasma-manager.homeManagerModules.plasma-manager
