@@ -22,6 +22,29 @@
   boot.supportedFilesystems = [ "zfs" ];
   boot.zfs.extraPools = [ "data" "vms" ];
   boot.zfs.requestEncryptionCredentials = false;
+  
+  services.sanoid = {
+    enable = true;
+
+    datasets = {
+      "data/data" = {
+        recursive = true;
+        daily = 14;
+        hourly = 24;
+        monthly = 3;
+        autosnap = true;
+        autoprune = true;
+      };
+      "vms/data" = {
+        recursive = true;
+        daily = 14;
+        hourly = 24;
+        monthly = 3;
+        autosnap = true;
+        autoprune = true;
+      };
+    };
+  };
 
   services.cockpit.enable = true;
   services.cockpit.openFirewall = true;
