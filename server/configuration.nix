@@ -206,6 +206,12 @@
   virtualisation.docker.storageDriver = "zfs";
   virtualisation.docker.daemon.settings = {
     data-root = "/vms/docker";
+    default-address-pools = [
+        {
+            base = "172.17.0.0/12";
+            size = 24;
+        }
+    ];
   };
 
   # Open ports in the firewall.
