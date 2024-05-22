@@ -136,6 +136,8 @@
     extraGroups = [ "networkmanager" "wheel" "docker" "vboxusers" ];
     shell = pkgs.zsh;
     packages = with pkgs; [
+      kubectl
+      kubernetes-helm
       vscode
       yakuake
       keybase-gui
@@ -143,6 +145,7 @@
       hugo
       go
       php
+      nodejs
       distrobox
     ];
   };
