@@ -46,8 +46,13 @@
     };
   };
 
-  services.cockpit.enable = true;
-  services.cockpit.openFirewall = true;
+  services.avahi = {
+    enable = true;
+    publish = {
+        enable = true;
+        addresses = true;
+    };
+  };
 
   services.tailscale.enable = true;
   services.tailscale.useRoutingFeatures = "server";

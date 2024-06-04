@@ -84,6 +84,15 @@
   # Disable the X11 windowing system.
   services.xserver.enable = false;
 
+  services.avahi = {
+    enable = true;
+    publish = {
+        enable = true;
+        addresses = true;
+        workstation = true;
+    };
+  };
+
   services.keybase.enable = true;
 
   services.fwupd.enable = true;
