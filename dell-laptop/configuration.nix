@@ -197,6 +197,8 @@
     nextcloud-client
     gnupg
     pinentry-qt
+    unrar
+    kdePackages.full
   ];
 
   services.flatpak.enable = true;
