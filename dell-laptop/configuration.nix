@@ -58,7 +58,8 @@
   # Docker and Virtualization
   virtualisation.docker.enable = true;
   virtualisation.docker.storageDriver = "btrfs";
-  #virtualisation.virtualbox.host.enable = true;
+  virtualisation.virtualbox.host.enable = true;
+  users.extraGroups.vboxusers.members = [ "chris" ];
   #virtualisation.virtualbox.host.enableExtensionPack = true;
   virtualisation.libvirtd.enable = true;
 
