@@ -101,6 +101,7 @@
   services.fprintd.tod.driver = pkgs.callPackage ./libfprint-2-tod1-broadcom { };
 
   security.pam.services.login.fprintAuth = false;
+  security.pam.services.kde.fprintAuth = false;
 
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
