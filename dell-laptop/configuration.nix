@@ -157,6 +157,7 @@
       php
       nodejs
       distrobox
+      btrfs-assistant
       jetbrains.goland
       jetbrains.phpstorm
       jetbrains.datagrip
