@@ -22,5 +22,8 @@
       userEmail = "chris@chrisnharvey.com";
       signing.key = "0B5B154A0538BD357EE58189024E65A3F7E92A36";
       signing.signByDefault = true;
+      extraConfig = {
+        url."git@github.com:".insteadOf = "https://github.com/";
+      };
     };
 }
