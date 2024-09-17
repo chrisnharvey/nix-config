@@ -11,7 +11,7 @@
       options = [ "subvol=@home" ];
     };
 
-  boot.initrd.luks.devices."ROOT".device = "/dev/disk/by-uuid/c1e64d42-0251-4019-a975-0f687633c00f";
+  boot.initrd.luks.devices."ROOT".device = "/dev/disk/by-label/CRYPT";
 
   fileSystems."/boot" =
     { device = "/dev/disk/by-label/BOOT";
