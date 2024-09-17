@@ -157,6 +157,9 @@
       php
       nodejs
       distrobox
+      jetbrains.goland
+      jetbrains.phpstorm
+      jetbrains.datagrip
     ];
   };
 
