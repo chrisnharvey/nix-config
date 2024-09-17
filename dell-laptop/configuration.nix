@@ -177,6 +177,16 @@
   services.tailscale.enable = true;
   services.tailscale.useRoutingFeatures = "client";
 
+  services.snapper.configs.root = {
+    SUBVOLUME = "/";
+  };
+
+  services.snapper.configs.home = {
+    TIMELINE_CREATE = true;
+    TIMELINE_CLEANUP = true;
+    SUBVOLUME = "/home";
+  };
+
   #services.fprintd.enable = true;
   #services.fprintd.tod.enable = true;
   #services.fprintd.tod.driver = (import ./fingerprint-broadcom.nix);
