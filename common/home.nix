@@ -5,6 +5,7 @@
     /* Here goes the rest of your home-manager config, e.g. home.packages = [ pkgs.foo ]; */
 
     programs.starship.enable = true;
+    programs.zsh.autosuggestion.enable = true;
 
     programs.zsh = {
         enable = true;

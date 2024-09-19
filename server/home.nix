@@ -4,6 +4,4 @@
     [
       ../common/home.nix
     ];
-
-  programs.zsh.enableAutosuggestions = true;
 }

@@ -180,12 +180,6 @@
     LC_TIME = "en_GB.UTF-8";
   };
 
-  # Configure keymap in X11
-  services.xserver = {
-    layout = "gb";
-    xkbVariant = "";
-  };
-
   # Configure console keymap
   console.keyMap = "uk";
 

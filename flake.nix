@@ -11,10 +11,10 @@
     # The most widely used is `github:owner/name/reference`,
     # which represents the GitHub repository URL + branch/commit-id/tag.
 
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
 
-    home-manager.url = "github:nix-community/home-manager?ref=release-23.11";
+    home-manager.url = "github:nix-community/home-manager?ref=release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     home-manager-unstable.url = "github:nix-community/home-manager";
