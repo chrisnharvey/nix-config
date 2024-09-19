@@ -41,6 +41,15 @@
     dates = "20:00";
   };
   
+  services.syncthing = {
+    enable = true;
+    guiAddress = "192.168.10.9:8384";
+    user = "chris";
+    dataDir = "/data/data/files/Chris/Documents";
+    configDir = "/data/data/files/Chris/.config/syncthing";
+  };
+
+  
   services.sanoid = {
     enable = true;
 
