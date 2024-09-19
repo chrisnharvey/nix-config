@@ -22,7 +22,7 @@
   boot.supportedFilesystems = [ "zfs" ];
   boot.zfs.extraPools = [ "data" "vms" ];
   boot.zfs.requestEncryptionCredentials = false;
-  
+
   nix = {
     settings.experimental-features = [ "nix-command" "flakes" ];
 
@@ -40,7 +40,7 @@
     flake = "github:chrisnharvey/nix-config";
     dates = "20:00";
   };
-  
+
   services.syncthing = {
     enable = true;
     guiAddress = "192.168.10.9:8384";
