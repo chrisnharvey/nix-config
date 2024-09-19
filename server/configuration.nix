@@ -23,6 +23,24 @@
   boot.zfs.extraPools = [ "data" "vms" ];
   boot.zfs.requestEncryptionCredentials = false;
   
+  nix = {
+    settings.experimental-features = [ "nix-command" "flakes" ];
+
+    gc = {
+      automatic = true;
+      dates = "daily";
+      options = "--delete-older-than 7d";
+    };
+  };
+
+  # Auto upgrade
+  system.autoUpgrade = {
+    enable = true;
+    operation = "boot";
+    flake = "github:chrisnharvey/nix-config";
+    dates = "20:00";
+  };
+  
   services.sanoid = {
     enable = true;
 
