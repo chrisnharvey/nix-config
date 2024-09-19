@@ -182,6 +182,10 @@
 
   services.tailscale.enable = true;
   services.tailscale.useRoutingFeatures = "client";
+  services.tailscale.extraUpFlags = [
+    "--operator=chris"
+    "--accept-routes"
+  ];
 
   services.snapper.configs.root = {
     SUBVOLUME = "/";
