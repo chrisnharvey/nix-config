@@ -2,6 +2,10 @@ name: "Check flake"
 on:
   pull_request:
   push:
+  workflow_run:
+    workflows: ["Update flake.lock"]
+    types:
+      - completed
 jobs:
   check:
     runs-on: ubuntu-latest
