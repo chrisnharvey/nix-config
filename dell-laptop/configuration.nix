@@ -22,7 +22,12 @@
   };
 
   # Auto upgrade
-  system.autoUpgrade.enable = true;
+  system.autoUpgrade = {
+    enable = true;
+    operation = "boot";
+    flake = "github:chrisnharvey/nix-config";
+    dates = "20:00";
+  };
 
   powerManagement.enable = true;
 
