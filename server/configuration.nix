@@ -84,6 +84,16 @@
   services.tailscale.enable = true;
   services.tailscale.useRoutingFeatures = "server";
 
+  services.prometheus = {
+    enable = false;
+    exporters = {
+      node = {
+        enable = true;
+        port = 9100;
+      };
+    };
+  };
+
   services.telegraf.enable = true;
   services.telegraf.extraConfig.inputs = {
     mem = {};
