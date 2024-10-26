@@ -159,6 +159,7 @@
       kbfs
       hugo
       go
+      gcc         
       php
       nodejs
       distrobox
