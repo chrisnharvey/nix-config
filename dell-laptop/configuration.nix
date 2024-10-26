@@ -227,6 +227,8 @@
   programs.steam.enable = true;
   programs.gnome-disks.enable = true;
   programs.virt-manager.enable = true;
+  programs.appimage.enable = true;
+  programs.appimage.binfmt = true;
 
   programs.gnupg.agent = {
     enable = true;
