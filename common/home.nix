@@ -12,7 +12,7 @@
         enableCompletion = true;
         oh-my-zsh = {
           enable = true;
-          plugins = ["git" "command-not-found" "docker" "docker-compose" "emoji" "git-auto-fetch" "gh" "genpass" "golang" "starship"];
+          plugins = ["git" "command-not-found" "docker" "docker-compose" "emoji" "git-auto-fetch" "gh" "genpass" "golang" "starship" "zoxide"];
           theme = "robbyrussell";
         };
     };
