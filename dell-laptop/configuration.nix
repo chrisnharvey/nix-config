@@ -209,13 +209,13 @@
     sshfs-fuse
     htop
     keybase
-    discover
     spectacle
     brave
     vlc
     signal-desktop
     packagekit
     kdePackages.sddm-kcm
+    kdePackages.discover
     partition-manager
     nextcloud-client
     gnupg
