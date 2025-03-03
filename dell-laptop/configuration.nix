@@ -63,10 +63,6 @@
   # Docker and Virtualization
   virtualisation.docker.enable = true;
   virtualisation.docker.storageDriver = "btrfs";
-  virtualisation.virtualbox.host.enable = true;
-  users.extraGroups.vboxusers.members = [ "chris" ];
-  #virtualisation.virtualbox.host.enableExtensionPack = true;
-  virtualisation.libvirtd.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/London";
