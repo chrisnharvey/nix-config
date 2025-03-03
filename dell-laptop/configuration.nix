@@ -9,6 +9,7 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./filesystems.nix
+      ../desktops/gnome.nix # Include the GNOME Desktop Environment.
     ];
 
   nix = {
@@ -83,9 +84,6 @@
     LC_TIME = "en_GB.UTF-8";
   };
 
-  # Disable the X11 windowing system.
-  services.xserver.enable = false;
-
   services.avahi = {
     enable = true;
     publish = {
@@ -104,12 +102,6 @@
   services.fprintd.tod.driver = pkgs.libfprint-2-tod1-broadcom;
 
   security.pam.services.login.fprintAuth = false;
-  security.pam.services.kde.fprintAuth = false;
-
-  # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
-  services.displayManager.sddm.wayland.enable = true;
-  services.desktopManager.plasma6.enable = true;
 
   # Configure console keymap
   console.keyMap = "uk";
@@ -152,19 +144,14 @@
       kubectl
       kubernetes-helm
       vscode
-      yakuake
-      keybase-gui
       kbfs
       hugo
       go
       gcc         
       php
+      phpPackages.composer
+    #   laravel
       nodejs
-      distrobox
-      btrfs-assistant
-      jetbrains.goland
-      jetbrains.phpstorm
-      jetbrains.datagrip
     ];
   };
 
@@ -204,20 +191,11 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     zoxide
+    borgbackup
     sshfs-fuse
     htop
     keybase
-    spectacle
-    brave
-    vlc
-    signal-desktop
-    packagekit
-    kdePackages.sddm-kcm
-    kdePackages.discover
-    partition-manager
-    nextcloud-client
     gnupg
-    pinentry-qt
     unrar
   ];
 
@@ -225,8 +203,6 @@
 
   programs.zsh.enable = true;
   programs.steam.enable = true;
-  programs.gnome-disks.enable = true;
-  programs.virt-manager.enable = true;
   programs.appimage.enable = true;
   programs.appimage.binfmt = true;
 
@@ -253,7 +229,7 @@
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -261,6 +237,6 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.11"; # Did you read the comment?
+  system.stateVersion = "24.11"; # Did you read the comment?
 
 }
