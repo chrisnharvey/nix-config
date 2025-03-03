@@ -96,6 +96,7 @@
   };
 
   services.keybase.enable = true;
+  services.kbfs.enable = true;
 
   services.fwupd.enable = true;
   services.fprintd.enable = true;
