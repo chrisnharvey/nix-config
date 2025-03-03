@@ -19,10 +19,6 @@
 
     home-manager-unstable.url = "github:nix-community/home-manager";
     home-manager-unstable.inputs.nixpkgs.follows = "nixpkgs-unstable";
-
-    plasma-manager.url = "github:pjones/plasma-manager";
-    plasma-manager.inputs.nixpkgs.follows = "nixpkgs";
-    plasma-manager.inputs.home-manager.follows = "home-manager";
   };
 
   # `outputs` are all the build result of the flake.
@@ -58,9 +54,6 @@
 
           home-manager-unstable.nixosModules.home-manager
           {
-            home-manager.sharedModules = [
-                inputs.plasma-manager.homeManagerModules.plasma-manager
-            ];
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
 
@@ -81,9 +74,6 @@
 
           home-manager.nixosModules.home-manager
           {
-            home-manager.sharedModules = [
-                inputs.plasma-manager.homeManagerModules.plasma-manager
-            ];
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
 
