@@ -17,6 +17,9 @@
     gnomeExtensions.appindicator
     gnomeExtensions.hibernate-status-button
     gnomeExtensions.tailscale-qs
+    gnomeExtensions.caffeine
+    gnomeExtensions.privacy-settings-menu
+    gnomeExtensions.wiggle
   ];
 
   environment.gnome.excludePackages = (with pkgs; [
