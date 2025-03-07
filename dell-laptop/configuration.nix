@@ -35,6 +35,21 @@
   # required for hibernation
   security.protectKernelImage = false;
 
+  services.logind.lidSwitch = "suspend-then-hibernate";
+  services.logind.suspendKey = "suspend-then-hibernate";
+  services.logind.powerKey = "hibernate";
+
+  systemd.sleep.extraConfig = ''
+    AllowSuspend=no
+    AllowHibernation=yes
+    AllowHybridSleep=yes
+    AllowSuspendThenHibernate=yes
+    HibernateDelaySec=1h
+    '';
+
+  services.upower.enable = true;
+  services.upower.criticalPowerAction = "Hibernate";
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
