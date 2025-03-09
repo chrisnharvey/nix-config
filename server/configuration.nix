@@ -200,6 +200,9 @@
     isNormalUser = true;
     description = "Chris";
     extraGroups = [ "networkmanager" "docker" "wheel" ];
+    openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKgZSwNSFRZk2XJBT6PXdeQdYJEUAYdhYZCtfcPwPtLt chris@laptop"
+    ];
     packages = with pkgs; [];
   };
 
