@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, nix-software-center, ... }:
+{ config, pkgs, ... }:
 
 {
   imports =
@@ -214,7 +214,6 @@
     htop
     gnupg
     unrar
-    nix-software-center.packages.${system}.nix-software-center
   ];
 
   services.flatpak.enable = true;
