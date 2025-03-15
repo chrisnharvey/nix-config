@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, nix-software-center, ... }:
 
 {
   imports =
@@ -156,16 +156,21 @@
     extraGroups = [ "networkmanager" "wheel" "docker" "vboxusers" ];
     shell = pkgs.zsh;
     packages = with pkgs; [
+      zoxide
+      keybase
+      kbfs
       kubectl
       kubernetes-helm
       vscode
-      kbfs
+      jetbrains.goland
+      jetbrains.phpstorm
+      jetbrains.datagrip
       hugo
       go
       gcc         
       php
       phpPackages.composer
-    #   laravel
+      laravel
       nodejs
     ];
   };
@@ -205,13 +210,11 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    zoxide
-    borgbackup
     sshfs-fuse
     htop
-    keybase
     gnupg
     unrar
+    nix-software-center.packages.${system}.nix-software-center
   ];
 
   services.flatpak.enable = true;
