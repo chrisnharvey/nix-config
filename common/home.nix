@@ -28,10 +28,14 @@
     programs.zsh = {
         enable = true;
         enableCompletion = true;
+        autosuggestion.enable = true;
         oh-my-zsh = {
           enable = true;
           plugins = ["git" "command-not-found" "docker" "docker-compose" "emoji" "git-auto-fetch" "gh" "genpass" "golang" "starship" "zoxide"];
           theme = "robbyrussell";
+        };
+        shellAliases = {
+          nix-shell = "nix-shell --run $SHELL";
         };
     };
 
