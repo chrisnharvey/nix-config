@@ -155,32 +155,11 @@
     description = "Chris";
     extraGroups = [ "networkmanager" "wheel" "docker" "vboxusers" ];
     shell = pkgs.zsh;
-    packages = with pkgs; [
-      zoxide
-      keybase
-      kbfs
-      kubectl
-      kubernetes-helm
-      vscode
-      jetbrains.goland
-      jetbrains.phpstorm
-      jetbrains.datagrip
-      hugo
-      go
-      gcc         
-      php
-      phpPackages.composer
-      laravel
-      nodejs
-    ];
   };
 
   users.users.hope = {
     isNormalUser = true;
     description = "Hope";
-    packages = with pkgs; [
-      
-    ];
   };
 
   # Allow unfree packages

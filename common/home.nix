@@ -4,8 +4,26 @@
     home.stateVersion = "24.05";
     /* Here goes the rest of your home-manager config, e.g. home.packages = [ pkgs.foo ]; */
 
+    home.packages = with pkgs; [
+      zoxide
+      keybase
+      kbfs
+      kubectl
+      kubernetes-helm
+      vscode
+      jetbrains.goland
+      jetbrains.phpstorm
+      jetbrains.datagrip
+      hugo
+      go
+      gcc         
+      php
+      phpPackages.composer
+      laravel
+      nodejs
+    ];
+
     programs.starship.enable = true;
-    programs.zsh.autosuggestion.enable = true;
 
     programs.zsh = {
         enable = true;
