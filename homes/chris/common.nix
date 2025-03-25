@@ -10,10 +10,6 @@
       kbfs
       kubectl
       kubernetes-helm
-      vscode
-      jetbrains.goland
-      jetbrains.phpstorm
-      jetbrains.datagrip
       hugo
       go
       gcc         

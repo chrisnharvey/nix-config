@@ -9,7 +9,7 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./filesystems.nix
-      ../desktops/gnome.nix # Include the GNOME Desktop Environment.
+      ../../desktops/gnome.nix # Include the GNOME Desktop Environment.
     ];
 
   nix = {
