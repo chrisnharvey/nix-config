@@ -1,8 +1,8 @@
-self: super: {
-  libfprint-tod = super.libfprint-tod.overrideAttrs (oldAttrs: rec {
+final: prev: {
+  libfprint-tod = prev.libfprint-tod.overrideAttrs (oldAttrs: rec {
     version = "1.94.9+tod1";
 
-    src = super.fetchFromGitLab {
+    src = prev.fetchFromGitLab {
       domain = "gitlab.freedesktop.org";
       owner = "3v1n0";
       repo = "libfprint";
