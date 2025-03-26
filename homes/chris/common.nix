@@ -15,7 +15,6 @@
       gcc         
       php
       phpPackages.composer
-      laravel
       nodejs
     ];
 
