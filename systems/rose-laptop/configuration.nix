@@ -163,6 +163,11 @@
     htop
     gnupg
     unrar
+    gnomeExtensions.dash-to-dock
+    gnomeExtensions.appindicator
+    gnomeExtensions.hibernate-status-button
+    gnomeExtensions.tailscale-qs
+    gnomeExtensions.wiggle
   ];
 
   virtualisation.waydroid.enable = true;
