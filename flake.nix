@@ -82,12 +82,16 @@
         ];
       };
 
+      "rose-laptop" = nixpkgs-unstable.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./systems/rose-laptop/configuration.nix
+        ];
+      };
+
       "server" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          # Import the configuration.nix here, so that the
-          # old configuration file can still take effect.
-          # Note: configuration.nix itself is also a Nixpkgs Module,
           ./systems/server/configuration.nix
 
           home-manager.nixosModules.home-manager
@@ -96,8 +100,6 @@
             home-manager.useUserPackages = true;
 
             home-manager.users.chris = import ./systems/server/home.nix;
-
-            # Optionally, use home-manager.extraSpecialArgs to pass arguments to home.nix
           }
         ];
       };
