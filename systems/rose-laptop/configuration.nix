@@ -164,10 +164,9 @@
     gnupg
     unrar
     gnomeExtensions.dash-to-dock
-    gnomeExtensions.appindicator
-    gnomeExtensions.hibernate-status-button
-    gnomeExtensions.tailscale-qs
-    gnomeExtensions.wiggle
+    gnomeExtensions.arcmenu
+    nextcloud-client
+    freeoffice
   ];
 
   virtualisation.waydroid.enable = true;
