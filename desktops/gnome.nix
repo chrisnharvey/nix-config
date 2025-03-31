@@ -22,6 +22,7 @@
     gnomeExtensions.wiggle
     gnomeExtensions.quick-settings-audio-panel
     gnomeExtensions.clipboard-indicator
+    gnomeExtensions.dash-to-dock
   ];
 
   environment.gnome.excludePackages = (with pkgs; [

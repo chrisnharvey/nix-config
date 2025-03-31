@@ -163,7 +163,6 @@
     htop
     gnupg
     unrar
-    gnomeExtensions.dash-to-dock
     gnomeExtensions.arcmenu
     nextcloud-client
     freeoffice
