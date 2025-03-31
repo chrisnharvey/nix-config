@@ -32,21 +32,6 @@
   # The `@` syntax here is used to alias the attribute set of the
   # inputs's parameter, making it convenient to use inside the function.
   outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, home-manager-unstable, ... }@inputs: {
-    overlays.default = import ./overlay.nix;
-
-    packages.x86_64-linux = let
-      pkgs = import nixpkgs {
-        system = "x86_64-linux";
-        overlays = [ self.overlays.default ];
-      };
-    in {
-      libfprint-tod = pkgs.libfprint-tod;
-    };
-
-    nixosModules.default = { config, pkgs, ... }: {
-      nixpkgs.overlays = [ self.overlays.default ];
-    };
-
     nixosConfigurations = {
       # By default, NixOS will try to refer the nixosConfiguration with
       # its hostname, so the system named `nixos-test` will use this one.
@@ -76,9 +61,6 @@
 
             # Optionally, use home-manager.extraSpecialArgs to pass arguments to home.nix
           }
-
-          # Apply the overlay within the NixOS configuration
-          self.nixosModules.default 
         ];
       };
 
