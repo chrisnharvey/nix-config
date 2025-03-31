@@ -20,6 +20,8 @@
     gnomeExtensions.caffeine
     gnomeExtensions.privacy-settings-menu
     gnomeExtensions.wiggle
+    gnomeExtensions.quick-settings-audio-panel
+    gnomeExtensions.clipboard-indicator
   ];
 
   environment.gnome.excludePackages = (with pkgs; [
