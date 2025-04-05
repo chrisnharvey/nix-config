@@ -81,9 +81,6 @@
     };
   };
 
-  services.tailscale.enable = true;
-  services.tailscale.useRoutingFeatures = "server";
-
   services.prometheus = {
     enable = false;
     exporters = {
