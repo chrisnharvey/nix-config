@@ -36,6 +36,10 @@
         };
         shellAliases = {
           nix-shell = "nix-shell --run $SHELL";
+          docker-nuke = "docker rm -f \$(docker ps -aq)";
+          docker-image-nuke = "docker rmi -f \$(docker images -aq)";
+          docker-volume-nuke = "docker volume rm \$(docker volume ls -q)";
+          docker-network-nuke = "docker network rm \$(docker network ls -q)";
         };
     };
 
