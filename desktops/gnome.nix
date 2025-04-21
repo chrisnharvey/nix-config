@@ -24,6 +24,7 @@
     gnomeExtensions.clipboard-indicator
     gnomeExtensions.dash-to-dock
     gnomeExtensions.pip-on-top
+    gnomeExtensions.tiling-shell
   ];
 
   environment.gnome.excludePackages = (with pkgs; [

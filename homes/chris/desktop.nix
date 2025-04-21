@@ -41,6 +41,7 @@
         "pip-on-top@rafostar.github.com"
         "dash-to-dock@micxgx.gmail.com"
         "appindicatorsupport@rgcjonas.gmail.com"
+        "tilingshell@ferrarodomenico.com"
       ];
     };
 
@@ -107,5 +108,98 @@
       group-quick-settings = true;
       use-quick-settings = true;
     };
+
+    "org/gnome/shell/extensions/tilingshell" = {
+      tiling-system-activation-key = ["2"];
+      tiling-system-deactivation-key = ["0"];
+      span-multiple-tiles-activation-key = ["1"];
+      quarter-tiling-threshold = 10;
+      snap-assistant-threshold = 0;
+      layouts-json = ''
+        [
+          {
+              "id": "Layout 3",
+              "tiles": [
+                  {
+                      "x": 0,
+                      "y": 0,
+                      "width": 0.33,
+                      "height": 1,
+                      "groups": [
+                          1
+                      ]
+                  },
+                  {
+                      "x": 0.33,
+                      "y": 0,
+                      "width": 0.67,
+                      "height": 1,
+                      "groups": [
+                          1
+                      ]
+                  }
+              ]
+          },
+          {
+              "id": "Layout 4",
+              "tiles": [
+                  {
+                      "x": 0,
+                      "y": 0,
+                      "width": 0.67,
+                      "height": 1,
+                      "groups": [
+                          1
+                      ]
+                  },
+                  {
+                      "x": 0.67,
+                      "y": 0,
+                      "width": 0.33,
+                      "height": 1,
+                      "groups": [
+                          1
+                      ]
+                  }
+              ]
+          },
+          {
+              "id": "854205",
+              "tiles": [
+                  {
+                      "x": 0,
+                      "y": 0,
+                      "width": 0.3,
+                      "height": 0.5,
+                      "groups": [
+                          1,
+                          2
+                      ]
+                  },
+                  {
+                      "x": 0.3,
+                      "y": 0,
+                      "width": 0.7,
+                      "height": 1,
+                      "groups": [
+                          1
+                      ]
+                  },
+                  {
+                      "x": 0,
+                      "y": 0.5,
+                      "width": 0.3,
+                      "height": 0.49999999999999994,
+                      "groups": [
+                          2,
+                          1
+                      ]
+                  }
+              ]
+          }
+      ]
+      '';
+    };
+
   };
 }
