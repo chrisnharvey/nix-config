@@ -1,5 +1,5 @@
 {
-  description = "Chris NixOS Flake";
+  description = "Chris Nix Flake";
 
   # This is the standard format for flake.nix.
   # `inputs` are the dependencies of the flake,
@@ -13,6 +13,9 @@
 
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
+
+    nix-darwin.url = "github:nix-darwin/nix-darwin/master";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     home-manager.url = "github:nix-community/home-manager?ref=release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -31,7 +34,7 @@
   # 
   # The `@` syntax here is used to alias the attribute set of the
   # inputs's parameter, making it convenient to use inside the function.
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, home-manager-unstable, ... }@inputs: {
+  outputs = { self, nixpkgs, nixpkgs-unstable, nix-darwin, home-manager, home-manager-unstable, ... }@inputs: {
     nixosConfigurations = {
       # By default, NixOS will try to refer the nixosConfiguration with
       # its hostname, so the system named `nixos-test` will use this one.
@@ -95,6 +98,10 @@
           }
         ];
       };
+    };
+
+    darwinConfigurations."Chriss-MacBook-Pro" = nix-darwin.lib.darwinSystem {
+      modules = [ ./systems/macbook/configuration.nix ];
     };
 
 
