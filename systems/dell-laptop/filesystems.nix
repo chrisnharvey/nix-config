@@ -1,14 +1,8 @@
 {
   fileSystems."/" =
     { device = "/dev/mapper/ROOT";
-      fsType = "btrfs";
-      options = [ "subvol=@" ];
-    };
-
-  fileSystems."/home" =
-    { device = "/dev/mapper/ROOT";
-      fsType = "btrfs";
-      options = [ "subvol=@home" ];
+      fsType = "ext4";
+      options = [ "defaults" "discard" "noatime" ];
     };
 
   boot.initrd.luks.devices."ROOT".device = "/dev/disk/by-label/CRYPT";

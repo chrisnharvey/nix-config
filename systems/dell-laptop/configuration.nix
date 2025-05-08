@@ -59,7 +59,7 @@
   boot.initrd.verbose = false;
   boot.consoleLogLevel = 0;
   boot.resumeDevice = "/dev/mapper/ROOT";
-  boot.kernelParams = [ "quiet" "udev.log_level=0" "resume_offset=8222392" ];
+  boot.kernelParams = [ "quiet" "udev.log_level=0" "resume_offset=29921280" ];
   boot.blacklistedKernelModules = [ "intel_hid" "psmouse" ];
 
   security.tpm2.enable = true;
@@ -79,7 +79,6 @@
 
   # Docker and Virtualization
   virtualisation.docker.enable = true;
-  virtualisation.docker.storageDriver = "btrfs";
 
   # Set your time zone.
   time.timeZone = "Europe/London";
@@ -171,16 +170,6 @@
     "--operator=chris"
     "--accept-routes"
   ];
-
-  services.snapper.configs.root = {
-    SUBVOLUME = "/";
-  };
-
-  services.snapper.configs.home = {
-    TIMELINE_CREATE = true;
-    TIMELINE_CLEANUP = true;
-    SUBVOLUME = "/home";
-  };
 
   #services.fprintd.enable = true;
   #services.fprintd.tod.enable = true;
