@@ -2,7 +2,7 @@
   fileSystems."/" =
     { device = "/dev/mapper/ROOT";
       fsType = "btrfs";
-      options = [ "subvol=@" "compress" "ssd" ];
+      options = [ "subvol=@" "compress" "ssd" "noatime" ];
     };
 
   fileSystems."/home" =

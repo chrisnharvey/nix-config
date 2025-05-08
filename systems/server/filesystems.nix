@@ -2,6 +2,7 @@
   fileSystems."/" =
     { device = "/dev/disk/by-label/NIXROOT";
       fsType = "ext4";
+      options = [ "defaults" "discard" "noatime" ];
     };
 
   fileSystems."/boot" =
