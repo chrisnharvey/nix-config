@@ -158,8 +158,8 @@
 
   networking.hostId = "c1613a14";
   networking.hostName = "server"; # Define your hostname.
-  networking.vlans.vlan40 = { id=40; interface="enp2s0"; };
-  networking.vlans.vlan50 = { id=50; interface="enp2s0"; };
+  networking.vlans.vlan40 = { id=40; interface="enp0s31f6"; };
+  networking.vlans.vlan50 = { id=50; interface="enp0s31f6"; };
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
