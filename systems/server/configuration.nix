@@ -245,9 +245,7 @@
   virtualisation.libvirtd.enable = true;
   virtualisation.libvirtd.allowedBridges = [ "br0" ];
   virtualisation.libvirtd.onShutdown = "shutdown";
-
-  # don't start libvirtd on boot
-  systemd.services.libvirtd.wantedBy = lib.mkForce [];
+  virtualisation.libvirtd.onBoot = "ignore";
 
   virtualisation.docker.enable = true;
   virtualisation.docker.enableOnBoot = false;
