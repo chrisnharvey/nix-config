@@ -158,8 +158,11 @@
 
   networking.hostId = "c1613a14";
   networking.hostName = "server"; # Define your hostname.
-  networking.vlans.vlan40 = { id=40; interface="enp0s31f6"; };
-  networking.vlans.vlan50 = { id=50; interface="enp0s31f6"; };
+  networking.vlans.vlan40 = { id=40; interface="br0"; };
+  networking.vlans.vlan50 = { id=50; interface="br0"; };
+  networking.interfaces.br0.useDHCP = true;
+  networking.bridges.br0.interfaces = [ "enp0s31f6" ];
+
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -196,7 +199,7 @@
   users.users.chris = {
     isNormalUser = true;
     description = "Chris";
-    extraGroups = [ "networkmanager" "docker" "wheel" ];
+    extraGroups = [ "networkmanager" "docker" "wheel" "libvirtd" ];
     openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKgZSwNSFRZk2XJBT6PXdeQdYJEUAYdhYZCtfcPwPtLt chris@laptop"
     ];
@@ -238,6 +241,12 @@
   #services.k3s.role = "server";
 
   programs.zsh.enable = true;
+
+  virtualisation.libvirtd.enable = true;
+  virtualisation.libvirtd.allowedBridges = [ "br0" ];
+
+  # don't start libvirtd on boot
+  systemd.services.libvirtd.wantedBy = lib.mkForce [];
 
   virtualisation.docker.enable = true;
   virtualisation.docker.enableOnBoot = false;
