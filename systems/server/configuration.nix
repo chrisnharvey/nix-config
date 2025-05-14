@@ -41,6 +41,9 @@
     dates = "20:00";
   };
 
+  powerManagement.enable = true;
+  powerManagement.powertop.enable = true;
+
   services.syncthing = {
     enable = true;
     guiAddress = "192.168.10.9:8384";
