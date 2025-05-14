@@ -238,6 +238,7 @@
     tmux
     zoxide
     borgbackup
+    powertop
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
