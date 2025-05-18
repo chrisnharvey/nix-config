@@ -53,8 +53,12 @@
   #  /etc/profiles/per-user/chris/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    # EDITOR = "emacs";
+    EDITOR = "nano"; # Don't judge me!
   };
+
+  home.sessionPath = [
+    "$HOME/go/bin"
+  ]
 
   programs.zsh.envExtra = ''
     if [ -e ~/.nix-profile/etc/profile.d/nix.sh ]; then . ~/.nix-profile/etc/profile.d/nix.sh; fi
