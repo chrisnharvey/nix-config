@@ -14,6 +14,8 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
 
+    zfs-multi-mount.url = "github:gbytedev/zfs-multi-mount/master";
+
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
@@ -34,7 +36,7 @@
   # 
   # The `@` syntax here is used to alias the attribute set of the
   # inputs's parameter, making it convenient to use inside the function.
-  outputs = { self, nixpkgs, nixpkgs-unstable, nix-darwin, home-manager, home-manager-unstable, ... }@inputs: {
+  outputs = { self, nixpkgs, nixpkgs-unstable, nix-darwin, home-manager, home-manager-unstable, zfs-multi-mount, ... }@inputs: {
     nixosConfigurations = {
       # By default, NixOS will try to refer the nixosConfiguration with
       # its hostname, so the system named `nixos-test` will use this one.
@@ -88,6 +90,9 @@
         system = "x86_64-linux";
         modules = [
           ./systems/server/configuration.nix
+          {
+            environment.systemPackages = [ zfs-multi-mount.packages.x86_64-linux.default ];
+          }
 
           home-manager.nixosModules.home-manager
           {
