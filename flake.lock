@@ -94,13 +94,49 @@
         "type": "github"
       }
     },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1747467164,
+        "narHash": "sha256-JBXbjJ0t6T6BbVc9iPVquQI9XSXCGQJD8c8SgnUquus=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "3fcbdcfc707e0aa42c541b7743e05820472bdaec",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "home-manager": "home-manager",
         "home-manager-unstable": "home-manager-unstable",
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-unstable": "nixpkgs-unstable"
+        "nixpkgs-unstable": "nixpkgs-unstable",
+        "zfs-multi-mount": "zfs-multi-mount"
+      }
+    },
+    "zfs-multi-mount": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_2"
+      },
+      "locked": {
+        "lastModified": 1704210217,
+        "narHash": "sha256-uMQ+DeWRSJuYshF5vhLAjfCu/o+IM2Iq4T+RoGhpShM=",
+        "owner": "gbytedev",
+        "repo": "zfs-multi-mount",
+        "rev": "282cdfb9367e74d193c83de64fb9fd9a88bffd7b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gbytedev",
+        "ref": "master",
+        "repo": "zfs-multi-mount",
+        "type": "github"
       }
     }
   },
