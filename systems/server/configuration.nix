@@ -87,10 +87,11 @@
   services.prometheus = {
     enable = false;
     exporters = {
-      node = {
-        enable = true;
-        port = 9100;
-      };
+      node.enable = true;
+      systemd.enable = true;
+      zfs.enable = true;
+      libvirt.enable = true;
+      smartctl.enable = true;
     };
   };
 
@@ -120,9 +121,6 @@
   services.telegraf.extraConfig.outputs.prometheus_client = {
     listen = ":9273";
   };
-
-  services.prometheus.exporters.zfs.enable = true;
-  services.prometheus.exporters.smartctl.enable = true;
 
   services.nfs.server.enable = true;
   services.nfs.server.exports = ''
