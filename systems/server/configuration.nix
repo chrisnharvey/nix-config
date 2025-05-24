@@ -131,10 +131,10 @@
 
   services.samba = {
     enable = true;
-    securityType = "user";
     openFirewall = true;
 
-    shares = {
+    settings = {
+      global.security = "user";
       Share = {
         path = "/data/data/files/Share";
         browseable = "yes";
