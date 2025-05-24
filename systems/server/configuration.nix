@@ -88,10 +88,10 @@
     enable = false;
     exporters = {
       node.enable = true;
-      systemd.enable = true;
       zfs.enable = true;
       libvirt.enable = true;
       smartctl.enable = true;
+      process.enable = true;
     };
   };
 
