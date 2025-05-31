@@ -91,7 +91,15 @@
       zfs.enable = true;
       libvirt.enable = true;
       smartctl.enable = true;
-      process.enable = true;
+      process = {
+        enable = true;
+        settings.process_names = [
+          {
+            name = "{{.ExeFull}}";
+            cmdline = [".+"];
+          }
+        ];
+      };
     };
   };
 
