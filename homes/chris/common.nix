@@ -7,6 +7,7 @@
     home.packages = with pkgs; [
       zoxide
       keybase
+      esptool
       kbfs
       kubectl
       kubernetes-helm

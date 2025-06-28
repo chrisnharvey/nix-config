@@ -179,8 +179,12 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    pciutils
+    inxi
+    killall
     sshfs-fuse
     htop
+    glances
     gnupg
     unrar
   ];
