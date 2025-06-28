@@ -18,6 +18,12 @@
       nodejs
     ];
 
+    home.sessionVariables = {
+      EDITOR = "nano"; # Don't judge me!
+      GOPATH = "$HOME/go";
+      GOPRIVATE = "github.com/*";
+    };
+
     programs.starship.enable = true;
 
     programs.nix-index = {
