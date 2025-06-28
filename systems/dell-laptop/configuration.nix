@@ -10,6 +10,7 @@
       ./hardware-configuration.nix
       ./filesystems.nix
       ../../desktops/gnome.nix # Include the GNOME Desktop Environment.
+      #../../desktops/plasma.nix # Include the Plasma Desktop Environment.
     ];
 
   nix = {
