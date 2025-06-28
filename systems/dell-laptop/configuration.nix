@@ -60,7 +60,7 @@
   boot.initrd.verbose = false;
   boot.consoleLogLevel = 0;
   boot.resumeDevice = "/dev/mapper/ROOT";
-  boot.kernelParams = [ "quiet" "udev.log_level=0" "resume_offset=29921280" ];
+  boot.kernelParams = [ "quiet" "i915.enable_psr=0" "udev.log_level=0" "resume_offset=29921280" ];
   boot.blacklistedKernelModules = [ "intel_hid" "psmouse" ];
 
   security.tpm2.enable = true;
