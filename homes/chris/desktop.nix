@@ -105,6 +105,7 @@
         "dash-to-dock@micxgx.gmail.com"
         "appindicatorsupport@rgcjonas.gmail.com"
         "tilingshell@ferrarodomenico.com"
+        "blur-my-shell@aunetx"
       ];
     };
 
