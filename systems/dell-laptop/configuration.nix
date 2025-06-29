@@ -80,6 +80,7 @@
 
   # Docker and Virtualization
   virtualisation.docker.enable = true;
+  virtualisation.libvirtd.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/London";
@@ -153,7 +154,7 @@
   users.users.chris = {
     isNormalUser = true;
     description = "Chris";
-    extraGroups = [ "networkmanager" "wheel" "docker" "vboxusers" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" ];
     shell = pkgs.zsh;
   };
 
