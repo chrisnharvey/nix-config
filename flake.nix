@@ -24,6 +24,8 @@
 
     home-manager-unstable.url = "github:nix-community/home-manager";
     home-manager-unstable.inputs.nixpkgs.follows = "nixpkgs-unstable";
+
+    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=v0.6.0";
   };
 
   # `outputs` are all the build result of the flake.
@@ -36,7 +38,7 @@
   # 
   # The `@` syntax here is used to alias the attribute set of the
   # inputs's parameter, making it convenient to use inside the function.
-  outputs = { self, nixpkgs, nixpkgs-unstable, nix-darwin, home-manager, home-manager-unstable, zfs-multi-mount, ... }@inputs: {
+  outputs = { self, nixpkgs, nixpkgs-unstable, nix-darwin, home-manager, home-manager-unstable, zfs-multi-mount, nix-flatpak, ... }@inputs: {
     nixosConfigurations = {
       # By default, NixOS will try to refer the nixosConfiguration with
       # its hostname, so the system named `nixos-test` will use this one.
@@ -52,6 +54,8 @@
       "dell-laptop" = nixpkgs-unstable.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
+          nix-flatpak.nixosModules.nix-flatpak
+
           # Import the configuration.nix here, so that the
           # old configuration file can still take effect.
           # Note: configuration.nix itself is also a Nixpkgs Module,
@@ -72,6 +76,8 @@
       "rose-laptop" = nixpkgs-unstable.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
+          nix-flatpak.nixosModules.nix-flatpak
+
           ./systems/rose-laptop/configuration.nix
 
           home-manager-unstable.nixosModules.home-manager

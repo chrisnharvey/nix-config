@@ -193,6 +193,34 @@
 
   services.flatpak.enable = true;
 
+  services.flatpak.remotes = [{
+    name = "flathub";
+    location = "https://dl.flathub.org/repo/flathub.flatpakrepo";
+  }];
+
+  services.flatpak.update.auto.enable = false;
+  services.flatpak.uninstallUnmanaged = false;
+
+  services.flatpak.packages = [
+    "app.zen_browser.zen"
+    "ca.desrt.dconf-editor"
+    "com.getpostman.Postman"
+    "io.github.mrvladus.List"
+    "md.obsidian.Obsidian"
+    "org.gnome.Boxes"
+    "org.gnome.Calculator"
+    "org.gnome.Calendar"
+    "org.gnome.Contacts"
+    "org.gnome.Decibels"
+    "org.gnome.Epiphany"
+    "org.gnome.Geary"
+    "org.gnome.World.PikaBackup"
+    "org.gnome.gedit"
+    "org.signal.Signal"
+    "org.videolan.VLC"
+    "org.virt_manager.virt-manager"
+  ];
+
   programs.zsh.enable = true;
   programs.steam.enable = true;
   programs.appimage.enable = true;
