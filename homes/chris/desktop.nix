@@ -173,6 +173,25 @@
       use-quick-settings = true;
     };
 
+    "org/gnome/shell/extensions/blur-my-shell/panel" = {
+      sigma = 20;
+      brightness = 0.60;
+      style-panel = 0;
+    };
+
+    "org/gnome/shell/extensions/blur-my-shell/appfolder" = {
+      sigma = 20;
+      brightness = 0.60;
+      style-dialogs = 3;
+    };
+
+    "org/gnome/shell/extensions/blur-my-shell/dash-to-dock" = {
+      sigma = 10;
+      brightness = 1.0;
+      style-dash-to-dock = 2;
+      override-background = true;
+    };
+
     "org/gnome/shell/extensions/tilingshell" = {
       tiling-system-activation-key = ["2"];
       tiling-system-deactivation-key = ["0"];
