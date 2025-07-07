@@ -23,7 +23,7 @@
     gnomeExtensions.dash-to-dock
     gnomeExtensions.pip-on-top
     gnomeExtensions.blur-my-shell
-    gnomeExtensions.search-light
+    gnomeExtensions.media-controls
   ];
 
   environment.gnome.excludePackages = (with pkgs; [
