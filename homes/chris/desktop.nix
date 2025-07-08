@@ -102,31 +102,10 @@
         "clipboard-indicator@tudmotu.com"
         "quick-settings-audio-panel@rayzeq.github.io"
         "pip-on-top@rafostar.github.com"
-        "dash-to-dock@micxgx.gmail.com"
         "appindicatorsupport@rgcjonas.gmail.com"
         "blur-my-shell@aunetx"
         "mediacontrols@cliffniff.github.com"
       ];
-    };
-
-    # Dash to Dock Extension
-    "org/gnome/shell/extensions/dash-to-dock" = {
-      dock-position = "BOTTOM";
-      apply-custom-theme = true;
-      background-opacity = 0.8;
-      click-action = "focus-or-appspread";
-      dash-max-icon-size = 54;
-      dock-fixed = false;
-      height-fraction = 0.9;
-      intellihide = true;
-      intellihide-mode = "ALL_WINDOWS";
-      middle-click-action = "launch";
-      preferred-monitor = -2;
-      preferred-monitor-by-connector = "eDP-1";
-      shift-click-action = "minimize";
-      shift-middle-click-action = "launch";
-      show-mounts-network = false;
-      show-mounts-only-mounted = true;
     };
 
     # PiP on Top Extension
