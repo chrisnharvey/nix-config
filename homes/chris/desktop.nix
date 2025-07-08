@@ -173,7 +173,9 @@
 
     "org/gnome/shell/extensions/mediacontrols" = {
       scroll-labels = false;
-      extension-position = "Right";
+      extension-position = "Left";
+      extension-index = 1;
+      show-control-icons = false;
     };
   };
 }
