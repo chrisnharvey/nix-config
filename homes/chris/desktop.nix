@@ -65,7 +65,6 @@
     # GNOME Papers for Documents and Comic Books
     "application/pdf"           = "org.gnome.Papers.desktop";  # PDF
     "image/vnd.djvu"            = "org.gnome.Papers.desktop";  # DjVu
-    "image/tiff"                = "org.gnome.Papers.desktop";  # TIFF (override eog)
     "application/x-cbr"         = "org.gnome.Papers.desktop";  # CBR
     "application/x-cbz"         = "org.gnome.Papers.desktop";  # CBZ
     "application/x-cbt"         = "org.gnome.Papers.desktop";  # CBT
