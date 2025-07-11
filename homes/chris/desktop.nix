@@ -113,6 +113,7 @@
         "appindicatorsupport@rgcjonas.gmail.com"
         "blur-my-shell@aunetx"
         "mediacontrols@cliffniff.github.com"
+        "gtk4-ding@smedius.gitlab.com"
       ];
     };
 
@@ -184,6 +185,12 @@
       extension-position = "Left";
       extension-index = lib.hm.gvariant.mkUint32 1;
       show-control-icons = false;
+    };
+
+    "org/gnome/shell/extensions/gtk4-ding" = {
+      free-position-icons = true;
+      show-home = false;
+      show-trash = false;
     };
   };
 }
