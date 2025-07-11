@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, lib, ... }: {
   home.packages = with pkgs; [
     vscode
     jetbrains.goland
@@ -61,6 +61,15 @@
     "image/x-portable-graymap" = "org.gnome.eog.desktop";  # .pgm
     "image/x-portable-pixmap"  = "org.gnome.eog.desktop";  # .ppm
     "image/x-xpixmap"          = "org.gnome.eog.desktop";  # .xpm
+
+    # GNOME Papers for Documents and Comic Books
+    "application/pdf"           = "org.gnome.Papers.desktop";  # PDF
+    "image/vnd.djvu"            = "org.gnome.Papers.desktop";  # DjVu
+    "image/tiff"                = "org.gnome.Papers.desktop";  # TIFF (override eog)
+    "application/x-cbr"         = "org.gnome.Papers.desktop";  # CBR
+    "application/x-cbz"         = "org.gnome.Papers.desktop";  # CBZ
+    "application/x-cbt"         = "org.gnome.Papers.desktop";  # CBT
+    "application/x-cb7"         = "org.gnome.Papers.desktop";  # CB7
 
     # Calendars (GNOME Calendar)
     "text/calendar" = "org.gnome.Calendar.desktop";              # .ics files
@@ -174,7 +183,7 @@
     "org/gnome/shell/extensions/mediacontrols" = {
       scroll-labels = false;
       extension-position = "Left";
-      extension-index = 1;
+      extension-index = lib.hm.gvariant.mkUint32 1;
       show-control-icons = false;
     };
   };
