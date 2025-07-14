@@ -114,6 +114,7 @@
         "blur-my-shell@aunetx"
         "mediacontrols@cliffniff.github.com"
         "gtk4-ding@smedius.gitlab.com"
+        "drive-menu@gnome-shell-extensions.gcampax.github.com"
       ];
     };
 
@@ -191,6 +192,7 @@
       free-position-icons = true;
       show-home = false;
       show-trash = false;
+      show-volumes = false;
     };
   };
 }

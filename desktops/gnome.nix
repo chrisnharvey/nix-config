@@ -25,6 +25,7 @@
     gnomeExtensions.blur-my-shell
     gnomeExtensions.media-controls
     gnomeExtensions.gtk4-desktop-icons-ng-ding
+    gnomeExtensions.removable-drive-menu
   ];
 
   environment.gnome.excludePackages = (with pkgs; [
