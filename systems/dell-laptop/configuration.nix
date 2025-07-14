@@ -31,6 +31,14 @@
     dates = "20:00";
   };
 
+  services.udisks2.settings = {
+    "udisks2.conf" = {
+        defaults = {
+            sync = true;
+        }
+    }
+  }
+
   powerManagement.enable = true;
 
   # required for hibernation
