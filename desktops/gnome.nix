@@ -20,7 +20,6 @@
     gnomeExtensions.wiggle
     gnomeExtensions.quick-settings-audio-panel
     gnomeExtensions.clipboard-indicator
-    gnomeExtensions.dash-to-dock
     gnomeExtensions.pip-on-top
     gnomeExtensions.blur-my-shell
     gnomeExtensions.media-controls

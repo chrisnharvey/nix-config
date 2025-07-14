@@ -174,13 +174,6 @@
       style-dialogs = 3;
     };
 
-    "org/gnome/shell/extensions/blur-my-shell/dash-to-dock" = {
-      sigma = 10;
-      brightness = 1.0;
-      style-dash-to-dock = 2;
-      override-background = true;
-    };
-
     "org/gnome/shell/extensions/mediacontrols" = {
       scroll-labels = false;
       extension-position = "Left";
