@@ -3,7 +3,8 @@
 
 
   home.packages = with pkgs; [
-      rofi
+      wofi
+      cava
       kitty
       grim
       slurp
@@ -12,97 +13,350 @@
       brightnessctl
       pavucontrol
       networkmanagerapplet
-      blueman
       crystal-dock
+      hyprlock
+      hyprshot
+      libnotify
   ];
 
+  services.hyprpaper.enable = true;
+  services.hyprpaper.settings = {
+    ipc = "on";
+    splash = false;
+    splash_offset = 2.0;
 
-  programs.waybar.enable = true;
-  programs.waybar.settings = {
-    mainBar = {
-        layer = "top";
-        position = "top";
-        height = 30;
-        spacing = 4;
-        margin = "6px 6px 0px 6px";
-        output = [
-        "eDP-1"
-        "HDMI-A-1"
+    preload =
+        [ "~/Pictures/wallpaper.jpg" ];
+
+    wallpaper = [
+            ",~/Pictures/wallpaper.jpg"
         ];
-        modules-left = [ "hyprland/workspaces" "hyprland/submap" ];
-        modules-center = [ "wlr/taskbar" "hyprland/window" ];
-        modules-right = [ "pulseaudio" "network" "cpu" "memory" "clock" "tray" ];
-
-        "hyprland/workspaces" = {
-            all-outputs = true;
-            format = "{name}";
-            on-click = "activate";
-            sort-by-number = true;
-        };
-        
-        "wlr/taskbar" = {
-            icon-size = 18;
-            on-click = "activate";
-            on-click-middle = "close";
-            tooltip = true;
-        };
-
-        "hyprland/window" = {
-            max-length = 50;
-            format = "{}";
-        };
-
-        "clock" = {
-            format = "{:%H:%M}";
-            format-alt = "{:%Y-%m-%d %H:%M:%S}";
-            tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
-        };
-
-        "cpu" = {
-            format = "CPU {usage}%";
-            tooltip = false;
-        };
-
-        "memory" = {
-            format = "RAM {}%";
-            tooltip = false;
-        };
-
-        "network" = {
-            format-wifi = "WiFi ({signalStrength}%)";
-            format-ethernet = "Ethernet";
-            format-disconnected = "Disconnected";
-            tooltip-format = "{ifname} via {gwaddr}";
-        };
-
-        "pulseaudio" = {
-            format = "{volume}% {icon}";
-            format-bluetooth = "{volume}% {icon}";
-            format-bluetooth-muted = " {icon}";
-            format-muted = " {icon}";
-            format-icons = {
-                headphone = "";
-                hands-free = "";
-                headset = "";
-                phone = "";
-                portable = "";
-                car = "";
-                default = ["" "" ""];
-            };
-            on-click = "pavucontrol";
-        };
-
-        "tray" = {
-            icon-size = 21;
-            spacing = 10;
-        };
     };
-  };
+
+gtk = {
+      enable = true;
+      cursorTheme.package = pkgs.bibata-cursors;
+      cursorTheme.name = "Bibata-Modern-Classic";
+      cursorTheme.size = 24;
+      iconTheme.package = pkgs.papirus-icon-theme;
+      iconTheme.name = "Papirus";
+      gtk4.extraConfig = { gtk-application-prefer-dark-theme = 1; };
+      gtk3.extraConfig = { gtk-application-prefer-dark-theme = 1; };
+    };
+
+  services.swaync.enable = true;
+
+  programs.wlogout = {
+      enable = true;
+      layout = [
+	{
+	 label = "shutdown";
+	 action = "systemctl poweroff";
+	 text = "Shutdown";
+	 keybind = "s";
+	 circular = true;
+	}
+	{
+	 label = "reboot";
+	 action = "systemctl reboot";
+	 text = "Reboot";
+	 keybind = "r";
+	 circular = true;
+	}
+	{
+	 label = "suspend";
+	 action = "systemctl hibernate";
+	 text = "Hibernate";
+	 keybind = "h";
+	 circular = true;
+        }
+      ]; 
+    };
+
+
+  programs.waybar = {
+      enable = true;
+      # Styling Waybar
+      style = ''
+               * {
+                 font-family: "JetBrainsMono Nerd Font";
+                 font-size: 12pt;
+                 font-weight: bold;
+                 transition-property: background-color;
+                 transition-duration: 0.5s;
+               }
+               .warning, .critical, .urgent {
+                 animation-name: blink_red;
+                 animation-duration: 1s;
+                 animation-timing-function: linear;
+                 animation-iteration-count: infinite;
+                 animation-direction: alternate;
+               }
+               window#waybar {
+                 background-color: transparent;
+               }
+               window > box {
+                 background-color: rgba(0, 0, 0, 0.30);
+                 padding-left:8px;
+                 border: 2px #dfa7e7;
+               }
+         tooltip {
+                 background-color: rgba(22, 22, 22, 0.70);
+               }
+         tooltip label {
+                 color: #E2E0EC;
+               }
+         #custom-launcher {
+                 font-size: 20px;
+                 padding-left: 8px;
+                 padding-right: 6px;
+                 color: #7ebae4;
+               }
+         #mode, #clock, #memory, #temperature,#cpu,#mpd, #custom-wall, #temperature, #backlight, #pulseaudio, #network, #battery, #custom-powermenu, #custom-cava-internal {
+                 padding-left: 10px;
+                 padding-right: 10px;
+               }
+               /* #mode { */
+               /* 	margin-left: 10px; */
+               /* 	background-color: rgb(248, 189, 150); */
+               /*     color: rgb(26, 24, 38); */
+               /* } */
+         #memory {
+                 color: #f2f4f8;
+               }
+         #cpu {
+                 color: #f2f4f8;
+               }
+         #clock {
+                 color: #78afe3;
+               }
+         #pulseaudio {
+                 color: #f2f4f8;
+               }
+         #network {
+                 color: #f2f4f8;
+               }
+         #network.disconnected {
+                 color: #f2f4f8;
+               }
+         #custom-powermenu {
+                 color: rgb(242, 143, 173);
+                 padding-right: 8px;
+               }
+         #tray {
+                 padding-right: 8px;
+                 padding-left: 10px;
+               }
+	#cava.left, #cava.right {
+    		color: #78afe3;
+	}
+	#cava.left {
+    		border-radius: 10px;
+	}
+	#cava.right {
+	}
+	#workspaces {
+	}
+	#workspaces button {
+    		color: #78afe3;
+		font-size: 24px;
+	}
+	#workspaces button.active {
+		color: #78afe3;
+	}
+	#workspaces button:hover {
+  		box-shadow: none;
+  		text-shadow: none;
+    		background: none;
+    		border: none;
+	}
+	#workspaces button.urgent {
+	   	color: #11111b;
+	   	background: #fab387;
+	   	border-radius: 10px;
+	}
+	#custom-sep {
+		color: #75A6D7;
+		font-size: 18px;
+	}
+      '';
+      # Configuring Waybar
+      settings = [{
+        "layer" = "top";
+        "position" = "top";
+        modules-left = [
+          "custom/launcher"
+	 "hyprland/workspaces"
+        ];
+        modules-center = [
+	 "cava#right"
+        ];
+        modules-right = [
+          "tray"
+          "memory"
+          "cpu"
+          "pulseaudio"
+          "clock"
+          "custom/notification"
+        ];
+        "custom/notification" = {
+            tooltip = false;
+            format = "{icon}";
+            format-icons = {
+            notification = "<span foreground='red'><sup></sup></span>";
+            none = "";
+            dnd-notification = "<span foreground='red'><sup></sup></span>";
+            dnd-none = "";
+            inhibited-notification = "<span foreground='red'><sup></sup></span>";
+            inhibited-none = "";
+            dnd-inhibited-notification = "<span foreground='red'><sup></sup></span>";
+            dnd-inhibited-none = "";
+            };
+            return-type = "json";
+            exec-if = "which swaync-client";
+            exec = "swaync-client -swb";
+            on-click = "swaync-client -t -sw";
+            on-click-right = "swaync-client -d -sw";
+            escape = true;
+        };
+        "custom/launcher" = {
+          "format" = " ";
+          "on-click" = "exec wofi --show drun";
+          "on-click-right" = "pkill wlogout || wlogout";
+          #"on-click-middle" = "exec default_wall";
+          "tooltip" = false;
+        };
+	"cava#left" = {
+          "autosens" = 1;
+          "bar_delimiter" = 0;
+          "bars" = 18;
+          "format-icons" = [
+            "<span foreground='#cba6f7'>▁</span>"
+            "<span foreground='#cba6f7'>▂</span>"
+            "<span foreground='#cba6f7'>▃</span>"
+            "<span foreground='#cba6f7'>▄</span>"
+            "<span foreground='#89b4fa'>▅</span>"
+            "<span foreground='#89b4fa'>▆</span>"
+            "<span foreground='#89b4fa'>▇</span>"
+            "<span foreground='#89b4fa'>█</span>"
+          ];
+          "framerate" = 60;
+          "higher_cutoff_freq" = 10000;
+          "input_delay" = 0;
+          "lower_cutoff_freq" = 50;
+          "method" = "pipewire";
+          "monstercat" = false;
+          "reverse" = false;
+          "source" = "auto";
+          "stereo" = true;
+          "waves" = false;
+        };
+	"cava#right" = {
+          "autosens" = 1;
+          "bar_delimiter" = 0;
+          "bars" = 18;
+          "format-icons" = [
+            "<span foreground='#cba6f7'>▁</span>"
+            "<span foreground='#cba6f7'>▂</span>"
+            "<span foreground='#cba6f7'>▃</span>"
+            "<span foreground='#cba6f7'>▄</span>"
+            "<span foreground='#89b4fa'>▅</span>"
+            "<span foreground='#89b4fa'>▆</span>"
+            "<span foreground='#89b4fa'>▇</span>"
+            "<span foreground='#89b4fa'>█</span>"
+          ];
+          "framerate" = 60;
+          "higher_cutoff_freq" = 10000;
+          "input_delay" = 0;
+          "lower_cutoff_freq" = 50;
+          "method" = "pipewire";
+          "monstercat" = false;
+          "reverse" = false;
+          "source" = "auto";
+          "stereo" = true;
+          "waves" = false;
+        };
+        "pulseaudio" = {
+          "scroll-step" = 1;
+          "format" = "{icon} {volume}%";
+          "format-muted" = "󰖁 Muted";
+          "format-icons" = {
+            "default" = [ "" "" "" ];
+          };
+          "on-click" = "pavucontrol";
+          "tooltip" = false;
+        };
+        "clock" = {
+          "interval" = 1;
+          "format" = "{:%I:%M %p  %b %d}";
+          "tooltip" = true;
+          "tooltip-format"= "<tt>{calendar}</tt>";
+        };
+        "memory" = {
+          "interval" = 1;
+          "format" = "󰐿 {percentage}%";
+          "states" = {
+            "warning" = 85;
+          };
+        };
+        "mpd" = {
+          "max-length" = 25;
+          "format" = "<span foreground='#bb9af7'></span> {title}";
+          "format-paused" = " {title}";
+          "format-stopped" = "<span foreground='#bb9af7'></span>";
+          "format-disconnected" = "";
+          "on-click" = "mpc --quiet toggle";
+          "on-click-right" = "mpc update; mpc ls | mpc add";
+          "on-click-middle" = "kitty --class='ncmpcpp' ncmpcpp ";
+          "on-scroll-up" = "mpc --quiet prev";
+          "on-scroll-down" = "mpc --quiet next";
+          "smooth-scrolling-threshold" = 5;
+          "tooltip-format" = "{title} - {artist} ({elapsedTime:%M:%S}/{totalTime:%H:%M:%S})";
+        };
+        "cpu" = {
+          "interval" = 1;
+          "format" = "󰍛 {usage}%";
+        };
+        "network" = {
+          "format-disconnected" = "󰯡 Disconnected";
+          "format-ethernet" = "󰒢 Connected";
+          "format-linked" = "󰖪 {essid} (No IP)";
+          "format-wifi" = "󰖩 {essid}";
+          "interval" = 1;
+          "tooltip" = false;
+        };
+        "custom/powermenu" = {
+          "format" = "";
+          "on-click" = "pkill wlogout || wlogout";
+        };
+        "tray" = {
+          "icon-size" = 15;
+          "spacing" = 5;
+        };
+	"hyprland/workspaces" = {
+	 "all-outputs" = true;
+	 "on-click" = "activate";
+	 "format" = "{icon}";
+    	 "on-scroll-up" = "hyprctl dispatch workspace e+1";
+    	 "on-scroll-down" = "hyprctl dispatch workspace e-1";
+	 "format-icons" = {
+	   "default" = "";
+	   "active" = "";
+	   "urgent" = "";
+	 };
+	};
+	"hyprland/window" = {
+	 "max-length" = 200;
+	 "separate-outputs" = true;
+	};
+      }];
+    };
 
     wayland.windowManager.hyprland.plugins = with pkgs.hyprlandPlugins; [
-     hyprsplit
-     hyprspace
-     hyprbars
+    #  hyprexpo
+    #  hyprsplit
+    #  hyprspace
+    #  hyprbars
     ];
 
 
@@ -113,9 +367,12 @@
 
 # Autostart
 exec-once = waybar
-exec-once = hyprctl setcursor Adwatia 24
-exec-once = hyprctl plugin load "$HYPR_PLUGIN_DIR/lib/libhyprspace.so"
-exec-once = hyprctl plugin load "$HYPR_PLUGIN_DIR/lib/libhyprbars.so"
+exec-once = nm-applet
+exec-once = blueman-applet
+exec-once = hyprctl setcursor Bibata-Modern-Classic 24
+# exec-once = hyprctl plugin load "$HYPR_PLUGIN_DIR/lib/libhyprexpo.so"
+# exec-once = hyprctl plugin load "$HYPR_PLUGIN_DIR/lib/libhyprspace.so"
+# exec-once = hyprctl plugin load "$HYPR_PLUGIN_DIR/lib/libhyprbars.so"
 exec-once = wl-paste --type text --watch cliphist store
 exec-once = wl-paste --type image --watch cliphist store
 
@@ -132,6 +389,7 @@ input {
     follow_mouse = 1
     touchpad {
         natural_scroll = yes
+        tap-to-click = false
     }
     sensitivity = 0
 }
@@ -179,6 +437,20 @@ dwindle {
     preserve_split = yes
 }
 
+plugin {
+    hyprexpo {
+        columns = 3
+        gap_size = 5
+        bg_col = rgb(111111)
+        workspace_method = center current # [center/first] [workspace] e.g. first 1 or center m+1
+
+        enable_gesture = true # laptop touchpad
+        gesture_fingers = 3  # 3 or 4
+        gesture_distance = 300 # how far is the "max"
+        gesture_positive = true # positive = swipe down. Negative = swipe up.
+    }
+}
+
 # Gestures
 gestures {
     workspace_swipe = true
@@ -204,20 +476,23 @@ bind = SUPER, Q, killactive,
 bind = SUPER, M, exit, 
 bind = SUPER, E, exec, nautilus
 bind = SUPER, V, togglefloating, 
-bind = SUPER, R, exec, rofi -show drun
+bind = SUPER, SPACE, exec, wofi --show drun
 bind = SUPER, P, pseudo, 
 bind = SUPER, J, togglesplit, 
 bind = SUPER, S, togglespecialworkspace, magic
 bind = SUPER, F, fullscreen, 0
 bind = SUPER, B, exec, flatpak run app.zen_browser.zen
 bind = SUPER, T, workspaceopt, allfloat
-bind = SUPER, O, overview:toggle
+# bind = SUPER, O, overview:toggle
 
 # Move focus with mainMod + arrow keys
 bind = SUPER, left, movefocus, l
 bind = SUPER, right, movefocus, r
 bind = SUPER, up, movefocus, u
 bind = SUPER, down, movefocus, d
+
+bind = , PRINT, exec, hyprshot -m output
+bind = SHIFT, PRINT, exec, hyprshot -m region
 
 # Switch workspaces with mainMod + [0-9]
 bind = SUPER, 1, workspace, 1
@@ -265,16 +540,37 @@ bind = SUPER SHIFT, S, exec, grim -g "$(slurp)" - | wl-copy
 bind =, Print, exec, grim - | wl-copy
 
 # Workspace rules
-workspace = 1, persistent:true
-workspace = 2, persistent:true
-workspace = 3, persistent:true
-workspace = 4, persistent:true
-workspace = 5, persistent:true
-workspace = 6, persistent:true
-workspace = 7, persistent:true
-workspace = 8, persistent:true
-workspace = 9, persistent:true
-workspace = 10, persistent:true
+# workspace = 1, persistent:true
+# workspace = 2, persistent:true
+# workspace = 3, persistent:true
+# workspace = 4, persistent:true
+# workspace = 5, persistent:true
+# workspace = 6, persistent:true
+# workspace = 7, persistent:true
+# workspace = 8, persistent:true
+# workspace = 9, persistent:true
+# workspace = 10, persistent:true
+
+layerrule = blur,waybar
+layerrule = blur,wofi
+layerrule = blur,^(swaync-control-center)$
+
+windowrulev2 = opacity 0.99 0.99,class:^(firefox)$
+windowrulev2 = float,class:^(qt5ct)$
+windowrulev2 = float,class:^(nwg-look)$
+windowrulev2 = float,class:^(org.kde.ark)$
+windowrulev2 = float,class:^(Signal)$ #Signal-Gtk
+windowrulev2 = float,class:^(com.github.rafostar.Clapper)$ #Clapper-Gtk
+windowrulev2 = float,class:^(app.drey.Warp)$ #Warp-Gtk
+windowrulev2 = float,class:^(net.davidotek.pupgui2)$ #ProtonUp-Qt
+windowrulev2 = float,class:^(yad)$ #Protontricks-Gtk
+windowrulev2 = float,class:^(eog)$ #Imageviewer-Gtk
+windowrulev2 = float,class:^(io.gitlab.theevilskeleton.Upscaler)$ #Upscaler-Gtk
+windowrulev2 = float,class:^(pavucontrol)$
+windowrulev2 = float,class:^(blueman-manager)$
+windowrulev2 = float,class:^(nm-applet)$
+windowrulev2 = float,class:^(nm-connection-editor)$
+windowrulev2 = float,class:^(org.kde.polkit-kde-authentication-agent-1)$
 
 # Special workspace for scratchpad
 workspace = special:magic, persistent:true
