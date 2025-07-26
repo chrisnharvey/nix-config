@@ -53,7 +53,7 @@
   #  /etc/profiles/per-user/chris/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    EDITOR = "nano"; # Don't judge me!
+    EDITOR = "edit"; # Don't judge me!
   };
 
   programs.zsh.envExtra = ''

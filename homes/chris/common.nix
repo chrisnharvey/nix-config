@@ -20,7 +20,7 @@
     ];
 
     home.sessionVariables = {
-      EDITOR = "nano"; # Don't judge me!
+      EDITOR = "edit"; # Don't judge me!
       GOPATH = "$HOME/go";
       GOPRIVATE = "github.com/*";
     };

@@ -236,6 +236,7 @@
   environment.systemPackages = with pkgs; [
   #  pkgs.k3s
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    msedit
     linuxPackages_latest.perf
     fwts
     wget
