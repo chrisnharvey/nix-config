@@ -183,20 +183,23 @@ gtk = {
       # Configuring Waybar
       settings = [{
         "layer" = "top";
-        "position" = "top";
+        "position" = "left";
         modules-left = [
           "custom/launcher"
 	 "hyprland/workspaces"
         ];
         modules-center = [
-	 "cava#right"
+            "wlr/taskbar"
+	#  "cava#right"
         ];
         modules-right = [
           "tray"
-          "memory"
-          "cpu"
+        #   "memory"
+        #   "cpu"
           "pulseaudio"
-          "clock"
+          "power-profiles-daemon"
+          "battery"
+        #   "clock"
           "custom/notification"
         ];
         "custom/notification" = {
@@ -218,6 +221,9 @@ gtk = {
             on-click = "swaync-client -t -sw";
             on-click-right = "swaync-client -d -sw";
             escape = true;
+        };
+        "wlr/taskbar" = {
+            "on-click" = "activate";
         };
         "custom/launcher" = {
           "format" = " ";
@@ -278,13 +284,34 @@ gtk = {
         };
         "pulseaudio" = {
           "scroll-step" = 1;
-          "format" = "{icon} {volume}%";
-          "format-muted" = "󰖁 Muted";
+          "format" = "{icon}";
+        #   "format" = "{icon}{volume}%";
+          "format-muted" = "󰖁";
           "format-icons" = {
             "default" = [ "" "" "" ];
           };
           "on-click" = "pavucontrol";
-          "tooltip" = false;
+          "tooltip" = true;
+        };
+        "power-profiles-daemon" = {
+            "format" = "{icon}";
+            "tooltip-format" = "Power profile: {profile}\nDriver: {driver}";
+            "tooltip" = true;
+            "format-icons" = {
+                "default" = "";
+                "performance" = "";
+                "balanced" = "";
+                "power-saver" = "";
+            };
+        };
+        "battery" = {
+          "format" = "{icon}";
+          "format-icons" = [ "" "" "" "" "" ];
+          "tooltip-format" = "{capacity}% - {timeTo}";
+          "states" = {
+            "warning" = 30;
+            "critical" = 15;
+          };
         };
         "clock" = {
           "interval" = 1;
@@ -356,7 +383,10 @@ gtk = {
     #  hyprexpo
     #  hyprsplit
     #  hyprspace
-    #  hyprbars
+    #  hyprbarsy
+    # hyprscrolling
+    hy3
+    # hyprexpo
     ];
 
 
@@ -372,7 +402,8 @@ exec-once = blueman-applet
 exec-once = hyprctl setcursor Bibata-Modern-Classic 24
 # exec-once = hyprctl plugin load "$HYPR_PLUGIN_DIR/lib/libhyprexpo.so"
 # exec-once = hyprctl plugin load "$HYPR_PLUGIN_DIR/lib/libhyprspace.so"
-# exec-once = hyprctl plugin load "$HYPR_PLUGIN_DIR/lib/libhyprbars.so"
+# exec-once = hyprctl plugin load "$HYPR_PLUGIN_DIR/lib/libhyprscrolling.so"
+exec-once = hyprctl plugin load "$HYPR_PLUGIN_DIR/lib/libhy3.so"
 exec-once = wl-paste --type text --watch cliphist store
 exec-once = wl-paste --type image --watch cliphist store
 
@@ -401,7 +432,7 @@ general {
     border_size = 2
     col.active_border = rgba(33ccffee) rgba(00ff99ee) 45deg
     col.inactive_border = rgba(595959aa)
-    layout = dwindle
+    layout = hy3
     resize_on_border = true
 }
 
@@ -422,13 +453,13 @@ general {
 # Animations
 animations {
     enabled = yes
-    bezier = myBezier, 0.05, 0.9, 0.1, 1.05
-    animation = windows, 1, 7, myBezier
+    # bezier = myBezier, 0.05, 0.9, 0.1, 1.05
+    animation = windows, 1, 10, default, slide
     animation = windowsOut, 1, 7, default, popin 80%
     animation = border, 1, 10, default
     animation = borderangle, 1, 8, default
     animation = fade, 1, 7, default
-    animation = workspaces, 1, 6, default
+    animation = workspaces, 1, 6, default, slidevert
 }
 
 # Layout
@@ -438,16 +469,13 @@ dwindle {
 }
 
 plugin {
-    hyprexpo {
-        columns = 3
-        gap_size = 5
-        bg_col = rgb(111111)
-        workspace_method = center current # [center/first] [workspace] e.g. first 1 or center m+1
+    hyprscrolling {
+        fullscreen_on_one_column = true
+        column_width = 1
+    }
 
-        enable_gesture = true # laptop touchpad
-        gesture_fingers = 3  # 3 or 4
-        gesture_distance = 300 # how far is the "max"
-        gesture_positive = true # positive = swipe down. Negative = swipe up.
+    hy3 {
+        tab_first_window = true
     }
 }
 
@@ -479,10 +507,15 @@ bind = SUPER, V, togglefloating,
 bind = SUPER, SPACE, exec, wofi --show drun
 bind = SUPER, P, pseudo, 
 bind = SUPER, J, togglesplit, 
-bind = SUPER, S, togglespecialworkspace, magic
+# bind = SUPER, S, togglespecialworkspace, magic
+bind = SUPER, W, workspace, e-1
+bind = SUPER, S, workspace, e+1
+bind = SUPER, A, hy3:movefocus, l
+bind = SUPER, D, hy3:movefocus, r
 bind = SUPER, F, fullscreen, 0
 bind = SUPER, B, exec, flatpak run app.zen_browser.zen
-bind = SUPER, T, workspaceopt, allfloat
+bind = SUPER, C, exec, code
+bind = SUPER, T, hy3:changegroup, toggletab
 # bind = SUPER, O, overview:toggle
 
 # Move focus with mainMod + arrow keys
