@@ -515,6 +515,7 @@ bind = SUPER, D, hy3:movefocus, r
 bind = SUPER, F, fullscreen, 0
 bind = SUPER, B, exec, flatpak run app.zen_browser.zen
 bind = SUPER, C, exec, code
+bind = SUPER, O, exec, flatpak run md.obsidian.Obsidian
 bind = SUPER, T, hy3:changegroup, toggletab
 # bind = SUPER, O, overview:toggle
 
