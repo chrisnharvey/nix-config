@@ -17,6 +17,7 @@
       hyprlock
       hyprshot
       libnotify
+      tailscale-systray
   ];
 
   services.hyprpaper.enable = true;
@@ -424,6 +425,7 @@ gtk = {
 exec-once = waybar
 exec-once = nm-applet
 exec-once = blueman-applet
+exec-once = tailscale-systray
 exec-once = hyprctl setcursor Bibata-Modern-Classic 24
 # exec-once = hyprctl plugin load "$HYPR_PLUGIN_DIR/lib/libhyprexpo.so"
 # exec-once = hyprctl plugin load "$HYPR_PLUGIN_DIR/lib/libhyprspace.so"
