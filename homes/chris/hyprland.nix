@@ -18,6 +18,7 @@
       hyprshot
       libnotify
       tailscale-systray
+      nautilus
   ];
 
   services.hyprpaper.enable = true;
