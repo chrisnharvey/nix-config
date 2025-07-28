@@ -77,7 +77,7 @@ gtk = {
   services.hypridle.enable = true;
   services.hypridle.settings = {
     general = {
-      after_sleep_cmd = "hyprctl dispatch dpms on";
+      after_sleep_cmd = "hyprctl dispatch dpms on && hyprlock";
       ignore_dbus_inhibit = false;
       lock_cmd = "hyprlock";
     };
