@@ -9,8 +9,9 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./filesystems.nix
-      ../../desktops/gnome.nix # Include the GNOME Desktop Environment.
+      # ../../desktops/gnome.nix # Include the GNOME Desktop Environment.
       #../../desktops/plasma.nix # Include the Plasma Desktop Environment.
+      ../../desktops/hyprland.nix # Include the Hyprland Window Manager.
     ];
 
   nix = {
