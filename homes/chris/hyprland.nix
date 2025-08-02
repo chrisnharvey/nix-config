@@ -424,12 +424,17 @@ gtk = {
     systemdIntegration = true;
     extraConfig = ''
 
+# Env
+env = XCURSOR_THEME, Bibata-Modern-Classic
+env = XCURSOR_SIZE, 22
+env = GTK_THEME, Adwaita-dark
+
 # Autostart
 exec-once = waybar
 exec-once = nm-applet
 exec-once = blueman-applet
 exec-once = tailscale-systray
-exec-once = hyprctl setcursor Bibata-Modern-Classic 24
+exec-once = hyprctl setcursor Bibata-Modern-Classic 22
 # exec-once = hyprctl plugin load "$HYPR_PLUGIN_DIR/lib/libhyprexpo.so"
 # exec-once = hyprctl plugin load "$HYPR_PLUGIN_DIR/lib/libhyprspace.so"
 # exec-once = hyprctl plugin load "$HYPR_PLUGIN_DIR/lib/libhyprscrolling.so"
@@ -516,9 +521,9 @@ gestures {
     workspace_swipe_distance = 500
     workspace_swipe_invert = true
     workspace_swipe_min_speed_to_force = 30
-    workspace_swipe_cancel_ratio = 0.5
+    workspace_swipe_cancel_ratio = 0.3
     workspace_swipe_create_new = true
-    workspace_swipe_forever = true
+    workspace_swipe_forever = false
 }
 
 # Binds
