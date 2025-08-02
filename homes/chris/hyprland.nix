@@ -19,6 +19,7 @@
       libnotify
       tailscale-systray
       nautilus
+      gnome-keyring
   ];
 
   services.hyprpaper.enable = true;
