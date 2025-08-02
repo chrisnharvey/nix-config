@@ -64,6 +64,7 @@ gtk = {
     };
 
   programs.swaylock.enable = true;
+  programs.swaylock.package = pkgs.swaylock-effects;
   services.swayidle.enable = true;
   services.swayidle.timeouts = [
     { timeout = 900; command = "${pkgs.swaylock}/bin/swaylock -fF"; }

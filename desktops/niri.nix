@@ -23,8 +23,6 @@
       bibata-cursors
       papirus-icon-theme
       sddm-astronaut
-      swayidle
-      swaylock-effects
       alacritty
       xwayland-satellite
     ];
