@@ -8,6 +8,7 @@
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Input
 
 spawn-at-startup "xwayland-satellite"
+spawn-at-startup "swaybg" "-i" "/home/chris/Pictures/Reef.png"
 
 environment {
     DISPLAY ":0"

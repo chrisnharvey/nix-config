@@ -18,6 +18,7 @@
       tailscale-systray
       nautilus
       gnome-keyring
+      swaybg
   ];
 
   home.file.".config/niri/config.kdl".enable = true;
