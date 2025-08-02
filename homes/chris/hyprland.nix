@@ -3,7 +3,7 @@
 
 
   home.packages = with pkgs; [
-      wofi
+      rofi-wayland
       cava
       kitty
       grim
@@ -256,7 +256,7 @@ gtk = {
         };
         "custom/launcher" = {
           "format" = " ";
-          "on-click" = "exec wofi --show drun";
+          "on-click" = "exec rofi -show drun";
           "on-click-right" = "pkill wlogout || wlogout";
           #"on-click-middle" = "exec default_wall";
           "tooltip" = false;
@@ -539,7 +539,7 @@ bind = SUPER, Q, killactive,
 bind = SUPER, M, exit, 
 bind = SUPER, E, exec, nautilus
 bind = SUPER, V, togglefloating, 
-bind = SUPER, SPACE, exec, wofi --show drun
+bind = SUPER, SPACE, exec, rofi -show drun
 bind = SUPER, P, pseudo, 
 bind = SUPER, J, togglesplit, 
 # bind = SUPER, S, togglespecialworkspace, magic
