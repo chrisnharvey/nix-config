@@ -547,12 +547,12 @@ bind = SUPER, W, workspace, e-1
 bind = SUPER, S, workspace, e+1
 bind = SUPER, A, hy3:movefocus, l
 bind = SUPER, D, hy3:movefocus, r
-bind = SUPER, F, fullscreen, 0
+bind = , F11, fullscreen, 0
 bind = SUPER, B, exec, flatpak run app.zen_browser.zen
 bind = SUPER, C, exec, code
 bind = SUPER, O, exec, flatpak run md.obsidian.Obsidian
 bind = SUPER, T, hy3:changegroup, toggletab
-# bind = SUPER, O, overview:toggle
+bind = SUPER, F, exec, nautilus
 
 # Move focus with mainMod + arrow keys
 bind = SUPER, left, movefocus, l
