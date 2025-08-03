@@ -40,7 +40,28 @@ gtk = {
   programs.wlogout = {
       enable = true;
       layout = [
+        	{
+	 label = "lock";
+	 action = "swaylock -fF";
+	 text = "Lock";
+	 keybind = "l";
+	 circular = true;
+	}
 	{
+	 label = "logout";
+	 action = "loginctl terminate-user $USER";
+	 text = "Logout";
+	 keybind = "e";
+	 circular = true;
+	}
+	{
+	 label = "suspend";
+	 action = "systemctl suspend-then-hibernate";
+	 text = "Sleep";
+	 keybind = "z";
+	 circular = true;
+        }
+  	{
 	 label = "shutdown";
 	 action = "systemctl poweroff";
 	 text = "Shutdown";
@@ -55,7 +76,7 @@ gtk = {
 	 circular = true;
 	}
 	{
-	 label = "suspend";
+	 label = "hibernate";
 	 action = "systemctl hibernate";
 	 text = "Hibernate";
 	 keybind = "h";
@@ -94,7 +115,7 @@ gtk = {
                  background-color: transparent;
                }
                window > box {
-                 background-color: rgba(0, 0, 0, 0.30);
+                 background-color: rgba(0, 0, 0, 0.8);
                  padding-left:8px;
                  border: 2px #dfa7e7;
                }
@@ -182,14 +203,15 @@ gtk = {
       # Configuring Waybar
       settings = [{
         "layer" = "top";
-        "position" = "left";
+        "height" = 10;
+        "position" = "top";
         modules-left = [
           "custom/launcher"
 	 "niri/workspaces"
         ];
         modules-center = [
-            "wlr/taskbar"
-	#  "cava#right"
+            # "wlr/taskbar"
+	 "cava#right"
         ];
         modules-right = [
           "tray"
@@ -314,8 +336,8 @@ gtk = {
         };
         "clock" = {
           "interval" = 1;
-          "format" = "{:%H\n%M}";
-          # "format" = "{:%I:%M %p  %b %d}";
+          # "format" = "{:%H\n%M}";
+          "format" = "{:%I:%M %p  %b %d}";
           "tooltip" = true;
           "tooltip-format"= "{:%b %d}";
         };
