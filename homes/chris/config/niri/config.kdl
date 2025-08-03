@@ -559,7 +559,7 @@ binds {
     Mod+Shift+P { power-off-monitors; }
 
 
-    Mod+Space { spawn "rofi" "-show" "drun"; }
+    Mod+Space { spawn "fuzzel"; }
     Mod+Return { spawn "alacritty"; }
     Mod+C { spawn "code"; }
     Mod+F { spawn "nautilus"; }
