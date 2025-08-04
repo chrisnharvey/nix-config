@@ -170,7 +170,7 @@ in
                      padding-right: 6px;
                      color: #7ebae4;
                    }
-             #mode, #clock, #memory, #temperature,#cpu,#mpd, #custom-wall, #temperature, #backlight, #pulseaudio, #network, #battery, #custom-powermenu, #custom-cava-internal, #custom-notification, #power-profiles-daemon {
+             #mode, #clock, #memory, #temperature,#cpu,#mpd, #custom-wall, #temperature, #backlight, #pulseaudio, #network, #battery, #custom-powermenu, #custom-cava-internal, #custom-notification, #power-profiles-daemon, #window {
                      padding-left: 10px;
                      padding-right: 10px;
                      color: #f2f4f8;
@@ -246,12 +246,15 @@ in
         "height" = 10;
         "position" = "top";
         modules-left = [
-          "custom/launcher"
+          # "custom/launcher"
           "niri/workspaces"
+          "niri/window"
+          # "cava#right"
         ];
         modules-center = [
           # "wlr/taskbar"
           "cava#right"
+          # "niri/window"
         ];
         modules-right = [
           "tray"
@@ -260,8 +263,8 @@ in
           "pulseaudio"
           "power-profiles-daemon"
           "battery"
-          "custom/notification"
           "clock"
+          "custom/notification"
         ];
         "custom/notification" = {
           tooltip = false;
@@ -437,7 +440,7 @@ in
           "on-click" = "activate";
           "format" = "{icon}";
           "format-icons" = {
-            "default" = "";
+            "default" = "";
             "active" = "";
             "urgent" = "";
           };
