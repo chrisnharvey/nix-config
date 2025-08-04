@@ -224,6 +224,11 @@
     "org.videolan.VLC"
     "org.virt_manager.virt-manager"
     "org.gnome.Papers"
+    "com.visualstudio.code"
+    "com.jetbrains.GoLand"
+    "com.jetbrains.PhpStorm"
+    "com.jetbrains.DataGrip"
+    "org.mozilla.Thunderbird"
   ];
 
   programs.zsh.enable = true;

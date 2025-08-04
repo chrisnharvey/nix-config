@@ -1,9 +1,9 @@
 { config, pkgs, lib, ... }: {
   home.packages = with pkgs; [
     vscode
-    jetbrains.goland
-    jetbrains.phpstorm
-    jetbrains.datagrip
+    # jetbrains.goland
+    # jetbrains.phpstorm
+    # jetbrains.datagrip
     code-cursor
   ];
 
