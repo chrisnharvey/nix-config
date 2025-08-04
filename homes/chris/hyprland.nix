@@ -22,12 +22,12 @@
   dconf.settings = {
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
-      gtk-theme = "Adwatia-dark";
+      gtk-theme = "Adwaita-dark";
     };
 
     "org/gnome/desktop/wm/preferences" = {
       color-scheme = "prefer-dark";
-      gtk-theme = "Adwatia-dark";
+      gtk-theme = "Adwaita-dark";
       button-layout = "appmenu:";
     };
   };
