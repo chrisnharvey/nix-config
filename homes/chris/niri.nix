@@ -101,6 +101,9 @@ in
   programs.swaylock.enable = true;
   programs.swaylock.package = pkgs.swaylock-effects;
   services.swayidle.enable = true;
+  services.swayidle.events = [
+    { event = "before-sleep"; command = swaylockCmd; }
+  ];
   services.swayidle.timeouts = [
     {
       timeout = 900;
