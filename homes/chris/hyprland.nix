@@ -236,7 +236,7 @@ gtk = {
         ];
         modules-center = [
             "wlr/taskbar"
-	#  "cava#right"
+    #  "cava#right"
         ];
         modules-right = [
           "tray"
