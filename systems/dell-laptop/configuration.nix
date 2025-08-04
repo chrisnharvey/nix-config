@@ -11,7 +11,8 @@
       ./filesystems.nix
       # ../../desktops/gnome.nix # Include the GNOME Desktop Environment.
       #../../desktops/plasma.nix # Include the Plasma Desktop Environment.
-      ../../desktops/hyprland.nix # Include the Hyprland Window Manager.
+      # ../../desktops/hyprland.nix # Include the Hyprland Window Manager.
+      ../../desktops/niri.nix # Include the Niri Window Manager.
     ];
 
   nix = {
@@ -223,6 +224,11 @@
     "org.videolan.VLC"
     "org.virt_manager.virt-manager"
     "org.gnome.Papers"
+    "com.visualstudio.code"
+    "com.jetbrains.GoLand"
+    "com.jetbrains.PhpStorm"
+    "com.jetbrains.DataGrip"
+    "org.mozilla.Thunderbird"
   ];
 
   programs.zsh.enable = true;

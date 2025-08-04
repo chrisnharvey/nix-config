@@ -1,6 +1,9 @@
 { config, inputs, pkgs, ... }:
 {
-
+  imports =
+  [
+    ./desktop.nix
+  ];
 
   home.packages = with pkgs; [
       rofi-wayland
@@ -27,6 +30,20 @@
     ipc = "on";
     splash = false;
     splash_offset = 2.0;
+  }
+
+  dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      color-scheme = "prefer-dark";
+      gtk-theme = "Adwaita-dark";
+    };
+
+    "org/gnome/desktop/wm/preferences" = {
+      color-scheme = "prefer-dark";
+      gtk-theme = "Adwaita-dark";
+      button-layout = "appmenu:";
+    };
+  };
 
     preload =
         [ "~/Pictures/wallpaper.jpg" ];
