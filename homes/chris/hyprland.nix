@@ -1,6 +1,9 @@
 { config, inputs, pkgs, ... }:
 {
-
+  imports =
+  [
+    ./desktop.nix
+  ];
 
   home.packages = with pkgs; [
       rofi
@@ -16,6 +19,18 @@
       crystal-dock
   ];
 
+  dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      color-scheme = "prefer-dark";
+      gtk-theme = "Adwatia-dark";
+    };
+
+    "org/gnome/desktop/wm/preferences" = {
+      color-scheme = "prefer-dark";
+      gtk-theme = "Adwatia-dark";
+      button-layout = "appmenu:";
+    };
+  };
 
   programs.waybar.enable = true;
   programs.waybar.settings = {

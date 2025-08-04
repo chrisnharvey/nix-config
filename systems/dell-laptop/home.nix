@@ -3,7 +3,7 @@
   imports =
     [
       ../../homes/chris/common.nix
-      ../../homes/chris/desktop.nix
+      # ../../homes/chris/gnome.nix
       # ../../homes/chris/hyprland.nix
       ../../homes/chris/niri.nix
     ];
