@@ -413,7 +413,7 @@ in
         };
         "tray" = {
           "icon-size" = 15;
-          "spacing" = 5;
+          "spacing" = 20;
         };
         "niri/workspaces" = {
           "all-outputs" = true;
