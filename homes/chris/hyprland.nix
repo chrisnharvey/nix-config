@@ -84,7 +84,7 @@ gtk = {
 	 circular = true;
 	}
 	{
-	 label = "suspend";
+	 label = "hibernate";
 	 action = "systemctl hibernate";
 	 text = "Hibernate";
 	 keybind = "h";
