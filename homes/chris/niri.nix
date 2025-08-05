@@ -436,7 +436,7 @@ in
           "spacing" = 20;
         };
         "niri/workspaces" = {
-          "all-outputs" = true;
+          "all-outputs" = false;
           "on-click" = "activate";
           "format" = "{icon}";
           "format-icons" = {
