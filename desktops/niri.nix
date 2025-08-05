@@ -12,6 +12,8 @@
         sddm-astronaut
     ];
 
+    services.gvfs.enable = true;
+
     services.power-profiles-daemon.enable = true;
 
     xdg.portal.enable = true;
