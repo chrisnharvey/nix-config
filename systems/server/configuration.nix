@@ -153,6 +153,15 @@
         "force user" = "chris";
         "force group" = "users";
       };
+      Data = {
+        path = "/data/data";
+        browseable = "yes";
+        "read only" = "yes";
+        "guest ok" = "no";
+        "force user" = "chris";
+        "force group" = "users";
+        "write list" = "";
+      };
     };
   };
 
