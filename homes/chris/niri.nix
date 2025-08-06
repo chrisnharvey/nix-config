@@ -53,6 +53,7 @@ in
   };
 
   services.swaync.enable = true;
+  services.swayosd.enable = true;
 
   programs.wlogout = {
     enable = true;
