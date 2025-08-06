@@ -31,7 +31,7 @@
 
     services.blueman.enable = true;
 
-    fonts.packages = with pkgs; [ nerd-fonts.ubuntu-sans nerd-fonts.ubuntu-mono nerd-fonts.noto ];
+    fonts.packages = with pkgs; [ nerd-fonts.ubuntu-sans nerd-fonts.ubuntu-mono nerd-fonts.noto adwaita-fonts ];
 
     fonts.enableDefaultPackages = true;
 }
