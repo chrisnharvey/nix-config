@@ -406,6 +406,10 @@ window-rule {
     clip-to-geometry true
 }
 
+switch-events {
+    lid-close { spawn "notify-send" "systemctl suspend-then-hibernate"; }
+}
+
 binds {
     // Keys consist of modifiers separated by + signs, followed by an XKB key name
     // in the end. To find an XKB name for a particular key, you may use a program
@@ -488,6 +492,9 @@ binds {
     Mod+Shift+Ctrl+W    { move-column-to-monitor-up; }
     Mod+Shift+Ctrl+Right { move-column-to-monitor-right; }
     Mod+Shift+Ctrl+D { move-column-to-monitor-right; }
+
+    Mod+Alt+Up    { move-workspace-up; }
+    Mod+Alt+Down    { move-workspace-down; }
 
     // You can bind mouse wheel scroll ticks using the following syntax.
     // These binds will change direction based on the natural-scroll setting.
