@@ -261,6 +261,7 @@ in
           "tray"
           #   "memory"
           #   "cpu"
+          "backlight"
           "pulseaudio"
           "power-profiles-daemon"
           "battery"
@@ -363,6 +364,27 @@ in
           "on-scroll-up" = "swayosd-client --output-volume raise";
           "on-scroll-down" = "swayosd-client --output-volume lower";
           "tooltip" = true;
+        };
+        "backlight" = {
+          "smooth-scrolling-threshold" = 2;
+          "format" = "{icon}";
+          "format-muted" = "󰖁";
+          "format-icons" = {
+            "default" = [
+              "󱩎"
+              "󱩏"
+              "󱩐"
+              "󱩑"
+              "󱩒"
+              "󱩓"
+              "󱩔"
+              "󱩕"
+              "󱩖"
+              "󰛨"
+            ];
+          };
+          "on-scroll-up" = "swayosd-client --brightness raise";
+          "on-scroll-down" = "swayosd-client --brightness lower";
         };
         "power-profiles-daemon" = {
           "format" = "{icon}";
