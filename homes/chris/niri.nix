@@ -348,7 +348,7 @@ in
           "waves" = false;
         };
         "pulseaudio" = {
-          "scroll-step" = 1;
+          "smooth-scrolling-threshold" = 2;
           "format" = "{icon}";
           #   "format" = "{icon}{volume}%";
           "format-muted" = "󰖁";
@@ -360,6 +360,8 @@ in
             ];
           };
           "on-click" = "pavucontrol";
+          "on-scroll-up" = "swayosd-client --output-volume raise";
+          "on-scroll-down" = "swayosd-client --output-volume lower";
           "tooltip" = true;
         };
         "power-profiles-daemon" = {
