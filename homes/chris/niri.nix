@@ -15,7 +15,6 @@ in
   ];
 
   home.packages = with pkgs; [
-    fuzzel
     nixfmt
     cava
     kitty
@@ -54,6 +53,21 @@ in
 
   services.swaync.enable = true;
   services.swayosd.enable = true;
+
+  programs.fuzzel = {
+    enable = true;
+    settings = {
+      colors = {
+        background = "000000cc";      # semi-transparent black
+        text = "f2f4f8ff";            # your main white
+        match = "dfa7e7ff";           # magenta (for filter match highlight)
+        selection = "322647cc";       # deep purple bg for selection
+        selection-text = "78afe3ff";  # blue for text in selection
+        border = "dfa7e7ff";          # magenta border (if supported by compositor)
+        prompt = "7ebae4ff";          # blue prompt glyph (looks nice)
+      };
+    };
+  };
 
   programs.wlogout = {
     enable = true;
