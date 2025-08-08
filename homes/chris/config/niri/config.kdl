@@ -407,7 +407,7 @@ window-rule {
 }
 
 switch-events {
-    lid-close { spawn "notify-send" "systemctl suspend-then-hibernate"; }
+    lid-close { spawn "systemctl" "suspend-then-hibernate"; }
 }
 
 binds {
