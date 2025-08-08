@@ -494,7 +494,9 @@ binds {
     Mod+Shift+Ctrl+D { move-column-to-monitor-right; }
 
     Mod+Alt+Up    { move-workspace-up; }
+    Mod+Alt+W    { move-workspace-up; }
     Mod+Alt+Down    { move-workspace-down; }
+    Mod+Alt+S    { move-workspace-down; }
 
     // You can bind mouse wheel scroll ticks using the following syntax.
     // These binds will change direction based on the natural-scroll setting.
