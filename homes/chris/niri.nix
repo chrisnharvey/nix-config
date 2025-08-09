@@ -31,6 +31,7 @@ in
     nautilus
     gnome-keyring
     swaybg
+    (pkgs.writeScriptBin "list-downloads" (builtins.readFile ./scripts/list-downloads.sh))
   ];
 
   home.file.".config/niri/config.kdl".enable = true;
@@ -133,6 +134,8 @@ in
       command = "${pkgs.systemd}/bin/systemctl suspend-then-hibernate";
     }
   ];
+
+  services.gnome-keyring.enable = true;
 
   dconf.settings = {
     "org/gnome/desktop/interface" = {
