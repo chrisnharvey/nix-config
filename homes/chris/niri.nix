@@ -432,7 +432,7 @@ in
         "clock" = {
           "interval" = 1;
           # "format" = "{:%H\n%M}";
-          "format" = "{:%I:%M %p  %b %d}";
+          "format" = "{:%I:%M %p}";
           "tooltip" = true;
           "tooltip-format" = "{:%b %d}";
         };
