@@ -631,5 +631,8 @@ binds {
     Mod+F { spawn "nautilus"; }
     Mod+B { spawn "flatpak" "run" "app.zen_browser.zen"; }
     Mod+O { spawn "flatpak" "run" "md.obsidian.Obsidian"; }
+    Mod+F1 { spawn "swayosd-client" "--playerctl" "previous"; }
+    Mod+F2 { spawn "swayosd-client" "--playerctl" "play-pause"; }
+    Mod+F3 { spawn "swayosd-client" "--playerctl" "next"; }
     Mod+Period { spawn "list-downloads"; }
 }

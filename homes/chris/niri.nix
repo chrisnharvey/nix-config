@@ -24,6 +24,7 @@ in
     cliphist
     brightnessctl
     pavucontrol
+    playerctl
     networkmanagerapplet
     crystal-dock
     libnotify
