@@ -48,19 +48,19 @@
     "x-scheme-handler/mailto" = "org.gnome.Geary.desktop";
 
     # GNOME Image Viewer (eog) for image files
-    "image/jpeg"               = "org.gnome.eog.desktop";  # .jpg, .jpeg
-    "image/png"                = "org.gnome.eog.desktop";
-    "image/gif"                = "org.gnome.eog.desktop";
-    "image/bmp"                = "org.gnome.eog.desktop";
-    "image/tiff"               = "org.gnome.eog.desktop";  # .tif
-    "image/webp"               = "org.gnome.eog.desktop";
-    "image/x-icon"             = "org.gnome.eog.desktop";  # .ico
-    "image/svg+xml"            = "org.gnome.eog.desktop";  # SVG vector image
-    "image/x-xbitmap"          = "org.gnome.eog.desktop";  # .xbm
-    "image/x-portable-bitmap"  = "org.gnome.eog.desktop";  # .pbm
-    "image/x-portable-graymap" = "org.gnome.eog.desktop";  # .pgm
-    "image/x-portable-pixmap"  = "org.gnome.eog.desktop";  # .ppm
-    "image/x-xpixmap"          = "org.gnome.eog.desktop";  # .xpm
+    "image/jpeg"               = "org.gnome.Loupe.desktop";  # .jpg, .jpeg
+    "image/png"                = "org.gnome.Loupe.desktop";
+    "image/gif"                = "org.gnome.Loupe.desktop";
+    "image/bmp"                = "org.gnome.Loupe.desktop";
+    "image/tiff"               = "org.gnome.Loupe.desktop";  # .tif
+    "image/webp"               = "org.gnome.Loupe.desktop";
+    "image/x-icon"             = "org.gnome.Loupe.desktop";  # .ico
+    "image/svg+xml"            = "org.gnome.Loupe.desktop";  # SVG vector image
+    "image/x-xbitmap"          = "org.gnome.Loupe.desktop";  # .xbm
+    "image/x-portable-bitmap"  = "org.gnome.Loupe.desktop";  # .pbm
+    "image/x-portable-graymap" = "org.gnome.Loupe.desktop";  # .pgm
+    "image/x-portable-pixmap"  = "org.gnome.Loupe.desktop";  # .ppm
+    "image/x-xpixmap"          = "org.gnome.Loupe.desktop";  # .xpm
 
     # GNOME Papers for Documents and Comic Books
     "application/pdf"           = "org.gnome.Papers.desktop";  # PDF
