@@ -28,11 +28,20 @@ in
     networkmanagerapplet
     crystal-dock
     libnotify
-    tailscale-systray
-    nautilus
+        nautilus
     gnome-keyring
     swaybg
     (pkgs.writeScriptBin "list-downloads" (builtins.readFile ./scripts/list-downloads.sh))
+
+    # https://github.com/mattn/tailscale-systray/pull/38
+    (tailscale-systray.overrideAttrs (old: {
+      src = pkgs.fetchFromGitHub {
+        owner = "chrisnharvey";
+        repo = "tailscale-systray";
+        rev = "no-pkexec";
+        sha256 = "sha256-jsrKrVJgffdc/IvtMsVdkgf+YiiSRs6BCd5uCWtOU2c=";
+      };
+    }))
   ];
 
   home.file.".config/niri/config.kdl".enable = true;
