@@ -34,4 +34,7 @@
     fonts.packages = with pkgs; [ nerd-fonts.ubuntu-sans nerd-fonts.ubuntu-mono nerd-fonts.noto adwaita-fonts ];
 
     fonts.enableDefaultPackages = true;
+
+    security.pam.services.sddm.enableGnomeKeyring = true;
+    services.gnome.gnome-keyring.enable = true;
 }
