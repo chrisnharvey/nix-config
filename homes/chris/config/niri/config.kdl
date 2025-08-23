@@ -10,7 +10,7 @@
 spawn-at-startup "xwayland-satellite"
 spawn-at-startup "swaybg" "-i" "/home/chris/Pictures/Reef.png"
 spawn-at-startup "waybar"
-spawn-at-startup "tailscale-systray"
+spawn-at-startup "tailscale-systray" "-no-pkexec"
 
 environment {
     DISPLAY ":0"
