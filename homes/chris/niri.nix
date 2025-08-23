@@ -28,7 +28,7 @@ in
     networkmanagerapplet
     crystal-dock
     libnotify
-        nautilus
+    nautilus
     gnome-keyring
     swaybg
     (pkgs.writeScriptBin "list-downloads" (builtins.readFile ./scripts/list-downloads.sh))
@@ -46,6 +46,13 @@ in
 
   home.file.".config/niri/config.kdl".enable = true;
   home.file.".config/niri/config.kdl".source = ./config/niri/config.kdl;
+
+  programs.alacritty.enable = true;
+  programs.alacritty.settings = {
+  window = {
+    decorations = "None";
+  };
+  };
 
   gtk = {
     enable = true;

@@ -25,7 +25,6 @@
       bibata-cursors
       papirus-icon-theme
       sddm-astronaut
-      alacritty
       xwayland-satellite
     ];
 
