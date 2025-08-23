@@ -62,6 +62,7 @@
   boot.initrd.verbose = false;
   boot.consoleLogLevel = 0;
   boot.resumeDevice = "/dev/mapper/ROOT";
+  boot.kernelPackages = pkgs.linuxPackages_zen;
   boot.kernelParams = [ "quiet" "i915.enable_psr=0" "udev.log_level=0" "resume_offset=12376136" ];
   boot.blacklistedKernelModules = [ "intel_hid" "psmouse" ];
 
