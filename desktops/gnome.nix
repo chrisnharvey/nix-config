@@ -5,7 +5,7 @@
   services.desktopManager.gnome.enable = true;
 
   xdg.portal.enable = true;
-  xdg.portal.extraPortals = [pkgs.xdg-desktop-portal-gnome];
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gnome ];
 
   programs.gnome-disks.enable = true;
 
@@ -27,30 +27,33 @@
     gnomeExtensions.removable-drive-menu
   ];
 
-  environment.gnome.excludePackages = (with pkgs; [
-    atomix # puzzle game
-    cheese # webcam tool
-    epiphany # web browser
-    evince # document viewer
-    geary # email reader
-    gedit # text editor
-    gnome-characters
-    gnome-calendar
-    gnome-music
-    gnome-photos
-    gnome-terminal
-    gnome-tour
-    hitori # sudoku game
-    iagno # go game
-    tali # poker game
-    totem # video player
-    gnome-weather
-    gnome-contacts
-    gnome-clocks
-    gnome-maps
-    gnome-calculator
-    simple-scan
-    snapshot
-    gnome-shell-extensions
-  ]);
+  environment.gnome.excludePackages = (
+    with pkgs;
+    [
+      atomix # puzzle game
+      cheese # webcam tool
+      epiphany # web browser
+      evince # document viewer
+      geary # email reader
+      gedit # text editor
+      gnome-characters
+      gnome-calendar
+      gnome-music
+      gnome-photos
+      gnome-terminal
+      gnome-tour
+      hitori # sudoku game
+      iagno # go game
+      tali # poker game
+      totem # video player
+      gnome-weather
+      gnome-contacts
+      gnome-clocks
+      gnome-maps
+      gnome-calculator
+      simple-scan
+      snapshot
+      gnome-shell-extensions
+    ]
+  );
 }

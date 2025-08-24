@@ -2,15 +2,20 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running 'nixos-help').
 
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./filesystems.nix
-      ./duplicacy-web
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ./filesystems.nix
+    ./duplicacy-web
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -20,11 +25,17 @@
   ];
 
   boot.supportedFilesystems = [ "zfs" ];
-  boot.zfs.extraPools = [ "data" "vms" ];
+  boot.zfs.extraPools = [
+    "data"
+    "vms"
+  ];
   boot.zfs.requestEncryptionCredentials = false;
 
   nix = {
-    settings.experimental-features = [ "nix-command" "flakes" ];
+    settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
 
     gc = {
       automatic = true;
@@ -52,7 +63,6 @@
     configDir = "/data/data/files/Chris/.config/syncthing";
   };
 
-  
   services.sanoid = {
     enable = true;
 
@@ -79,8 +89,8 @@
   services.avahi = {
     enable = true;
     publish = {
-        enable = true;
-        addresses = true;
+      enable = true;
+      addresses = true;
     };
   };
 
@@ -96,7 +106,7 @@
         settings.process_names = [
           {
             name = "{{.ExeFull}}";
-            cmdline = [".+"];
+            cmdline = [ ".+" ];
           }
         ];
       };
@@ -105,26 +115,34 @@
 
   services.telegraf.enable = true;
   services.telegraf.extraConfig.inputs = {
-    mem = {};
-    processes = {};
-    swap = {};
-    system = {};
+    mem = { };
+    processes = { };
+    swap = { };
+    system = { };
     zfs = {
-        poolMetrics = true;
-        datasetMetrics = true;
+      poolMetrics = true;
+      datasetMetrics = true;
     };
     cpu = {
-        percpu = true;
-        totalcpu = true;
-        collect_cpu_time = false;
-        report_active = false;
-        core_tags = false;
+      percpu = true;
+      totalcpu = true;
+      collect_cpu_time = false;
+      report_active = false;
+      core_tags = false;
     };
     disk = {
-        ignore_fs = ["tmpfs" "devtmpfs" "devfs" "iso9660" "overlay" "aufs" "squashfs"];
+      ignore_fs = [
+        "tmpfs"
+        "devtmpfs"
+        "devfs"
+        "iso9660"
+        "overlay"
+        "aufs"
+        "squashfs"
+      ];
     };
-    diskio = {};
-    kernel = {};
+    diskio = { };
+    kernel = { };
   };
   services.telegraf.extraConfig.outputs.prometheus_client = {
     listen = ":9273";
@@ -176,8 +194,14 @@
 
   networking.hostId = "c1613a14";
   networking.hostName = "server"; # Define your hostname.
-  networking.vlans.vlan40 = { id=40; interface="br0"; };
-  networking.vlans.vlan50 = { id=50; interface="br0"; };
+  networking.vlans.vlan40 = {
+    id = 40;
+    interface = "br0";
+  };
+  networking.vlans.vlan50 = {
+    id = 50;
+    interface = "br0";
+  };
   networking.interfaces.br0.useDHCP = true;
   networking.bridges.br0.interfaces = [ "enp0s31f6" ];
 
@@ -217,25 +241,29 @@
   users.users.chris = {
     isNormalUser = true;
     description = "Chris";
-    extraGroups = [ "networkmanager" "docker" "wheel" "libvirtd" ];
-    openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKgZSwNSFRZk2XJBT6PXdeQdYJEUAYdhYZCtfcPwPtLt chris@laptop"
+    extraGroups = [
+      "networkmanager"
+      "docker"
+      "wheel"
+      "libvirtd"
     ];
-    packages = with pkgs; [];
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKgZSwNSFRZk2XJBT6PXdeQdYJEUAYdhYZCtfcPwPtLt chris@laptop"
+    ];
+    packages = with pkgs; [ ];
   };
 
-  users.groups.virt = {};
+  users.groups.virt = { };
   users.users.virt = {
     isSystemUser = true;
     useDefaultShell = true;
     group = "virt";
     extraGroups = [ "libvirtd" ];
     openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIId9wLxRIEy+It8TS6NlLpu/Bg0ug7JivClWZusQUF4x root@adde2bbe3d25"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIId9wLxRIEy+It8TS6NlLpu/Bg0ug7JivClWZusQUF4x root@adde2bbe3d25"
     ];
-    packages = with pkgs; [];
+    packages = with pkgs; [ ];
   };
-
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -243,8 +271,8 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #  pkgs.k3s
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    #  pkgs.k3s
+    #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     # msedit
     pciutils
     inxi
@@ -293,10 +321,10 @@
   virtualisation.docker.daemon.settings = {
     data-root = "/vms/docker";
     default-address-pools = [
-        {
-            base = "172.17.0.0/12";
-            size = 24;
-        }
+      {
+        base = "172.17.0.0/12";
+        size = 24;
+      }
     ];
   };
 

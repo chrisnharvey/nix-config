@@ -12,7 +12,7 @@
   security.pam.services.kde.fprintAuth = false;
 
   xdg.portal.enable = true;
-  xdg.portal.extraPortals = [pkgs.kdePackages.xdg-desktop-portal-kde];
+  xdg.portal.extraPortals = [ pkgs.kdePackages.xdg-desktop-portal-kde ];
 
   environment.systemPackages = with pkgs; [
     kdePackages.sddm-kcm

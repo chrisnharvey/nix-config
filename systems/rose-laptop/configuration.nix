@@ -5,15 +5,18 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./filesystems.nix
-      ../../desktops/gnome.nix # Include the GNOME Desktop Environment.
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ./filesystems.nix
+    ../../desktops/gnome.nix # Include the GNOME Desktop Environment.
+  ];
 
   nix = {
-    settings.experimental-features = [ "nix-command" "flakes" ];
+    settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
 
     gc = {
       automatic = true;
@@ -45,7 +48,7 @@
     AllowHybridSleep=yes
     AllowSuspendThenHibernate=yes
     HibernateDelaySec=1h
-    '';
+  '';
 
   services.upower.enable = true;
   services.upower.criticalPowerAction = "Hibernate";
@@ -59,8 +62,15 @@
   boot.initrd.verbose = false;
   boot.consoleLogLevel = 0;
   boot.resumeDevice = "/dev/mapper/ROOT";
-  boot.kernelParams = [ "quiet" "udev.log_level=0" "resume_offset=12363008" ];
-  boot.blacklistedKernelModules = [ "intel_hid" "psmouse" ];
+  boot.kernelParams = [
+    "quiet"
+    "udev.log_level=0"
+    "resume_offset=12363008"
+  ];
+  boot.blacklistedKernelModules = [
+    "intel_hid"
+    "psmouse"
+  ];
 
   security.tpm2.enable = true;
   security.tpm2.pkcs11.enable = true;
@@ -93,9 +103,9 @@
   services.avahi = {
     enable = true;
     publish = {
-        enable = true;
-        addresses = true;
-        workstation = true;
+      enable = true;
+      addresses = true;
+      workstation = true;
     };
   };
 
@@ -127,7 +137,12 @@
   users.users.chris = {
     isNormalUser = true;
     description = "Chris";
-    extraGroups = [ "networkmanager" "wheel" "docker" "vboxusers" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "docker"
+      "vboxusers"
+    ];
     shell = pkgs.zsh;
   };
 

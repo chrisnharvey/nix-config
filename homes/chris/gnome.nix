@@ -1,6 +1,11 @@
-{ config, pkgs, lib, ... }: {
-  imports =
-  [
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+{
+  imports = [
     ./desktop.nix
   ];
 
@@ -48,7 +53,9 @@
     };
 
     # PiP on Top Extension
-    "org/gnome/shell/extensions/pip-on-top" = { stick = true; };
+    "org/gnome/shell/extensions/pip-on-top" = {
+      stick = true;
+    };
 
     # Hibernate Status Button Extension
     "org/gnome/shell/extensions/hibernate-status-button" = {

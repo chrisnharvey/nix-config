@@ -9,8 +9,7 @@ let
   swaylockCmd = "${pkgs.swaylock-effects}/bin/swaylock -fF --screenshots --clock --indicator --indicator-radius 100 --indicator-thickness 7 --effect-blur 7x5 --effect-vignette 0.5:0.5 --ring-color bb00cc --key-hl-color 880033 --line-color 00000000 --inside-color 00000088 --separator-color 00000000 --grace 2 --fade-in 0.2";
 in
 {
-  imports =
-  [
+  imports = [
     ./desktop.nix
     ./backup.nix
   ];
@@ -50,9 +49,9 @@ in
 
   programs.alacritty.enable = true;
   programs.alacritty.settings = {
-  window = {
-    decorations = "None";
-  };
+    window = {
+      decorations = "None";
+    };
   };
 
   gtk = {
@@ -77,13 +76,13 @@ in
     enable = true;
     settings = {
       colors = {
-        background = "000000cc";      # semi-transparent black
-        text = "f2f4f8ff";            # your main white
-        match = "dfa7e7ff";           # magenta (for filter match highlight)
-        selection = "322647cc";       # deep purple bg for selection
-        selection-text = "78afe3ff";  # blue for text in selection
-        border = "dfa7e7ff";          # magenta border (if supported by compositor)
-        prompt = "7ebae4ff";          # blue prompt glyph (looks nice)
+        background = "000000cc"; # semi-transparent black
+        text = "f2f4f8ff"; # your main white
+        match = "dfa7e7ff"; # magenta (for filter match highlight)
+        selection = "322647cc"; # deep purple bg for selection
+        selection-text = "78afe3ff"; # blue for text in selection
+        border = "dfa7e7ff"; # magenta border (if supported by compositor)
+        prompt = "7ebae4ff"; # blue prompt glyph (looks nice)
       };
     };
   };
@@ -140,7 +139,10 @@ in
   programs.swaylock.package = pkgs.swaylock-effects;
   services.swayidle.enable = true;
   services.swayidle.events = [
-    { event = "before-sleep"; command = swaylockCmd; }
+    {
+      event = "before-sleep";
+      command = swaylockCmd;
+    }
   ];
   services.swayidle.timeouts = [
     {

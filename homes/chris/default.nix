@@ -1,9 +1,8 @@
 { config, pkgs, ... }:
 {
-  imports =
-    [
-      ./common.nix
-    ];
+  imports = [
+    ./common.nix
+  ];
 
   nixpkgs.config.allowUnfree = true;
 
@@ -67,7 +66,10 @@
 
   nix = {
     package = pkgs.nix;
-    settings.experimental-features = [ "nix-command" "flakes" ];
+    settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
 
     gc = {
       automatic = true;

@@ -1,7 +1,6 @@
 { config, pkgs, ... }:
 {
-  imports =
-    [
-      ../../homes/chris/common.nix
-    ];
+  imports = [
+    ../../homes/chris/common.nix
+  ];
 }
