@@ -31,6 +31,7 @@ in
     nautilus
     gnome-keyring
     swaybg
+    poweralertd
     (pkgs.writeScriptBin "list-downloads" (builtins.readFile ./scripts/list-downloads.sh))
 
     # https://github.com/mattn/tailscale-systray/pull/38
