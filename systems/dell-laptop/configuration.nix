@@ -223,8 +223,8 @@
     }
   ];
 
-  services.flatpak.update.auto.enable = false;
-  services.flatpak.uninstallUnmanaged = false;
+  services.flatpak.update.auto.enable = true;
+  services.flatpak.uninstallUnmanaged = true;
 
   services.flatpak.packages = [
     "app.zen_browser.zen"
@@ -237,7 +237,7 @@
     "org.videolan.VLC"
     "org.gnome.Papers"
     "org.gnome.Loupe"
-    "com.visualstudio.code"
+    # "com.visualstudio.code"
     "com.jetbrains.GoLand"
     "com.jetbrains.PhpStorm"
     "com.jetbrains.DataGrip"
