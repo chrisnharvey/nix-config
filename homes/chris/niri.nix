@@ -12,6 +12,7 @@ in
   imports =
   [
     ./desktop.nix
+    ./backup.nix
   ];
 
   home.packages = with pkgs; [
