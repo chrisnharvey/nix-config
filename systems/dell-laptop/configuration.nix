@@ -212,7 +212,6 @@
     "md.obsidian.Obsidian"
     "org.gnome.Boxes"
     "org.gnome.Calculator"
-    "org.gnome.World.PikaBackup"
     "org.gnome.gedit"
     "org.signal.Signal"
     "org.videolan.VLC"
