@@ -8,6 +8,7 @@
 {
   services.borgmatic.enable = true;
   services.borgmatic.frequency = "daily";
+  systemd.user.services.borgmatic.Unit.ConditionACPower = lib.mkForce false;
   programs.borgmatic = {
     enable = true;
     backups = {
