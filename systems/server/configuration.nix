@@ -30,6 +30,7 @@
     "vms"
   ];
   boot.zfs.requestEncryptionCredentials = false;
+  services.zfs.autoScrub.enable = true;
 
   nix = {
     settings.experimental-features = [
