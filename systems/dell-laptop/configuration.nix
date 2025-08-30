@@ -238,6 +238,7 @@
     "org.gnome.Papers"
     "org.gnome.Loupe"
     # "com.visualstudio.code"
+    "org.virt_manager.virt-manager"
     "com.jetbrains.GoLand"
     "com.jetbrains.PhpStorm"
     "com.jetbrains.DataGrip"
