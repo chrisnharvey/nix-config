@@ -41,9 +41,9 @@
   # required for hibernation
   security.protectKernelImage = false;
 
-  services.logind.lidSwitch = "suspend-then-hibernate";
-  services.logind.suspendKey = "suspend-then-hibernate";
-  services.logind.powerKey = "hibernate";
+  services.logind.settings.Login.HandleLidSwitch = "ignore";
+  services.logind.settings.Login.HandleSuspendKey = "suspend-then-hibernate";
+  services.logind.settings.Login.HandlePowerKey = "hibernate";
 
   systemd.sleep.extraConfig = ''
     AllowSuspend=no

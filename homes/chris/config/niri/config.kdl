@@ -407,7 +407,8 @@ hotkey-overlay {
 }
 
 switch-events {
-    lid-close { spawn "systemctl" "suspend-then-hibernate"; }
+    lid-close { spawn "lid-switch" "close"; }
+    lid-open { spawn "lid-switch" "open"; }
 }
 
 binds {

@@ -32,7 +32,9 @@ in
     gnome-keyring
     swaybg
     poweralertd
+    wlr-randr
     (pkgs.writeScriptBin "list-downloads" (builtins.readFile ./scripts/list-downloads.sh))
+    (pkgs.writeScriptBin "lid-switch" (builtins.readFile ./scripts/lid-switch.sh))
 
     # https://github.com/mattn/tailscale-systray/pull/38
     (tailscale-systray.overrideAttrs (old: {
