@@ -195,6 +195,10 @@
 
   networking.hostId = "c1613a14";
   networking.hostName = "server"; # Define your hostname.
+  networking.vlans.vlan15 = {
+    id = 15;
+    interface = "br0";
+  };
   networking.vlans.vlan40 = {
     id = 40;
     interface = "br0";
