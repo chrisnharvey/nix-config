@@ -212,6 +212,7 @@
     glances
     gnupg
     unrar
+    unzip
   ];
 
   services.flatpak.enable = true;
