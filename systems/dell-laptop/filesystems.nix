@@ -55,6 +55,18 @@
     ];
   };
 
+  fileSystems."/data" = {
+    device = "192.168.10.9:/data/data";
+    fsType = "nfs";
+    options = [
+      "x-systemd.automount"
+      "noauto"
+      "x-systemd.idle-timeout=300"
+      "noatime"
+      "nfsvers=4.0"
+    ];
+  };
+
   swapDevices = [
     {
       device = "/swap/swapfile";
