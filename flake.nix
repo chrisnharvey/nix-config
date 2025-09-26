@@ -26,6 +26,11 @@
     home-manager-unstable.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=v0.6.0";
+
+    android-nixpkgs = {
+      url = "github:tadfisher/android-nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   # `outputs` are all the build result of the flake.
@@ -48,6 +53,7 @@
       home-manager-unstable,
       zfs-multi-mount,
       nix-flatpak,
+      android-nixpkgs,
       ...
     }@inputs:
     {
@@ -73,12 +79,24 @@
             # Note: configuration.nix itself is also a Nixpkgs Module,
             ./systems/dell-laptop/configuration.nix
 
+            # Add android-nixpkgs overlay
+            {
+              nixpkgs.overlays = [
+                (final: prev: {
+                  androidSdk = android-nixpkgs.sdk.x86_64-linux;
+                })
+              ];
+            }
+
             home-manager-unstable.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
 
               home-manager.users.chris = import ./systems/dell-laptop/home.nix;
+              home-manager.extraSpecialArgs = { 
+                inherit android-nixpkgs; 
+              };
 
               # Optionally, use home-manager.extraSpecialArgs to pass arguments to home.nix
             }
