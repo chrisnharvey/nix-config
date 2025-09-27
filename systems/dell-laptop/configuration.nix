@@ -96,6 +96,12 @@
   virtualisation.docker.enable = true;
   virtualisation.libvirtd.enable = true;
 
+  # Android development
+  programs.adb.enable = true;
+  
+  # Enable KVM for Android emulator performance
+  boot.kernelModules = [ "kvm-intel" ]; # Use "kvm-amd" if you have AMD CPU
+
   # Set your time zone.
   time.timeZone = "Europe/London";
 
@@ -177,6 +183,8 @@
       "libvirtd"
       "vboxusers"
       "dialout"
+      "adbusers"
+      "kvm"
     ];
     shell = pkgs.zsh;
   };
@@ -188,6 +196,9 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  
+  # Accept Android SDK license
+  nixpkgs.config.android_sdk.accept_license = true;
 
   services.tailscale.enable = true;
   services.tailscale.useRoutingFeatures = "client";

@@ -17,12 +17,21 @@
     php
     phpPackages.composer
     nodejs
+    # Android SDK and tools for React Native/Expo development
+    android-tools
+    androidenv.androidPkgs.androidsdk
+    androidenv.androidPkgs.emulator
+    jdk17
   ];
 
   home.sessionVariables = {
     EDITOR = "edit"; # Don't judge me!
     GOPATH = "$HOME/go";
     GOPRIVATE = "github.com/*";
+    # Android SDK environment variables for React Native/Expo
+    ANDROID_SDK_ROOT = "${pkgs.androidenv.androidPkgs.androidsdk}/libexec/android-sdk";
+    ANDROID_HOME = "${pkgs.androidenv.androidPkgs.androidsdk}/libexec/android-sdk";
+    JAVA_HOME = "${pkgs.jdk17}/lib/openjdk";
   };
 
   programs.starship.enable = true;
