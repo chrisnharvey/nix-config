@@ -629,7 +629,7 @@ binds {
     Mod+Space { spawn "fuzzel"; }
     Mod+Return { spawn "alacritty"; }
     Mod+C { spawn "code"; }
-    Mod+F { spawn "nautilus"; }
+    Mod+F { spawn "nemo"; }
     Mod+B { spawn "flatpak" "run" "app.zen_browser.zen"; }
     Mod+O { spawn "flatpak" "run" "md.obsidian.Obsidian"; }
     Mod+F1 { spawn "swayosd-client" "--playerctl" "previous"; }

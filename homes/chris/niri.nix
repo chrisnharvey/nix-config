@@ -28,7 +28,11 @@ in
     networkmanagerapplet
     crystal-dock
     libnotify
-    nautilus
+    nemo-with-extensions
+    nemo-preview
+    nemo-fileroller
+    nemo-python
+    nemo-emblems
     gnome-keyring
     swaybg
     poweralertd
@@ -163,13 +167,17 @@ in
   dconf.settings = {
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
-      gtk-theme = "Adwaita-dark";
+      gtk-theme = "Adwaita";
     };
 
     "org/gnome/desktop/wm/preferences" = {
       color-scheme = "prefer-dark";
-      gtk-theme = "Adwaita-dark";
+      gtk-theme = "Adwaita";
       button-layout = "appmenu:";
+    };
+
+    "org/cinnamon/desktop/applications/terminal" = {
+        exec = "alacritty";
     };
   };
 
