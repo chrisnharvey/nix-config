@@ -101,10 +101,9 @@ in
     enable = true;
     runAsService = true;
 
-    # Configuration matching your color scheme
     config = {
-      # Set your preferred behavior
       click_to_close = true;
+      force_keyboard_focus = true;
 
       # Configure providers and their prefixes
       providers = {
@@ -134,15 +133,9 @@ in
 
       # Keybinds
       keybinds = {
-        close = [ "Escape" ];
-        next = [
-          "Down"
-          "Tab"
-        ];
-        previous = [
-          "Up"
-          "shift Tab"
-        ];
+        close = "Escape";
+        next = "Down";
+        previous = "Up";
       };
     };
   };
