@@ -240,9 +240,9 @@
     "org.gnome.Loupe"
     # "com.visualstudio.code"
     "org.virt_manager.virt-manager"
-    "com.jetbrains.GoLand"
-    "com.jetbrains.PhpStorm"
-    "com.jetbrains.DataGrip"
+    # "com.jetbrains.GoLand"
+    # "com.jetbrains.PhpStorm"
+    # "com.jetbrains.DataGrip"
     "org.mozilla.Thunderbird"
   ];
 

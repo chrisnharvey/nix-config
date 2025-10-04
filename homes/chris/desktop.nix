@@ -7,15 +7,20 @@
 {
   home.packages = with pkgs; [
     vscode
-    # jetbrains.goland
-    # jetbrains.phpstorm
-    # jetbrains.datagrip
-    code-cursor
+    jetbrains.goland
+    jetbrains.phpstorm
+    jetbrains.datagrip
+    jetbrains.idea-community-bin
+    # code-cursor
   ];
 
   xdg.mimeApps = {
     enable = true;
     defaultApplications = {
+      # File Manager
+      "inode/directory" = [ "nemo.desktop" ];
+      "application/x-gnome-saved-search" = [ "nemo.desktop" ];
+
       # Web
       "text/html" = "app.zen_browser.zen.desktop";
       "x-scheme-handler/http" = "app.zen_browser.zen.desktop";
