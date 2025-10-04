@@ -2,6 +2,7 @@
   config,
   inputs,
   pkgs,
+  lib,
   ...
 }:
 
@@ -81,6 +82,20 @@ in
   services.swaync.enable = true;
   services.swayosd.enable = true;
 
+  systemd.user.services =
+    let
+      emptyConditionEnvironment = {
+        Unit = {
+          # remove condition on WAYLAND_DISPLAY, as it supports running on Linux Mint with an Xorg-Session
+          ConditionEnvironment = lib.mkForce "";
+        };
+      };
+    in
+    {
+      walker = emptyConditionEnvironment;
+      elephant = emptyConditionEnvironment;
+    };
+
   # Walker
   programs.walker = {
     enable = true;
@@ -90,23 +105,44 @@ in
     config = {
       # Set your preferred behavior
       click_to_close = true;
-      
+
       # Configure providers and their prefixes
       providers = {
         prefixes = [
-          { provider = "calc"; prefix = "="; }
-          { provider = "files"; prefix = "/"; }
-          { provider = "clipboard"; prefix = ":"; }
-          { provider = "symbols"; prefix = "."; }
-          { provider = "providerlist"; prefix = ";"; }
+          {
+            provider = "calc";
+            prefix = "=";
+          }
+          {
+            provider = "files";
+            prefix = "/";
+          }
+          {
+            provider = "clipboard";
+            prefix = ":";
+          }
+          {
+            provider = "symbols";
+            prefix = ".";
+          }
+          {
+            provider = "providerlist";
+            prefix = ";";
+          }
         ];
       };
-      
+
       # Keybinds
       keybinds = {
-        close = ["Escape"];
-        next = ["Down" "Tab"];
-        previous = ["Up" "shift Tab"];
+        close = [ "Escape" ];
+        next = [
+          "Down"
+          "Tab"
+        ];
+        previous = [
+          "Up"
+          "shift Tab"
+        ];
       };
     };
   };
@@ -194,7 +230,7 @@ in
     };
 
     "org/cinnamon/desktop/applications/terminal" = {
-        exec = "alacritty";
+      exec = "alacritty";
     };
   };
 

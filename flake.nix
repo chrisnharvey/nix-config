@@ -124,7 +124,7 @@
               home-manager.useUserPackages = true;
 
               home-manager.users.chris = import ./systems/server/home.nix;
-              
+
               # Pass inputs to home-manager
               home-manager.extraSpecialArgs = { inherit inputs; };
             }
