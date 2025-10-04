@@ -242,19 +242,29 @@
     "com.getpostman.Postman"
     "md.obsidian.Obsidian"
     "org.gnome.Boxes"
-    "org.gnome.Calculator"
+    "org.gnome.Calendar"
+    "org.gnome.Contacts"
+    "org.gnome.Geary"
+    "io.github.mrvladus.List"
     "org.gnome.gedit"
     "org.signal.Signal"
     "org.videolan.VLC"
     "org.gnome.Papers"
     "org.gnome.Loupe"
-    # "com.visualstudio.code"
     "org.virt_manager.virt-manager"
-    # "com.jetbrains.GoLand"
-    # "com.jetbrains.PhpStorm"
-    # "com.jetbrains.DataGrip"
-    "org.mozilla.Thunderbird"
   ];
+
+  services.flatpak.overrides = {
+    global = {
+      # Force Wayland by default
+      Context.sockets = ["wayland" "!x11" "!fallback-x11"];
+
+      Environment = {
+        # Force correct theme for some GTK apps
+        GTK_THEME = "Adwaita:dark";
+      };
+    };
+  };
 
   programs.zsh.enable = true;
   programs.steam.enable = true;
