@@ -9,6 +9,8 @@
     enable = true;
   };
 
+  programs.file-roller.enable = true;
+
   services.gnome.gnome-online-accounts.enable = true;
   services.gnome.evolution-data-server.enable = true;
 

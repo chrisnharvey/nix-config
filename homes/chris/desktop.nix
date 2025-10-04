@@ -85,6 +85,26 @@
       "text/calendar" = "org.gnome.Calendar.desktop"; # .ics files
       "application/x-ical" = "org.gnome.Calendar.desktop"; # alternate calendar MIME
       "x-scheme-handler/webcal" = "org.gnome.Calendar.desktop"; # webcal:// links
+
+      # Archive Manager (file-roller)
+      "application/zip" = "org.gnome.FileRoller.desktop"; # .zip
+      "application/x-tar" = "org.gnome.FileRoller.desktop"; # .tar
+      "application/x-gzip" = "org.gnome.FileRoller.desktop"; # .gz
+      "application/x-bzip2" = "org.gnome.FileRoller.desktop"; # .bz2
+      "application/x-xz" = "org.gnome.FileRoller.desktop"; # .xz
+      "application/x-compressed-tar" = "org.gnome.FileRoller.desktop"; # .tar.gz
+      "application/x-bzip-compressed-tar" = "org.gnome.FileRoller.desktop"; # .tar.bz2
+      "application/x-xz-compressed-tar" = "org.gnome.FileRoller.desktop"; # .tar.xz
+      "application/x-7z-compressed" = "org.gnome.FileRoller.desktop"; # .7z
+      "application/x-rar-compressed" = "org.gnome.FileRoller.desktop"; # .rar
+      "application/x-archive" = "org.gnome.FileRoller.desktop"; # .ar
+      "application/x-compress" = "org.gnome.FileRoller.desktop"; # .Z
+      "application/x-lzma" = "org.gnome.FileRoller.desktop"; # .lzma
+      "application/x-lzip" = "org.gnome.FileRoller.desktop"; # .lz
+      "application/x-lzop" = "org.gnome.FileRoller.desktop"; # .lzo
+      "application/x-ace" = "org.gnome.FileRoller.desktop"; # .ace
+      "application/x-arj" = "org.gnome.FileRoller.desktop"; # .arj
+      "application/x-cpio" = "org.gnome.FileRoller.desktop"; # .cpio
     };
   };
 }
