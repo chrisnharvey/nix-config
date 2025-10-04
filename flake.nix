@@ -26,6 +26,9 @@
     home-manager-unstable.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=v0.6.0";
+
+    walker.url = "github:abenz1267/walker";
+    walker.inputs.nixpkgs.follows = "nixpkgs-unstable";
   };
 
   # `outputs` are all the build result of the flake.
@@ -48,6 +51,7 @@
       home-manager-unstable,
       zfs-multi-mount,
       nix-flatpak,
+      walker,
       ...
     }@inputs:
     {
@@ -80,7 +84,8 @@
 
               home-manager.users.chris = import ./systems/dell-laptop/home.nix;
 
-              # Optionally, use home-manager.extraSpecialArgs to pass arguments to home.nix
+              # Pass inputs to home-manager
+              home-manager.extraSpecialArgs = { inherit inputs; };
             }
           ];
         };
@@ -99,7 +104,8 @@
 
               home-manager.users.chris = import ./systems/rose-laptop/home.nix;
 
-              # Optionally, use home-manager.extraSpecialArgs to pass arguments to home.nix
+              # Pass inputs to home-manager
+              home-manager.extraSpecialArgs = { inherit inputs; };
             }
           ];
         };
@@ -118,6 +124,9 @@
               home-manager.useUserPackages = true;
 
               home-manager.users.chris = import ./systems/server/home.nix;
+              
+              # Pass inputs to home-manager
+              home-manager.extraSpecialArgs = { inherit inputs; };
             }
           ];
         };
@@ -134,8 +143,8 @@
         # the path to your home.nix.
         modules = [ ./homes/chris ];
 
-        # Optionally use extraSpecialArgs
-        # to pass through arguments to home.nix
+        # Pass inputs to home-manager
+        extraSpecialArgs = { inherit inputs; };
       };
     };
 }

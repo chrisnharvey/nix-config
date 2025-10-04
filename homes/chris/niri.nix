@@ -12,6 +12,7 @@ in
   imports = [
     ./desktop.nix
     ./backup.nix
+    inputs.walker.homeManagerModules.default
   ];
 
   home.packages = with pkgs; [
@@ -37,6 +38,7 @@ in
     swaybg
     poweralertd
     wlr-randr
+    inputs.walker.packages.${pkgs.stdenv.hostPlatform.system}.default
     (pkgs.writeScriptBin "list-downloads" (builtins.readFile ./scripts/list-downloads.sh))
     (pkgs.writeScriptBin "lid-switch" (builtins.readFile ./scripts/lid-switch.sh))
 
@@ -79,17 +81,32 @@ in
   services.swaync.enable = true;
   services.swayosd.enable = true;
 
-  programs.fuzzel = {
+  # Walker
+  programs.walker = {
     enable = true;
-    settings = {
-      colors = {
-        background = "000000cc"; # semi-transparent black
-        text = "f2f4f8ff"; # your main white
-        match = "dfa7e7ff"; # magenta (for filter match highlight)
-        selection = "322647cc"; # deep purple bg for selection
-        selection-text = "78afe3ff"; # blue for text in selection
-        border = "dfa7e7ff"; # magenta border (if supported by compositor)
-        prompt = "7ebae4ff"; # blue prompt glyph (looks nice)
+    runAsService = true;
+
+    # Configuration matching your color scheme
+    config = {
+      # Set your preferred behavior
+      click_to_close = true;
+      
+      # Configure providers and their prefixes
+      providers = {
+        prefixes = [
+          { provider = "calc"; prefix = "="; }
+          { provider = "files"; prefix = "/"; }
+          { provider = "clipboard"; prefix = ":"; }
+          { provider = "symbols"; prefix = "."; }
+          { provider = "providerlist"; prefix = ";"; }
+        ];
+      };
+      
+      # Keybinds
+      keybinds = {
+        close = ["Escape"];
+        next = ["Down" "Tab"];
+        previous = ["Up" "shift Tab"];
       };
     };
   };

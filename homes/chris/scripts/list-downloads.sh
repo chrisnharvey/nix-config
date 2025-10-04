@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-FILE=$(ls -t ~/Downloads | fuzzel -d --placeholder "Downloads...")
+FILE=$(ls -t ~/Downloads | walker -d --placeholder "Downloads...")
 
 if [ -z "$FILE" ]; then
   echo "No file selected."
