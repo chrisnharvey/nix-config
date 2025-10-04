@@ -15,6 +15,7 @@ spawn-at-startup "poweralertd"
 
 environment {
     DISPLAY ":0"
+    GTK_THEME "Adwaita:dark"
 }
 
 input {

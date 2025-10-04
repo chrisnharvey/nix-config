@@ -9,6 +9,9 @@
     enable = true;
   };
 
+  services.gnome.gnome-online-accounts.enable = true;
+  services.gnome.evolution-data-server.enable = true;
+
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
   services.displayManager.sddm.package = pkgs.kdePackages.sddm;
@@ -31,6 +34,7 @@
     papirus-icon-theme
     sddm-astronaut
     xwayland-satellite
+    gnome-online-accounts-gtk
   ];
 
   services.blueman.enable = true;
