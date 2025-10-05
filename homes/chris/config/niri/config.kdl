@@ -633,10 +633,7 @@ binds {
     Mod+M { spawn "flatpak" "run" "org.gnome.Geary"; }
     Mod+C { spawn "flatpak" "run" "org.gnome.Calendar"; }
     Mod+L { spawn "flatpak" "run" "io.github.mrvladus.List"; }
-    Mod+G { spawn "goland"; }
-    Mod+P { spawn "phpstorm"; }
-    Mod+I { spawn "idea-community"; }
-    Mod+T { spawn "datagrip"; }
+    Mod+I { spawn "idea-ultimate"; }
     Mod+F1 { spawn "swayosd-client" "--playerctl" "previous"; }
     Mod+F2 { spawn "swayosd-client" "--playerctl" "play-pause"; }
     Mod+F3 { spawn "swayosd-client" "--playerctl" "next"; }

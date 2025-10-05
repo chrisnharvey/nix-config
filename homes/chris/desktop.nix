@@ -7,10 +7,7 @@
 {
   home.packages = with pkgs; [
     vscode
-    jetbrains.goland
-    jetbrains.phpstorm
-    jetbrains.datagrip
-    jetbrains.idea-community-bin
+    jetbrains.idea-ultimate
     # code-cursor
   ];
 
