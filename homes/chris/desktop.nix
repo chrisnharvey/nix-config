@@ -4,10 +4,13 @@
   lib,
   ...
 }:
+let
+  customPackages = import ./packages { inherit pkgs; };
+in
 {
   home.packages = with pkgs; [
     vscode
-    jetbrains.idea-ultimate
+    customPackages.intellij-idea-ultimate
     # code-cursor
   ];
 
