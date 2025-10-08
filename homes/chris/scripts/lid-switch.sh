@@ -10,7 +10,7 @@ if [ $MONITOR_COUNT -gt 1 ] && [ "$LID_STATE" = "close" ]; then
     exit 0
 fi
 
-if [ "$LID_STATE" = "open" ]; then
+if [ $MONITOR_COUNT -gt 1 ] && [ "$LID_STATE" = "open" ]; then
     # Lid opened, turn on the internal display
     wlr-randr --output eDP-1 --on
     notify-send "Lid opened" "Turning on internal display"
