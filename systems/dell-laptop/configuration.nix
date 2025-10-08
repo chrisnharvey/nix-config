@@ -265,6 +265,7 @@
     "org.gnome.Contacts"
     "org.gnome.Geary"
     "io.github.mrvladus.List"
+    "org.gnome.SimpleScan"
     "org.gnome.gedit"
     "org.signal.Signal"
     "org.videolan.VLC"
