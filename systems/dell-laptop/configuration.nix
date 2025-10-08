@@ -149,6 +149,23 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
   services.printing.drivers = [ pkgs.hplip ];
+  hardware.printers = {
+    ensurePrinters = [
+      {
+        name = "Office_Printer";
+        location = "Office";
+        deviceUri = "socket://192.168.30.20";
+        model = "drv:///hp/hpcups.drv/hp-deskjet_2540_series.ppd";
+        ppdOptions = {
+          PageSize = "A4";
+        };
+      }
+    ];
+    ensureDefaultPrinter = "Office_Printer";
+  };
+
+  hardware.sane.enable = true;
+  hardware.sane.extraBackends = [ pkgs.hplipWithPlugin ];
 
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
@@ -187,6 +204,8 @@
       "libvirtd"
       "vboxusers"
       "dialout"
+      "scanner"
+      "lp"
     ];
     shell = pkgs.zsh;
   };
