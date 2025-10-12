@@ -14,14 +14,6 @@
   services.gnome.gnome-online-accounts.enable = true;
   services.gnome.evolution-data-server.enable = true;
 
-  services.displayManager.sddm.enable = true;
-  services.displayManager.sddm.wayland.enable = true;
-  services.displayManager.sddm.package = pkgs.kdePackages.sddm;
-  services.displayManager.sddm.theme = "sddm-astronaut-theme";
-  services.displayManager.sddm.extraPackages = with pkgs; [
-    sddm-astronaut
-  ];
-
   services.gvfs.enable = true;
 
   services.power-profiles-daemon.enable = true;
@@ -39,6 +31,16 @@
     gnome-online-accounts-gtk
   ];
 
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --user-menu --remember --asterisks";
+        user = "greeter";
+      };
+    };
+  };
+
   services.blueman.enable = true;
 
   fonts.packages = with pkgs; [
@@ -50,6 +52,5 @@
 
   fonts.enableDefaultPackages = true;
 
-  security.pam.services.sddm.enableGnomeKeyring = true;
   services.gnome.gnome-keyring.enable = true;
 }
