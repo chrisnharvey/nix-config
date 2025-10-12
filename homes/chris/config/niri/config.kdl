@@ -99,7 +99,7 @@ output "eDP-1" {
     // so to put another output directly adjacent to it on the right, set its x to 1920.
     // If the position is unset or results in an overlap, the output is instead placed
     // automatically.
-    position x=5120 y=0
+    position x=3840 y=0
 }
 
 output "Ancor Communications Inc VX24A J8LMQS134724" {
@@ -112,7 +112,7 @@ output "Ancor Communications Inc VX24A J8LMQS134724" {
     // for the resolution.
     // If the mode is omitted altogether or is invalid, niri will pick one automatically.
     // Run `niri msg outputs` while inside a niri instance to list all outputs and their modes.
-    mode "2560x1440@59.951"
+    mode "1920x1080"
 
     // You can use integer or fractional scale, for example use 1.5 for 150% scale.
     scale 1
@@ -143,7 +143,7 @@ output "Ancor Communications Inc VX24A L3LMQS006419" {
     // for the resolution.
     // If the mode is omitted altogether or is invalid, niri will pick one automatically.
     // Run `niri msg outputs` while inside a niri instance to list all outputs and their modes.
-    mode "2560x1440@59.951"
+    mode "1920x1080"
 
     // You can use integer or fractional scale, for example use 1.5 for 150% scale.
     scale 1
@@ -161,7 +161,7 @@ output "Ancor Communications Inc VX24A L3LMQS006419" {
     // so to put another output directly adjacent to it on the right, set its x to 1920.
     // If the position is unset or results in an overlap, the output is instead placed
     // automatically.
-    position x=2560 y=0
+    position x=1080 y=0
 }
 
 // Settings that influence how windows are positioned and sized.
