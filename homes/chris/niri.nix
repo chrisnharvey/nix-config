@@ -42,6 +42,7 @@ in
     inputs.walker.packages.${pkgs.stdenv.hostPlatform.system}.default
     (pkgs.writeScriptBin "list-downloads" (builtins.readFile ./scripts/list-downloads.sh))
     (pkgs.writeScriptBin "lid-switch" (builtins.readFile ./scripts/lid-switch.sh))
+    (pkgs.writeScriptBin "waybar-monitor" (builtins.readFile ./scripts/waybar-monitor.sh))
 
     # https://github.com/mattn/tailscale-systray/pull/38
     (tailscale-systray.overrideAttrs (old: {
