@@ -6,9 +6,6 @@
   ...
 }:
 
-let
-  swaylockCmd = "${pkgs.swaylock-effects}/bin/swaylock -fF --screenshots --clock --indicator --indicator-radius 100 --indicator-thickness 7 --effect-blur 7x5 --effect-vignette 0.5:0.5 --ring-color bb00cc --key-hl-color 880033 --line-color 00000000 --inside-color 00000088 --separator-color 00000000 --grace 2 --fade-in 0.2";
-in
 {
   imports = [
     ./desktop.nix
@@ -32,8 +29,6 @@ in
     brightnessctl
     pavucontrol
     playerctl
-#    networkmanagerapplet
-#    crystal-dock
     libnotify
     nemo-with-extensions
     nemo-preview
@@ -41,7 +36,6 @@ in
     nemo-python
     nemo-emblems
     gnome-keyring
-#    swaybg
     poweralertd
     wlr-randr
     inputs.walker.packages.${pkgs.stdenv.hostPlatform.system}.default
@@ -84,9 +78,6 @@ in
       gtk-application-prefer-dark-theme = 1;
     };
   };
-
-#  services.swaync.enable = true;
-#  services.swayosd.enable = true;
 
   systemd.user.services =
     let
@@ -146,74 +137,6 @@ in
     };
   };
 
-#  programs.wlogout = {
-#    enable = true;
-#    layout = [
-#      {
-#        label = "lock";
-#        action = swaylockCmd;
-#        text = "Lock";
-#        keybind = "l";
-#        circular = true;
-#      }
-#      {
-#        label = "logout";
-#        action = "niri msg action quit";
-#        text = "Logout";
-#        keybind = "e";
-#        circular = true;
-#      }
-#      {
-#        label = "suspend";
-#        action = "systemctl suspend-then-hibernate";
-#        text = "Sleep";
-#        keybind = "z";
-#        circular = true;
-#      }
-#      {
-#        label = "shutdown";
-#        action = "systemctl poweroff";
-#        text = "Shutdown";
-#        keybind = "s";
-#        circular = true;
-#      }
-#      {
-#        label = "reboot";
-#        action = "systemctl reboot";
-#        text = "Reboot";
-#        keybind = "r";
-#        circular = true;
-#      }
-#      {
-#        label = "hibernate";
-#        action = "systemctl hibernate";
-#        text = "Hibernate";
-#        keybind = "h";
-#        circular = true;
-#      }
-#    ];
-#  };
-
-#  programs.swaylock.enable = true;
-#  programs.swaylock.package = pkgs.swaylock-effects;
-#  services.swayidle.enable = true;
-#  services.swayidle.events = [
-#    {
-#      event = "before-sleep";
-#      command = swaylockCmd;
-#    }
-#  ];
-#  services.swayidle.timeouts = [
-#    {
-#      timeout = 900;
-#      command = swaylockCmd;
-#    }
-#    {
-#      timeout = 1800;
-#      command = "${pkgs.systemd}/bin/systemctl suspend-then-hibernate";
-#    }
-#  ];
-
   services.gnome-keyring.enable = true;
 
   dconf.settings = {
@@ -232,10 +155,4 @@ in
       exec = "alacritty";
     };
   };
-
-#  programs.waybar.enable = true;
-#  home.file.".config/waybar/style.css".enable = true;
-#  home.file.".config/waybar/style.css".source = ./config/waybar/style.css;
-#  home.file.".config/waybar/config".enable = true;
-#  home.file.".config/waybar/config".source = ./config/waybar/config.json;
 }
