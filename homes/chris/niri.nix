@@ -18,6 +18,8 @@ in
   ];
 
   programs.dankMaterialShell.enable = true;
+  home.file.".config/DankMaterialShell/settings.json".enable = true;
+  home.file.".config/DankMaterialShell/settings.json".source = ./config/dms/settings.json;
 
   home.packages = with pkgs; [
     nixfmt
@@ -144,53 +146,53 @@ in
     };
   };
 
-  programs.wlogout = {
-    enable = true;
-    layout = [
-      {
-        label = "lock";
-        action = swaylockCmd;
-        text = "Lock";
-        keybind = "l";
-        circular = true;
-      }
-      {
-        label = "logout";
-        action = "niri msg action quit";
-        text = "Logout";
-        keybind = "e";
-        circular = true;
-      }
-      {
-        label = "suspend";
-        action = "systemctl suspend-then-hibernate";
-        text = "Sleep";
-        keybind = "z";
-        circular = true;
-      }
-      {
-        label = "shutdown";
-        action = "systemctl poweroff";
-        text = "Shutdown";
-        keybind = "s";
-        circular = true;
-      }
-      {
-        label = "reboot";
-        action = "systemctl reboot";
-        text = "Reboot";
-        keybind = "r";
-        circular = true;
-      }
-      {
-        label = "hibernate";
-        action = "systemctl hibernate";
-        text = "Hibernate";
-        keybind = "h";
-        circular = true;
-      }
-    ];
-  };
+#  programs.wlogout = {
+#    enable = true;
+#    layout = [
+#      {
+#        label = "lock";
+#        action = swaylockCmd;
+#        text = "Lock";
+#        keybind = "l";
+#        circular = true;
+#      }
+#      {
+#        label = "logout";
+#        action = "niri msg action quit";
+#        text = "Logout";
+#        keybind = "e";
+#        circular = true;
+#      }
+#      {
+#        label = "suspend";
+#        action = "systemctl suspend-then-hibernate";
+#        text = "Sleep";
+#        keybind = "z";
+#        circular = true;
+#      }
+#      {
+#        label = "shutdown";
+#        action = "systemctl poweroff";
+#        text = "Shutdown";
+#        keybind = "s";
+#        circular = true;
+#      }
+#      {
+#        label = "reboot";
+#        action = "systemctl reboot";
+#        text = "Reboot";
+#        keybind = "r";
+#        circular = true;
+#      }
+#      {
+#        label = "hibernate";
+#        action = "systemctl hibernate";
+#        text = "Hibernate";
+#        keybind = "h";
+#        circular = true;
+#      }
+#    ];
+#  };
 
 #  programs.swaylock.enable = true;
 #  programs.swaylock.package = pkgs.swaylock-effects;
@@ -231,9 +233,9 @@ in
     };
   };
 
-  programs.waybar.enable = true;
-  home.file.".config/waybar/style.css".enable = true;
-  home.file.".config/waybar/style.css".source = ./config/waybar/style.css;
-  home.file.".config/waybar/config".enable = true;
-  home.file.".config/waybar/config".source = ./config/waybar/config.json;
+#  programs.waybar.enable = true;
+#  home.file.".config/waybar/style.css".enable = true;
+#  home.file.".config/waybar/style.css".source = ./config/waybar/style.css;
+#  home.file.".config/waybar/config".enable = true;
+#  home.file.".config/waybar/config".source = ./config/waybar/config.json;
 }
