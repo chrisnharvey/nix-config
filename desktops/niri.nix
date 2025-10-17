@@ -9,6 +9,8 @@
     enable = true;
   };
 
+  security.soteria.enable = true;
+
   programs.file-roller.enable = true;
 
   services.gnome.gnome-online-accounts.enable = true;
