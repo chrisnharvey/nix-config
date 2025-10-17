@@ -36,7 +36,7 @@
   programs.dankMaterialShell.greeter = {
     enable = true;
     compositor.name = "niri";
-    configHome = "/home/chris";
+    configHome = config.home.homeDirectory;
   };
 
   fonts.packages = with pkgs; [
