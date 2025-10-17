@@ -29,6 +29,9 @@
 
     walker.url = "github:abenz1267/walker?ref=1.0.0";
     walker.inputs.nixpkgs.follows = "nixpkgs-unstable";
+
+    dankMaterialShell.url = "github:AvengeMedia/DankMaterialShell";
+    dankMaterialShell.inputs.nixpkgs.follows = "nixpkgs-unstable";
   };
 
   # `outputs` are all the build result of the flake.
@@ -52,6 +55,7 @@
       zfs-multi-mount,
       nix-flatpak,
       walker,
+      dankMaterialShell,
       ...
     }@inputs:
     {
@@ -71,6 +75,7 @@
           system = "x86_64-linux";
           modules = [
             nix-flatpak.nixosModules.nix-flatpak
+            dankMaterialShell.nixosModules.greeter
 
             # Import the configuration.nix here, so that the
             # old configuration file can still take effect.

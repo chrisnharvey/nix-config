@@ -33,15 +33,21 @@
 
   services.greetd = {
     enable = true;
-    settings = {
-      default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --user-menu --remember --asterisks";
-        user = "greeter";
-      };
-    };
+#    settings = {
+#      default_session = {
+#        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --user-menu --remember --asterisks";
+#        user = "greeter";
+#      };
+#    };
   };
 
-  services.blueman.enable = true;
+  programs.dankMaterialShell.greeter = {
+    enable = true;
+    compositor.name = "niri"; # or set to hyprland
+    configHome = "/home/chris"; # optionally copyies that users DMS settings (and wallpaper if set) to the greeters data directory as root before greeter starts
+  };
+
+#  services.blueman.enable = true;
 
   fonts.packages = with pkgs; [
     nerd-fonts.ubuntu-sans

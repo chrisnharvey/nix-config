@@ -14,7 +14,10 @@ in
     ./desktop.nix
     ./backup.nix
     inputs.walker.homeManagerModules.default
+    inputs.dankMaterialShell.homeModules.dankMaterialShell.default
   ];
+
+  programs.dankMaterialShell.enable = true;
 
   home.packages = with pkgs; [
     nixfmt
@@ -27,8 +30,8 @@ in
     brightnessctl
     pavucontrol
     playerctl
-    networkmanagerapplet
-    crystal-dock
+#    networkmanagerapplet
+#    crystal-dock
     libnotify
     nemo-with-extensions
     nemo-preview
@@ -36,7 +39,7 @@ in
     nemo-python
     nemo-emblems
     gnome-keyring
-    swaybg
+#    swaybg
     poweralertd
     wlr-randr
     inputs.walker.packages.${pkgs.stdenv.hostPlatform.system}.default
@@ -80,8 +83,8 @@ in
     };
   };
 
-  services.swaync.enable = true;
-  services.swayosd.enable = true;
+#  services.swaync.enable = true;
+#  services.swayosd.enable = true;
 
   systemd.user.services =
     let
@@ -189,25 +192,25 @@ in
     ];
   };
 
-  programs.swaylock.enable = true;
-  programs.swaylock.package = pkgs.swaylock-effects;
-  services.swayidle.enable = true;
-  services.swayidle.events = [
-    {
-      event = "before-sleep";
-      command = swaylockCmd;
-    }
-  ];
-  services.swayidle.timeouts = [
-    {
-      timeout = 900;
-      command = swaylockCmd;
-    }
-    {
-      timeout = 1800;
-      command = "${pkgs.systemd}/bin/systemctl suspend-then-hibernate";
-    }
-  ];
+#  programs.swaylock.enable = true;
+#  programs.swaylock.package = pkgs.swaylock-effects;
+#  services.swayidle.enable = true;
+#  services.swayidle.events = [
+#    {
+#      event = "before-sleep";
+#      command = swaylockCmd;
+#    }
+#  ];
+#  services.swayidle.timeouts = [
+#    {
+#      timeout = 900;
+#      command = swaylockCmd;
+#    }
+#    {
+#      timeout = 1800;
+#      command = "${pkgs.systemd}/bin/systemctl suspend-then-hibernate";
+#    }
+#  ];
 
   services.gnome-keyring.enable = true;
 
