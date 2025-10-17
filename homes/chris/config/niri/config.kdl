@@ -610,7 +610,7 @@ binds {
 
     // The quit action will show a confirmation dialog to avoid accidental exits.
     Ctrl+Alt+Delete { quit; }
-    Mod+Escape { spawn "bash" "-c" "pkill wlogout || wlogout"; }
+    Mod+Escape { spawn "dms" "ipc" "powermenu" "toggle"; }
 
     // Powers off the monitors. To turn them back on, do any input like
     // moving the mouse or pressing any other key.
