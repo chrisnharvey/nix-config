@@ -8,8 +8,7 @@
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Input
 
 spawn-at-startup "xwayland-satellite"
-spawn-at-startup "swaybg" "-i" "/home/chris/Pictures/Reef.png"
-spawn-at-startup "waybar-monitor"
+spawn-at-startup "dms" "run"
 spawn-at-startup "tailscale-systray" "-no-pkexec"
 spawn-at-startup "poweralertd"
 
@@ -169,7 +168,7 @@ output "Ancor Communications Inc VX24A L3LMQS006419" {
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Layout
 layout {
     // Set gaps around windows in logical pixels.
-    gaps 16
+    gaps 8
 
     // When to center a column when changing focus, options are:
     // - "never", default behavior, focusing an off-screen column will keep at the left
@@ -216,7 +215,7 @@ layout {
         // off
 
         // How many logical pixels the ring extends out from the windows.
-        width 4
+        width 2
 
         // Colors can be set in a variety of ways:
         // - CSS named colors: "red"
@@ -251,7 +250,7 @@ layout {
         // If you enable the border, you probably want to disable the focus ring.
         off
 
-        width 4
+        width 2
         active-color "#ffc87f"
         inactive-color "#505050"
 
@@ -423,13 +422,13 @@ binds {
 
     // Example volume keys mappings for PipeWire & WirePlumber.
     // The allow-when-locked=true property makes them work even when the session is locked.
-    XF86AudioRaiseVolume allow-when-locked=true { spawn "swayosd-client" "--output-volume" "raise"; }
-    XF86AudioLowerVolume allow-when-locked=true { spawn "swayosd-client" "--output-volume" "lower"; }
-    XF86AudioMute        allow-when-locked=true { spawn "swayosd-client" "--output-volume" "mute-toggle"; }
-    XF86AudioMicMute     allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "increment" "3"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "decrement" "3"; }
+    XF86AudioMute        allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "mute"; }
+    XF86AudioMicMute     allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "micmute"; }
 
-    XF86MonBrightnessUp allow-when-locked=true { spawn "swayosd-client" "--brightness" "raise"; }
-    XF86MonBrightnessDown allow-when-locked=true { spawn "swayosd-client" "--brightness" "lower"; }
+    XF86MonBrightnessUp allow-when-locked=true { spawn "dms" "ipc" "call" "brightness" "increment" "1"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "dms" "ipc" "call" "brightness" "decrement" "1"; }
 
     // Open/close the Overview: a zoomed-out view of workspaces and windows.
     // You can also move the mouse into the top-left hot corner,
@@ -611,7 +610,7 @@ binds {
 
     // The quit action will show a confirmation dialog to avoid accidental exits.
     Ctrl+Alt+Delete { quit; }
-    Mod+Escape { spawn "bash" "-c" "pkill wlogout || wlogout"; }
+    Mod+Escape { spawn "dms" "ipc" "powermenu" "toggle"; }
 
     // Powers off the monitors. To turn them back on, do any input like
     // moving the mouse or pressing any other key.
@@ -628,8 +627,8 @@ binds {
     Mod+C { spawn "flatpak" "run" "org.gnome.Calendar"; }
     Mod+L { spawn "flatpak" "run" "io.github.mrvladus.List"; }
     Mod+I { spawn "idea-ultimate"; }
-    Mod+F1 { spawn "swayosd-client" "--playerctl" "previous"; }
-    Mod+F2 { spawn "swayosd-client" "--playerctl" "play-pause"; }
-    Mod+F3 { spawn "swayosd-client" "--playerctl" "next"; }
+    Mod+F1 { spawn "playerctl" "previous"; }
+    Mod+F2 { spawn "playerctl" "play-pause"; }
+    Mod+F3 { spawn "playerctl" "next"; }
     Mod+Period { spawn "list-downloads"; }
 }

@@ -31,17 +31,13 @@
     gnome-online-accounts-gtk
   ];
 
-  services.greetd = {
-    enable = true;
-    settings = {
-      default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --user-menu --remember --asterisks";
-        user = "greeter";
-      };
-    };
-  };
+  services.greetd.enable = true;
 
-  services.blueman.enable = true;
+  programs.dankMaterialShell.greeter = {
+    enable = true;
+    compositor.name = "niri";
+    configHome = "/home/chris";
+  };
 
   fonts.packages = with pkgs; [
     nerd-fonts.ubuntu-sans
