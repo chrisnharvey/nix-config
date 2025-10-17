@@ -30,7 +30,7 @@
     walker.url = "github:abenz1267/walker?ref=1.0.0";
     walker.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
-    dankMaterialShell.url = "github:AvengeMedia/DankMaterialShell";
+    dankMaterialShell.url = "github:chrisnharvey/DankMaterialShell?ref=disable-settings-gui";
     dankMaterialShell.inputs.nixpkgs.follows = "nixpkgs-unstable";
   };
 
