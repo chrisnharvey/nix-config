@@ -29,6 +29,7 @@
     sddm-astronaut
     xwayland-satellite
     gnome-online-accounts-gtk
+    alacritty
   ];
 
   services.greetd.enable = true;
@@ -37,6 +38,7 @@
     enable = true;
     compositor.name = "niri";
     configHome = "/home/chris";
+    compositor.customConfig = (builtins.readFile ./config/niri/niri-greeter.kdl);
   };
 
   fonts.packages = with pkgs; [
