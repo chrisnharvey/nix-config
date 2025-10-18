@@ -13,6 +13,7 @@
 
   programs.file-roller.enable = true;
 
+  services.accounts-daemon.enable = true;
   services.gnome.gnome-online-accounts.enable = true;
   services.gnome.evolution-data-server.enable = true;
 
@@ -23,6 +24,7 @@
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [
     pkgs.xdg-desktop-portal-gnome
+    pkgs.xdg-desktop-portal-gtk
   ];
 
   environment.systemPackages = with pkgs; [
