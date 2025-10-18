@@ -216,7 +216,7 @@
   "powerActionConfirm": true,
   "customPowerActionLock": "",
   "customPowerActionLogout": "",
-  "customPowerActionSuspend": "",
+  "customPowerActionSuspend": "systemctl suspend-then-hibernate",
   "customPowerActionHibernate": "",
   "customPowerActionReboot": "",
   "customPowerActionPowerOff": "",
