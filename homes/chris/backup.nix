@@ -37,7 +37,7 @@
                 before = "action";
                 when = [ "create" ];
                 run = [
-                  "notify-send 'Backup Started' 'Borgmatic backup started'"
+                  "notify-send 'Backup Started' 'Borgmatic backup started' --urgency=low --transient --app-name='Borgmatic'"
                 ];
               }
               {
@@ -45,7 +45,7 @@
                 when = [ "create" ];
                 states = [ "finish" ];
                 run = [
-                  "notify-send 'Backup Finished' 'Borgmatic backup finished'"
+                  "notify-send 'Backup Finished' 'Borgmatic backup finished' --urgency=low --transient --app-name='Borgmatic'"
                 ];
               }
               {
@@ -53,7 +53,7 @@
                 when = [ "create" ];
                 states = [ "fail" ];
                 run = [
-                  "notify-send -u critical 'Backup Failed' 'Borgmatic backup failed'"
+                  "notify-send -u critical 'Backup Failed' 'Borgmatic backup failed' --urgency=critical --app-name='Borgmatic'"
                 ];
               }
               {
@@ -61,7 +61,7 @@
                 when = [ "prune" ];
                 states = [ "finish" ];
                 run = [
-                  "notify-send 'Backup Prune Finished' 'Borgmatic backup prune finished'"
+                  "notify-send 'Backup Prune Finished' 'Borgmatic backup prune finished' --urgency=low --transient --app-name='Borgmatic'"
                 ];
               }
               {
@@ -69,7 +69,7 @@
                 when = [ "prune" ];
                 states = [ "fail" ];
                 run = [
-                  "notify-send -u critical 'Backup Prune Failed' 'Borgmatic backup prune failed'"
+                  "notify-send -u critical 'Backup Prune Failed' 'Borgmatic backup prune failed' --urgency=critical --app-name='Borgmatic'"
                 ];
               }
             ];
