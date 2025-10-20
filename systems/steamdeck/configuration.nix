@@ -19,18 +19,6 @@
   jovian.devices.steamdeck.enable = true;
   jovian.decky-loader.enable = true;
 
-  environment.etc."xdg/wayland-sessions/gamescope-wayland.desktop".text = ''
-    [Desktop Entry]
-    Encoding=UTF-8
-    Name=SteamOS (gamescope)
-    Comment=SteamOS Big Picture session
-    Exec=start-gamescope-session
-    Icon=steamicon.png
-    Type=Application
-    DesktopNames=gamescope
-    NoDisplay=true
-  '';
-
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -68,7 +56,6 @@
 
   # Enable the GNOME Desktop Environment.
   services.displayManager.gdm.enable = true;
-  services.displayManager.defaultSession = "gamescope-wayland";
   services.desktopManager.gnome.enable = true;
 
   services.displayManager.autoLogin.enable = true;
