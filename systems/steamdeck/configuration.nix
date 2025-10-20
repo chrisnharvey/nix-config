@@ -10,14 +10,23 @@
       ./hardware-configuration.nix
     ];
 
-  boot.plymouth.enable = true;
-  boot.plymouth.theme = "bgrt";
   programs.steam.enable = true;
   jovian.steam.user = "deck";
   jovian.steam.enable = true;
   jovian.steam.autoStart = false;
   jovian.devices.steamdeck.enable = true;
   jovian.decky-loader.enable = true;
+
+  boot.plymouth.enable = true;
+  boot.plymouth.theme = "bgrt";
+  boot.loader.timeout = 0;
+  boot.initrd.systemd.enable = true;
+  boot.initrd.verbose = false;
+  boot.consoleLogLevel = 0;
+  boot.kernelParams = [
+    "quiet"
+    "udev.log_level=0"
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
