@@ -32,6 +32,12 @@
 
     dankMaterialShell.url = "github:chrisnharvey/DankMaterialShell?ref=disable-settings-gui";
     dankMaterialShell.inputs.nixpkgs.follows = "nixpkgs-unstable";
+
+    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
+
+    #jovian.url = "github:Jovian-Experiments/Jovian-NixOS";
+    #jovian.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    jovian.follows = "chaotic/jovian";
   };
 
   # `outputs` are all the build result of the flake.
@@ -56,6 +62,8 @@
       nix-flatpak,
       walker,
       dankMaterialShell,
+      jovian,
+      chaotic,
       ...
     }@inputs:
     {
@@ -92,6 +100,18 @@
               # Pass inputs to home-manager
               home-manager.extraSpecialArgs = { inherit inputs; };
             }
+          ];
+        };
+
+        "steamdeck" = nixpkgs-unstable.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            jovian.nixosModules.default
+            chaotic.nixosModules.default
+            # Import the configuration.nix here, so that the
+            # old configuration file can still take effect.
+            # Note: configuration.nix itself is also a Nixpkgs Module,
+            ./systems/steamdeck/configuration.nix
           ];
         };
 
