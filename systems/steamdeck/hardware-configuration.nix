@@ -46,22 +46,20 @@
     ];
   };
 
-  fileSystems."/games" = {
-    device = "/dev/disk/by-label/ROOT";
-    fsType = "btrfs";
-    options = [
-      "subvol=@games"
-      "ssd"
-      "compress=zstd"
-    ];
-  };
-
   fileSystems."/boot" = {
     device = "/dev/disk/by-label/BOOT";
     fsType = "vfat";
     options = [
       "fmask=0077"
       "dmask=0077"
+    ];
+  };
+
+  fileSystems."/home/chris/.local/share/Steam" = {
+    device = "/home/deck/.local/share/Steam";
+    fsType = "fuse.bindfs";
+    options = [
+      "force-user=chris"
     ];
   };
 
