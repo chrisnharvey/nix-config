@@ -5,10 +5,11 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ./gnome.nix
+  ];
 
   nix = {
     settings.experimental-features = [
@@ -57,6 +58,10 @@
   networking.hostName = "steamdeck"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
+  # Docker and Virtualization
+  virtualisation.docker.enable = true;
+  virtualisation.libvirtd.enable = true;
+
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
@@ -82,8 +87,43 @@
     LC_TIME = "en_GB.UTF-8";
   };
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  services.avahi = {
+    enable = true;
+    publish = {
+      enable = true;
+      addresses = true;
+      workstation = true;
+    };
+  };
+
+  services.keybase.enable = true;
+  services.kbfs.enable = true;
+
+  services.fwupd.enable = true;
+
+  # Enable CUPS to print documents.
+  services.printing.enable = true;
+  services.printing.drivers = [ pkgs.hplip ];
+  hardware.printers = {
+    ensurePrinters = [
+      {
+        name = "Office_Printer";
+        location = "Office";
+        deviceUri = "socket://192.168.30.20";
+        model = "drv:///hp/hpcups.drv/hp-deskjet_2540_series.ppd";
+        ppdOptions = {
+          PageSize = "A4";
+        };
+      }
+    ];
+    ensureDefaultPrinter = "Office_Printer";
+  };
+
+  hardware.sane.enable = true;
+  hardware.sane.extraBackends = [ pkgs.hplipWithPlugin ];
+
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
 
   # Enable the GNOME Desktop Environment.
   services.displayManager.gdm.enable = true;
@@ -105,19 +145,21 @@
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
 
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
+    extraConfig.pipewire = {
+      "10-airplay" = {
+        "context.modules" = [
+          {
+            name = "libpipewire-module-raop-discover";
+          }
+        ];
+      };
+    };
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -128,7 +170,10 @@
     uid = 1000;
     isNormalUser = true;
     description = "Chris";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
     packages = with pkgs; [
       git
       tmux
@@ -136,13 +181,13 @@
   };
 
   users.users.deck = {
-     uid = 2000;
-     isNormalUser = true;
-     description = "Gaming Mode";
-     extraGroups = [ "networkmanager" ];
-     packages = with pkgs; [
-     ];
-   };
+    uid = 2000;
+    isNormalUser = true;
+    description = "Gaming Mode";
+    extraGroups = [ "networkmanager" ];
+    packages = with pkgs; [
+    ];
+  };
 
   # Install firefox.
   programs.firefox.enable = true;
@@ -150,12 +195,84 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  services.tailscale.enable = true;
+  services.tailscale.useRoutingFeatures = "client";
+  services.tailscale.extraUpFlags = [
+    "--operator=chris"
+    "--accept-routes"
+  ];
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
+    msedit
+    pciutils
+    inxi
+    killall
+    sshfs-fuse
+    htop
+    glances
+    gnupg
+    unrar
+    unzip
   ];
+
+  services.flatpak.enable = true;
+
+  services.flatpak.remotes = [
+    {
+      name = "flathub";
+      location = "https://dl.flathub.org/repo/flathub.flatpakrepo";
+    }
+  ];
+
+  services.flatpak.update.auto.enable = true;
+  services.flatpak.uninstallUnmanaged = true;
+
+  services.flatpak.packages = [
+    "app.zen_browser.zen"
+    "com.getpostman.Postman"
+    "md.obsidian.Obsidian"
+    "org.gnome.Boxes"
+    "org.gnome.Calendar"
+    "org.gnome.Contacts"
+    "org.gnome.Geary"
+    "io.github.mrvladus.List"
+    "org.gnome.SimpleScan"
+    "org.gnome.gedit"
+    "org.signal.Signal"
+    "org.videolan.VLC"
+    "org.gnome.Papers"
+    "org.gnome.Loupe"
+    "org.virt_manager.virt-manager"
+  ];
+
+  services.flatpak.overrides = {
+    global = {
+      # Force Wayland by default
+      Context.sockets = [
+        "wayland"
+        "!x11"
+        "!fallback-x11"
+      ];
+
+      Environment = {
+        # Force correct theme for some GTK apps
+        GTK_THEME = "Adwaita:dark";
+      };
+    };
+  };
+
+  programs.zsh.enable = true;
+  programs.steam.enable = true;
+  programs.appimage.enable = true;
+  programs.appimage.binfmt = true;
+
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+    pinentryPackage = pkgs.pinentry-qt;
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
