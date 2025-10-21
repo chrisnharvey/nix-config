@@ -36,6 +36,26 @@
     ];
   };
 
+  fileSystems."/home" = {
+    device = "/dev/disk/by-label/ROOT";
+    fsType = "btrfs";
+    options = [
+      "subvol=@home"
+      "ssd"
+      "compress=zstd"
+    ];
+  };
+
+  fileSystems."/games" = {
+    device = "/dev/disk/by-label/ROOT";
+    fsType = "btrfs";
+    options = [
+      "subvol=@games"
+      "ssd"
+      "compress=zstd"
+    ];
+  };
+
   fileSystems."/boot" = {
     device = "/dev/disk/by-label/BOOT";
     fsType = "vfat";
