@@ -34,6 +34,37 @@
       ];
     };
 
+    "org/gnome/shell/extensions/gjsosk" = {
+      enable-tap-gesture = 2;
+      layout-portrait = 4;
+      layout-landscape = 4;
+      landscape-width-percent = 100;
+      landscape-height-percent = 50;
+      font-size-px = 18;
+      font-bold = false;
+      round-key-corners = true;
+      show-icons = false;
+      background-a = 1.0;
+      background-a-dark = 1.0;
+      background-b = 250.0;
+      background-b-dark = 50.0;
+      background-g = 250.0;
+      background-g-dark = 50.0;
+      background-r = 250.0;
+      background-r-dark = 50.0;
+      border-spacing-px = 2;
+      default-snap = 7;
+      enable-drag = true;
+      indicator-enabled = true;
+      outer-spacing-px = 20;
+      play-sound = true;
+      portrait-height-percent = 30;
+      portrait-width-percent = 100;
+      snap-spacing-px = 25;
+      default-monitor = "1:eDP-1";
+      system-accent-col = false;
+    };
+
     # PiP on Top Extension
     "org/gnome/shell/extensions/pip-on-top" = {
       stick = true;
