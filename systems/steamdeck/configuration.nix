@@ -261,7 +261,6 @@
   };
 
   programs.zsh.enable = true;
-  programs.steam.enable = true;
   programs.appimage.enable = true;
   programs.appimage.binfmt = true;
 
