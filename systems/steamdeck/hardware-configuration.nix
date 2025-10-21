@@ -60,6 +60,7 @@
     fsType = "fuse.bindfs";
     options = [
       "force-user=chris"
+      "create-for-user=deck"
     ];
   };
 
