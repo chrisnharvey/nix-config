@@ -112,6 +112,17 @@
             # old configuration file can still take effect.
             # Note: configuration.nix itself is also a Nixpkgs Module,
             ./systems/steamdeck/configuration.nix
+
+            home-manager-unstable.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+
+              home-manager.users.chris = import ./systems/steamdeck/home.nix;
+
+              # Pass inputs to home-manager
+              home-manager.extraSpecialArgs = { inherit inputs; };
+            }
           ];
         };
 
