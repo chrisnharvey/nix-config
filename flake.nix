@@ -106,6 +106,7 @@
         "steamdeck" = nixpkgs-unstable.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
+            nix-flatpak.nixosModules.nix-flatpak
             jovian.nixosModules.default
             chaotic.nixosModules.default
             # Import the configuration.nix here, so that the
