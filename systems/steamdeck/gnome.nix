@@ -11,6 +11,7 @@
 
   environment.systemPackages = with pkgs; [
     gnome-software
+    gnomeExtensions.gjs-osk
     gnomeExtensions.ddterm
     gnomeExtensions.appindicator
     gnomeExtensions.tailscale-qs

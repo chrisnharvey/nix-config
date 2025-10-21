@@ -19,6 +19,7 @@
     # Shell & Extensions
     "org/gnome/shell" = {
       enabled-extensions = [
+        "gjsosk@vishram1123.com"
         "ddterm@amezin.github.com"
         "tailscale@joaophi.github.com"
         "wiggle@mechtifs"
