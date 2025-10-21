@@ -32,6 +32,7 @@
   };
 
   programs.steam.enable = true;
+  programs.steam.extest.enable = true;
   jovian.steam.user = "deck";
   jovian.steam.enable = true;
   jovian.steam.autoStart = false;
