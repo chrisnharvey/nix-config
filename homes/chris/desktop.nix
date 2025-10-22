@@ -9,7 +9,7 @@ let
 in
 {
   home.packages = with pkgs; [
-    vscode
+#    vscode
     customPackages.intellij-idea-ultimate
     # code-cursor
   ];
