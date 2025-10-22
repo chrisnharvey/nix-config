@@ -7,6 +7,15 @@
 {
   imports = [
     ../../homes/chris/common.nix
+    ../../homes/chris/desktop.nix
+  ];
+
+  home.packages = with pkgs; [
+    nemo-with-extensions
+    nemo-preview
+    nemo-fileroller
+    nemo-python
+    nemo-emblems
   ];
 
   dconf.settings = {

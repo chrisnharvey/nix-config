@@ -55,8 +55,8 @@
     ];
   };
 
-  fileSystems."/home/chris/.local/share/Steam" = {
-    device = "/home/deck/.local/share/Steam";
+  fileSystems."/home/chris/.local/share/Steam/steamapps" = {
+    device = "/home/deck/.local/share/Steam/steamapps";
     fsType = "fuse.bindfs";
     options = [
       "force-user=chris"
