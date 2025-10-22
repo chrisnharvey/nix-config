@@ -119,7 +119,7 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
 
-              home-manager.users.chris = import ./systems/steamdeck/home.nix;
+              home-manager.users.chris = import ./systems/steamdeck/homes/chris/home.nix;
 
               # Pass inputs to home-manager
               home-manager.extraSpecialArgs = { inherit inputs; };
