@@ -23,6 +23,8 @@
       dates = "daily";
       options = "--delete-older-than 7d";
     };
+
+    download-buffer-size = 524288000;
   };
 
   # Auto upgrade
