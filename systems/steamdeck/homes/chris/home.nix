@@ -34,7 +34,7 @@
         "appindicatorsupport@rgcjonas.gmail.com"
         "blur-my-shell@aunetx"
         "mediacontrols@cliffniff.github.com"
-        "alwaysshowworkspacethumbnails@alynx.one"
+        "Always-Show-Titles-In-Overview@gmail.com"
       ];
     };
 
