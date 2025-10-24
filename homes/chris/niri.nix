@@ -9,7 +9,6 @@
 {
   imports = [
     ./desktop.nix
-    ./backup.nix
     inputs.walker.homeManagerModules.default
     inputs.dankMaterialShell.homeModules.dankMaterialShell.default
   ];
@@ -54,8 +53,8 @@
     }))
   ];
 
-  home.file.".config/niri/config.kdl".enable = true;
-  home.file.".config/niri/config.kdl".source = ./config/niri/config.kdl;
+  home.file.".config/niri/common.kdl".enable = true;
+  home.file.".config/niri/common.kdl".source = ./config/niri/common.kdl;
 
   programs.alacritty.enable = true;
   programs.alacritty.settings = {

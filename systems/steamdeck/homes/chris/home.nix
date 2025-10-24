@@ -6,16 +6,10 @@
 }:
 {
   imports = [
-    ../../homes/chris/common.nix
-    ../../homes/chris/desktop.nix
-  ];
-
-  home.packages = with pkgs; [
-    nemo-with-extensions
-    nemo-preview
-    nemo-fileroller
-    nemo-python
-    nemo-emblems
+    ../../../../homes/chris/common.nix
+    # ../../homes/chris/gnome.nix
+    # ../../homes/chris/hyprland.nix
+    ./niri.nix
   ];
 
   dconf.settings = {
@@ -40,6 +34,7 @@
         "appindicatorsupport@rgcjonas.gmail.com"
         "blur-my-shell@aunetx"
         "mediacontrols@cliffniff.github.com"
+        "alwaysshowworkspacethumbnails@alynx.one"
       ];
     };
 
@@ -130,6 +125,10 @@
       show-home = false;
       show-trash = false;
       show-volumes = false;
+    };
+
+    "org/gnome/shell/extensions/always-show-titles-in-overview" = {
+      always-show-window-closebuttons = true;
     };
   };
 }

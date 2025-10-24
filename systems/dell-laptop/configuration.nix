@@ -13,6 +13,7 @@
     #../../desktops/plasma.nix # Include the Plasma Desktop Environment.
     # ../../desktops/hyprland.nix # Include the Hyprland Window Manager.
     ../../desktops/niri.nix # Include the Niri Window Manager.
+    ../../desktops/niri-greeter.nix # Include the Niri greeter using greetd and DMS.
   ];
 
   nix = {

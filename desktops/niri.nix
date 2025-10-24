@@ -36,15 +36,6 @@
     alacritty
   ];
 
-  services.greetd.enable = true;
-
-  programs.dankMaterialShell.greeter = {
-    enable = true;
-    compositor.name = "niri";
-    configHome = "/home/chris";
-    compositor.customConfig = (builtins.readFile ./config/niri/niri-greeter.kdl);
-  };
-
   fonts.packages = with pkgs; [
     nerd-fonts.ubuntu-sans
     nerd-fonts.ubuntu-mono
