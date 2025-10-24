@@ -23,5 +23,13 @@
     gnomeExtensions.pip-on-top
     gnomeExtensions.blur-my-shell
     gnomeExtensions.media-controls
+    (gnomeExtensions.always-show-titles-in-overview.overrideAttrs (old: {
+      src = pkgs.fetchFromGitHub {
+        owner = "nlpsuge";
+        repo = "Always-Show-Titles-In-Overview";
+        rev = "v48.0";
+        sha256 = "sha256-GIb73HoPPCRnQ8xF4LPDSQxxppJmfzTbCtaHdc2Z2ks=";
+      };
+    }))
   ];
 }
