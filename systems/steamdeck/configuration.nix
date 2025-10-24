@@ -40,6 +40,7 @@
   jovian.steam.autoStart = false;
   jovian.devices.steamdeck.enable = true;
   jovian.decky-loader.enable = true;
+  jovian.decky-loader.user = "deck";
 
   boot.plymouth.enable = true;
   boot.plymouth.theme = "bgrt";
