@@ -254,6 +254,7 @@
     ];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKgZSwNSFRZk2XJBT6PXdeQdYJEUAYdhYZCtfcPwPtLt chris@laptop"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAcJtjf0vG9Morw29uV4h7y+lnIjxQqzkTonvNncXld6 chris@steamdeck"
     ];
     packages = with pkgs; [ ];
   };
