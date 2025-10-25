@@ -48,6 +48,7 @@
   boot.initrd.systemd.enable = true;
   boot.initrd.verbose = false;
   boot.consoleLogLevel = 0;
+  boot.kernelModules = [ "ecryptfs" ];
   boot.kernelParams = [
     "quiet"
     "udev.log_level=0"
@@ -133,7 +134,6 @@
   environment.gnome.excludePackages = (
     with pkgs;
     [
-      nautilus # file manager
       atomix # puzzle game
       cheese # webcam tool
       epiphany # web browser
@@ -196,6 +196,8 @@
 
   users.defaultUserShell = pkgs.zsh;
 
+  security.pam.enableEcryptfs = true;
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.chris = {
     uid = 1000;
@@ -241,6 +243,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    ecryptfs
     bindfs
     msedit
     pciutils
