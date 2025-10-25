@@ -76,6 +76,7 @@
   boot.initrd.verbose = false;
   boot.consoleLogLevel = 0;
   boot.resumeDevice = "/dev/mapper/ROOT";
+  boot.kernelModules = [ "ecryptfs" ];
   boot.kernelPackages = pkgs.linuxPackages_zen;
   boot.kernelParams = [
     "quiet"
@@ -143,6 +144,7 @@
   services.fprintd.tod.driver = pkgs.libfprint-2-tod1-broadcom;
 
   security.pam.services.login.fprintAuth = false;
+  security.pam.enableEcryptfs = true;
 
   # Configure console keymap
   console.keyMap = "uk";
@@ -233,6 +235,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    ecryptfs
     msedit
     pciutils
     inxi
