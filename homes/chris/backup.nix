@@ -16,13 +16,14 @@
         location = {
           patterns = [
             "R /home/chris"
-            "+ ."
-            "- Downloads"
-            "- .cache"
-            "- .local/share/Trash"
-            "- .steam"
-            "- .var/app"
-            "- **/node_modules"
+            "+ /home/chris"
+            "- /home/chris/Downloads"
+            "- /home/chris/.cache"
+            "- /home/chris/.local/share/Trash"
+            "- /home/chris/.steam"
+            "- /home/chris/.local/share/Steam"
+            "- /home/chris/.var/app"
+            "- /home/chris/**/node_modules"
           ];
         };
         retention = {
