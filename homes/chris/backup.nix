@@ -14,7 +14,6 @@
     backups = {
       home = {
         location = {
-          repositories = [ "ssh://chris@192.168.10.9/data/data/files/Backups/dell-laptop" ];
           patterns = [
             "R /home/chris"
             "+ ."
