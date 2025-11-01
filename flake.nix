@@ -27,7 +27,9 @@
 
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=v0.6.0";
 
+    elephant.url = "github:abenz1267/elephant";
     walker.url = "github:abenz1267/walker?ref=master";
+    walker.inputs.elephant.follows = "elephant";
     walker.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     dankMaterialShell.url = "github:chrisnharvey/DankMaterialShell?ref=disable-settings-gui";

@@ -126,13 +126,6 @@
           }
         ];
       };
-
-      # Keybinds
-      keybinds = {
-        close = "Escape";
-        next = "Down";
-        previous = "Up";
-      };
     };
   };
 
