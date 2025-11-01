@@ -13,7 +13,9 @@
     ./niri.nix
   ];
 
-  programs.borgmatic.backups.home.location.repositories = [ "ssh://chris@192.168.10.9/data/data/files/Backups/steamdeck" ];
+  programs.borgmatic.backups.home.location.repositories = [
+    "ssh://chris@192.168.10.9/data/data/files/Backups/steamdeck"
+  ];
 
   dconf.settings = {
     # Workspace behavior
