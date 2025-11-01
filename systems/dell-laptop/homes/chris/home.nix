@@ -11,4 +11,8 @@
   programs.borgmatic.backups.home.location.repositories = [
     "ssh://chris@192.168.10.9/data/data/files/Backups/dell-laptop"
   ];
+
+  home.packages = with pkgs; [
+    esptool
+  ];
 }
