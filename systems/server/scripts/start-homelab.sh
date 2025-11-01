@@ -3,4 +3,3 @@
 zfs-multi-mount data/data vms/data vms/docker
 systemctl restart docker.service
 systemctl start duplicacy-web.service
-virsh -c qemu:///system start hass
