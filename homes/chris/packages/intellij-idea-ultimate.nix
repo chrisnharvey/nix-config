@@ -7,8 +7,8 @@
 }:
 
 let
-  version = "2025.2.3";
-  sha256 = "0g52npg0ir3k5zh4s2diqrwi4far5w9j80s5s83pyhnn2y5awm2a";
+  version = "2025.2.4";
+  sha256 = "TZCfmJ1/oKAC9bxmngAuirM27nCR8ydWp0VJzYwR9DI=";
 in
 stdenv.mkDerivation rec {
   pname = "intellij-idea-ultimate";
@@ -21,7 +21,7 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = with pkgs; [
     autoPatchelfHook
-    wrapGAppsHook
+    wrapGAppsHook3
   ];
 
   autoPatchelfIgnoreMissingDeps = [
