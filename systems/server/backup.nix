@@ -6,6 +6,14 @@
     restic
   ];
 
+  # Restic Prometheus Exporter
+  services.prometheus.exporters.restic = {
+    enable = true;
+    repository = "s3:x3y4.ldn.idrivee2-20.com/harvey-backups-restic";
+    passwordFile = "/root/restic/.encryption-key";
+    environmentFile = "/root/restic/.env";
+  };
+
   # Restic backup service
   services.restic.backups = {
     daily-backup = {

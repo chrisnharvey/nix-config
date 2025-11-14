@@ -103,7 +103,6 @@
       zfs.enable = true;
       libvirt.enable = true;
       smartctl.enable = true;
-      restic.enable = true;
       process = {
         enable = true;
         settings.process_names = [
