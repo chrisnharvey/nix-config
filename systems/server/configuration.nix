@@ -14,6 +14,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./filesystems.nix
+    ./backup.nix
     ./duplicacy-web
   ];
 
