@@ -324,6 +324,7 @@
   virtualisation.docker.enable = true;
   virtualisation.docker.enableOnBoot = false;
   virtualisation.docker.storageDriver = "zfs";
+  virtualisation.docker.logDriver = "json-file";
   virtualisation.docker.daemon.settings = {
     data-root = "/vms/docker";
     default-address-pools = [
