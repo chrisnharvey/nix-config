@@ -30,8 +30,10 @@
     enable = true;
     operation = "boot";
     flake = "github:chrisnharvey/nix-config";
-    dates = "20:00";
+    dates = "04:00";
   };
+
+  systemd.timers.nixos-upgrade.timerConfig.WakeSystem = true;
 
   programs.steam.enable = true;
   programs.steam.extest.enable = true;
@@ -131,6 +133,7 @@
   # Enable the GNOME Desktop Environment.
   services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
+  services.orca.enable = false;
   environment.gnome.excludePackages = (
     with pkgs;
     [
