@@ -24,6 +24,10 @@
   boot.kernelParams = [
     "selinux=0"
   ];
+  boot.kernel.sysctl = {
+    "fs.inotify.max_user_instances" = "8192";
+    "fs.inotify.max_user_watches" = "1048576";
+  };
 
   boot.supportedFilesystems = [ "zfs" ];
   boot.zfs.extraPools = [
