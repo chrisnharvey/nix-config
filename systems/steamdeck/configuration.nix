@@ -34,6 +34,7 @@
   };
 
   systemd.timers.nixos-upgrade.timerConfig.WakeSystem = true;
+  systemd.services.nixos-upgrade.unitConfig.ConditionACPower = true;
 
   programs.steam.enable = true;
   programs.steam.extest.enable = true;

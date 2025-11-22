@@ -48,6 +48,8 @@
     dates = "20:00";
   };
 
+  systemd.services.nixos-upgrade.unitConfig.ConditionACPower = true;
+
   powerManagement.enable = true;
 
   # required for hibernation
