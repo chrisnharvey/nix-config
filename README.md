@@ -29,22 +29,88 @@ The repository supports multiple desktop environments:
 ## 📁 Repository Structure
 
 ```
-├── systems/           # System-specific configurations
-│   ├── dell-laptop/   # Primary laptop with Niri
-│   ├── rose-laptop/   # Laptop with GNOME
-│   ├── steamdeck/     # Steam Deck configuration
-│   ├── server/        # Home server
-│   └── macbook/       # macOS system
-├── homes/chris/       # Shared Home Manager configurations
-├── desktops/          # Desktop environment modules
-│   ├── gnome.nix      # GNOME desktop
-│   ├── hyprland.nix   # Hyprland compositor
-│   ├── niri.nix       # Niri compositor
-│   ├── plasma.nix     # KDE Plasma desktop
-│   └── ly.nix         # Ly display manager
-├── flake.nix          # Main flake configuration
-└── flake.lock         # Locked dependency versions
+├── modules/                # Shared configuration modules
+│   ├── common/             # Common settings for all systems
+│   │   ├── default.nix     # Imports all common modules
+│   │   ├── development.nix # Android/development tools
+│   │   ├── flatpak.nix     # Flatpak configuration
+│   │   ├── hardware.nix    # Bluetooth, audio, firmware
+│   │   ├── locale.nix      # UK locale and timezone
+│   │   ├── networking.nix  # Network manager, Tailscale, Avahi
+│   │   ├── nix.nix         # Nix settings, gc, unfree
+│   │   ├── packages.nix    # Common system packages
+│   │   ├── printing.nix    # CUPS and scanner support
+│   │   ├── shell.nix       # Zsh and GnuPG
+│   │   └── virtualization.nix # Docker and libvirt
+│   ├── hardware/
+│   │   └── laptop.nix      # Laptop-specific settings
+│   └── users/
+│       └── chris.nix       # Chris user account
+├── systems/                # System-specific configurations
+│   ├── dell-laptop/        # Primary laptop with Niri
+│   │   ├── homes/chris/    # Home Manager config for this system
+│   │   ├── configuration.nix
+│   │   └── hardware-configuration.nix
+│   ├── rose-laptop/        # Laptop with GNOME
+│   ├── steamdeck/          # Steam Deck configuration
+│   ├── server/             # Home server
+│   └── macbook/            # macOS system
+├── homes/chris/            # Shared Home Manager configurations
+├── desktops/               # Desktop environment modules
+│   ├── gnome.nix           # GNOME desktop
+│   ├── hyprland.nix        # Hyprland compositor
+│   ├── niri.nix            # Niri compositor
+│   ├── plasma.nix          # KDE Plasma desktop
+│   └── ly.nix              # Ly display manager
+├── flake.nix               # Main flake configuration
+└── flake.lock              # Locked dependency versions
 ```
+
+## 🧩 Module System
+
+The configuration is now organized into reusable modules for easier management:
+
+### Common Modules (`modules/common/`)
+These modules provide shared configuration across all systems:
+
+- **default.nix** - Imports all common modules for convenience
+- **nix.nix** - Nix daemon settings, garbage collection, unfree packages
+- **locale.nix** - UK locale, timezone, and console keymap
+- **networking.nix** - NetworkManager, Avahi, Tailscale VPN
+- **hardware.nix** - Bluetooth, PipeWire audio, firmware updates
+- **printing.nix** - CUPS printing and scanner support
+- **shell.nix** - Zsh shell and GnuPG agent
+- **packages.nix** - Common system packages (htop, gnupg, etc.)
+- **flatpak.nix** - Flatpak support and common applications
+- **virtualization.nix** - Docker and libvirt/KVM
+- **development.nix** - Android development tools and libraries
+
+### Hardware Modules (`modules/hardware/`)
+Hardware-specific profiles:
+
+- **laptop.nix** - Power management, TPM2, quiet boot, hibernation support
+
+### User Modules (`modules/users/`)
+User account definitions:
+
+- **chris.nix** - Chris user account with groups and settings
+
+### Using Modules
+
+System configurations simply import the modules they need:
+
+```nix
+{
+  imports = [
+    ../../modules/common         # All common settings
+    ../../modules/hardware/laptop.nix
+    ../../modules/users/chris.nix
+    ./hardware-configuration.nix
+  ];
+}
+```
+
+This approach eliminates duplication and makes it easy to add new systems.
 
 ## 🚀 Quick Start
 
