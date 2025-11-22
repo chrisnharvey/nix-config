@@ -30,10 +30,12 @@
     enable = true;
     operation = "boot";
     flake = "github:chrisnharvey/nix-config";
-    dates = "04:00";
+    dates = "03:00";
+    allowReboot = true;
   };
 
   systemd.timers.nixos-upgrade.timerConfig.WakeSystem = true;
+  systemd.services.nixos-upgrade.unitConfig.ConditionACPower = true;
 
   programs.steam.enable = true;
   programs.steam.extest.enable = true;
