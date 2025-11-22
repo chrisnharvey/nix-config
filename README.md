@@ -2,6 +2,11 @@
 
 A comprehensive NixOS configuration using Nix Flakes, managing multiple systems with different desktop environments, a Steam Deck, and a home server setup.
 
+**📚 Documentation:**
+- [Quick Reference](QUICKREF.md) - Common tasks and module reference
+- [Contributing Guide](CONTRIBUTING.md) - How to add systems and modify modules
+- [Example Configuration](EXAMPLE-new-system.nix) - Template for new systems
+
 ## 🖥️ Systems
 
 ### Laptops
