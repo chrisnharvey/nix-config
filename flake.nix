@@ -143,7 +143,7 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
 
-              home-manager.users.chris = import ./systems/rose-laptop/home.nix;
+              home-manager.users.chris = import ./systems/rose-laptop/homes/chris/home.nix;
 
               # Pass inputs to home-manager
               home-manager.extraSpecialArgs = { inherit inputs; };
@@ -164,7 +164,7 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
 
-              home-manager.users.chris = import ./systems/server/home.nix;
+              home-manager.users.chris = import ./systems/server/homes/chris/home.nix;
 
               # Pass inputs to home-manager
               home-manager.extraSpecialArgs = { inherit inputs; };
