@@ -11,8 +11,6 @@
 
   security.soteria.enable = true;
 
-  programs.file-roller.enable = true;
-
   services.accounts-daemon.enable = true;
   services.gnome.gnome-online-accounts.enable = true;
   services.gnome.evolution-data-server.enable = true;
@@ -34,6 +32,7 @@
     xwayland-satellite
     gnome-online-accounts-gtk
     alacritty
+    file-roller
   ];
 
   fonts.packages = with pkgs; [
