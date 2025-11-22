@@ -1,12 +1,15 @@
 # Chris's NixOS Configuration
 
-A comprehensive NixOS configuration using Nix Flakes, managing multiple systems with different desktop environments and a home server setup.
+A comprehensive NixOS configuration using Nix Flakes, managing multiple systems with different desktop environments, a Steam Deck, and a home server setup.
 
 ## 🖥️ Systems
 
 ### Laptops
 - **dell-laptop** - Primary development laptop running Niri window manager
-- **rose-laptop** - My daughters's laptop with GNOME desktop environment
+- **rose-laptop** - Laptop with GNOME desktop environment
+
+### Gaming
+- **steamdeck** - Valve Steam Deck with Jovian NixOS, supporting both GNOME and Niri desktop environments
 
 ### Server
 - **server** - Home server with NFS, Samba, Docker, ZFS, and various services
@@ -27,12 +30,18 @@ The repository supports multiple desktop environments:
 
 ```
 ├── systems/           # System-specific configurations
-│   ├── dell-laptop/   # Primary laptop
-│   ├── rose-laptop/   # My daughters's laptop  
+│   ├── dell-laptop/   # Primary laptop with Niri
+│   ├── rose-laptop/   # Laptop with GNOME
+│   ├── steamdeck/     # Steam Deck configuration
 │   ├── server/        # Home server
 │   └── macbook/       # macOS system
-├── homes/chris/       # Home Manager configurations
+├── homes/chris/       # Shared Home Manager configurations
 ├── desktops/          # Desktop environment modules
+│   ├── gnome.nix      # GNOME desktop
+│   ├── hyprland.nix   # Hyprland compositor
+│   ├── niri.nix       # Niri compositor
+│   ├── plasma.nix     # KDE Plasma desktop
+│   └── ly.nix         # Ly display manager
 ├── flake.nix          # Main flake configuration
 └── flake.lock         # Locked dependency versions
 ```
@@ -62,9 +71,29 @@ home-manager switch --flake .#chris
 ### Available System Configurations
 
 - `dell-laptop` - Development laptop with Niri WM
-- `rose-laptop` - Laptop with GNOME DE  
+- `rose-laptop` - Laptop with GNOME DE
+- `steamdeck` - Valve Steam Deck with Jovian NixOS
 - `server` - Home server configuration
 - `Chriss-MacBook-Pro` - macOS configuration
+
+## 🎮 Steam Deck Configuration
+
+The Steam Deck configuration includes:
+
+### Jovian NixOS Integration
+- **Jovian NixOS** - Optimized NixOS for Steam Deck hardware
+- **Steam** with extest support for controller input
+- **Decky Loader** - Plugin loader for Steam Deck UI
+- Steam Deck specific hardware support and optimizations
+
+### Desktop Options
+- **GNOME** - Full desktop environment for general computing
+- **Niri** - Scrollable-tiling compositor for productivity
+
+### System Management
+- **Automatic updates** - Daily system updates at 3 AM
+- **Plymouth** - Boot splash screen
+- **Auto-upgrade** - Boot into updated system automatically
 
 ## 🛠️ Server Features
 
@@ -139,6 +168,23 @@ Personal configurations in `homes/chris/` include:
 - **Container** development with Docker
 - **Multiple language** toolchains (Go, PHP, Node.js)
 - **Git** workflow optimization
+- **VSCode/Cursor** integration
+- **IntelliJ IDEA Ultimate** support
+
+## 📦 Nix Configuration
+
+### Versions & Channels
+- **NixOS 25.05** (stable) - Used for server
+- **nixpkgs-unstable** - Used for desktops and Steam Deck
+- **Home Manager** - Both stable (release-25.05) and custom unstable fork
+- **nix-darwin** - For macOS configuration
+
+### Key Flake Inputs
+- **nix-flatpak** - Declarative Flatpak management
+- **walker** - Application launcher
+- **jovian** - Steam Deck optimizations via Chaotic Nyx
+- **zfs-multi-mount** - ZFS mounting utilities
+- **DankMaterialShell** - Custom GNOME greeter
 
 ## 🔄 Continuous Integration
 
