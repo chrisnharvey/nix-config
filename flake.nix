@@ -121,6 +121,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
+              home-manager.useUserService = true;
 
               home-manager.users.chris = import ./systems/steamdeck/homes/chris/home.nix;
 
