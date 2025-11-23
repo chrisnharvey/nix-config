@@ -12,6 +12,7 @@ spawn-at-startup "xwayland-satellite"
 spawn-at-startup "dms" "run"
 spawn-at-startup "tailscale-systray" "-no-pkexec"
 spawn-at-startup "poweralertd"
+spawn-at-startup "walker" "--gapplication-service"
 
 environment {
     DISPLAY ":0"
