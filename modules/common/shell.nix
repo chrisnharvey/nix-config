@@ -2,7 +2,7 @@
 {
   # Shell configuration
   programs.zsh.enable = lib.mkDefault true;
-  users.defaultUserShell = lib.mkDefault pkgs.zsh;
+  users.defaultUserShell = lib.mkForce pkgs.zsh;
 
   # GnuPG agent
   programs.gnupg.agent = {
