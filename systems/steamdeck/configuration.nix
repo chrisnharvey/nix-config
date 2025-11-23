@@ -30,6 +30,9 @@
   systemd.timers.nixos-upgrade.timerConfig.WakeSystem = true;
   systemd.services.nixos-upgrade.unitConfig.ConditionACPower = true;
 
+  services.displayManager.autoLogin.enable = true;
+  services.displayManager.autoLogin.user = "deck";
+
   # Jovian (Steam Deck) configuration
   programs.steam.enable = true;
   programs.steam.extest.enable = true;
