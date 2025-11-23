@@ -1,6 +1,5 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running 'nixos-help').
+# Server NixOS Configuration
+# Home server with ZFS, NFS, Samba, Docker, and various services
 
 {
   config,
@@ -11,7 +10,10 @@
 
 {
   imports = [
-    # Include the results of the hardware scan.
+    # Server-specific modules
+    ../../modules/server
+
+    # Hardware configuration
     ./hardware-configuration.nix
     ./filesystems.nix
     ./backup.nix
@@ -37,19 +39,6 @@
   boot.zfs.requestEncryptionCredentials = false;
   services.zfs.autoScrub.enable = true;
 
-  nix = {
-    settings.experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
-
-    gc = {
-      automatic = true;
-      dates = "daily";
-      options = "--delete-older-than 7d";
-    };
-  };
-
   # Auto upgrade
   system.autoUpgrade = {
     enable = true;
@@ -58,10 +47,7 @@
     dates = "20:00";
   };
 
-  powerManagement.enable = true;
-  powerManagement.powertop.enable = true;
-
-  services.syncthing = {
+  # Syncthing
     enable = true;
     guiAddress = "192.168.10.9:8384";
     user = "chris";
@@ -198,8 +184,11 @@
   host.services.duplicacy-web.autostart = false;
   host.services.duplicacy-web.environment = "/data/data/duplicacy-environment";
 
+  # Networking - server-specific settings
   networking.hostId = "c1613a14";
-  networking.hostName = "server"; # Define your hostname.
+  networking.hostName = "server";
+  
+  # VLANs
   networking.vlans.vlan15 = {
     id = 15;
     interface = "br0";
@@ -212,79 +201,13 @@
     id = 50;
     interface = "br0";
   };
+  
+  # Bridge configuration
   networking.interfaces.br0.useDHCP = true;
   networking.bridges.br0.interfaces = [ "enp0s31f6" ];
 
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
-  networking.networkmanager.enable = true;
-
-  # Set your time zone.
-  time.timeZone = "Europe/London";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_GB.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "en_GB.UTF-8";
-    LC_IDENTIFICATION = "en_GB.UTF-8";
-    LC_MEASUREMENT = "en_GB.UTF-8";
-    LC_MONETARY = "en_GB.UTF-8";
-    LC_NAME = "en_GB.UTF-8";
-    LC_NUMERIC = "en_GB.UTF-8";
-    LC_PAPER = "en_GB.UTF-8";
-    LC_TELEPHONE = "en_GB.UTF-8";
-    LC_TIME = "en_GB.UTF-8";
-  };
-
-  # Configure console keymap
-  console.keyMap = "uk";
-
-  users.defaultUserShell = pkgs.zsh;
-
-  # Define a user account. Don't forget to set a password with 'passwd'.
-  users.users.chris = {
-    isNormalUser = true;
-    description = "Chris";
-    extraGroups = [
-      "networkmanager"
-      "docker"
-      "wheel"
-      "libvirtd"
-    ];
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKgZSwNSFRZk2XJBT6PXdeQdYJEUAYdhYZCtfcPwPtLt chris@laptop"
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAcJtjf0vG9Morw29uV4h7y+lnIjxQqzkTonvNncXld6 chris@steamdeck"
-    ];
-    packages = with pkgs; [ ];
-  };
-
-  users.groups.virt = { };
-  users.users.virt = {
-    isSystemUser = true;
-    useDefaultShell = true;
-    group = "virt";
-    extraGroups = [ "libvirtd" ];
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIId9wLxRIEy+It8TS6NlLpu/Bg0ug7JivClWZusQUF4x root@adde2bbe3d25"
-    ];
-    packages = with pkgs; [ ];
-  };
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
+  # Server-specific packages
   environment.systemPackages = with pkgs; [
-    #  pkgs.k3s
-    #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    # msedit
     pciutils
     inxi
     killall
@@ -292,7 +215,6 @@
     fwts
     wget
     git
-    tailscale
     smartmontools
     htop
     tmux
@@ -303,55 +225,9 @@
     (pkgs.writeScriptBin "start-homelab" (builtins.readFile ./scripts/start-homelab.sh))
   ];
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
-
-  #services.k3s.enable = true;
-  #services.k3s.role = "server";
-
-  programs.zsh.enable = true;
-
-  virtualisation.libvirtd.enable = true;
-  virtualisation.libvirtd.allowedBridges = [ "br0" ];
-  virtualisation.libvirtd.onShutdown = "shutdown";
-  virtualisation.libvirtd.onBoot = "ignore";
-
-  virtualisation.docker.enable = true;
-  virtualisation.docker.enableOnBoot = false;
-  virtualisation.docker.storageDriver = "zfs";
-  virtualisation.docker.logDriver = "json-file";
-  virtualisation.docker.daemon.settings = {
-    data-root = "/vms/docker";
-    default-address-pools = [
-      {
-        base = "172.17.0.0/12";
-        size = 24;
-      }
-    ];
-  };
-
-  # Open ports in the firewall.
+  # Firewall configuration
   networking.firewall.allowedTCPPorts = [ 6443 ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
   networking.firewall.enable = false;
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It's perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.11"; # Did you read the comment?
-
+  system.stateVersion = "23.11";
 }
