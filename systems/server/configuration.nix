@@ -15,7 +15,6 @@
     ./hardware-configuration.nix
     ./filesystems.nix
     ./backup.nix
-    ./duplicacy-web
   ];
 
   # Bootloader.
@@ -193,10 +192,6 @@
     enable = true;
     openFirewall = true;
   };
-
-  host.services.duplicacy-web.enable = true;
-  host.services.duplicacy-web.autostart = false;
-  host.services.duplicacy-web.environment = "/data/data/duplicacy-environment";
 
   networking.hostId = "c1613a14";
   networking.hostName = "server"; # Define your hostname.
