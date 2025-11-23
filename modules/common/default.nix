@@ -9,6 +9,7 @@
     ./shell.nix
     ./flatpak.nix
     ./virtualization.nix
+    ./appimage.nix
     ./development.nix
   ];
 }

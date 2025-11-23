@@ -1,9 +1,6 @@
 { config, lib, pkgs, ... }:
 {
   # Android development support
-  programs.appimage.enable = lib.mkDefault true;
-  programs.appimage.binfmt = lib.mkDefault true;
-  
   programs.nix-ld.enable = lib.mkDefault true;
   programs.nix-ld.libraries = with pkgs; lib.mkDefault [
     # Checked in studio.sh
