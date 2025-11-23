@@ -7,8 +7,8 @@
 }:
 
 let
-  version = "2025.2.4";
-  sha256 = "TZCfmJ1/oKAC9bxmngAuirM27nCR8ydWp0VJzYwR9DI=";
+  version = "2025.2.5";
+  sha256 = "3JLNOFC6JW0sscnYhPlXn2E/b6dH9ig2FFjSH2Zoc5M=";
 in
 stdenv.mkDerivation rec {
   pname = "intellij-idea-ultimate";
