@@ -40,8 +40,19 @@
   jovian.decky-loader.enable = true;
   jovian.decky-loader.user = "deck";
 
-  # Boot configuration
-  boot.plymouth.theme = "bgrt";
+  # Boot configuration - Steam Deck OLED plymouth
+  boot.plymouth.theme = "steamos";
+  boot.plymouth.themePackages = [
+    (pkgs.steamdeck-hw-theme.overrideAttrs (oldAttrs: {
+      postFixup = (oldAttrs.postFixup or "") + ''
+        # Replace steamos.png with steamos-galileo.png
+        if [ -f $out/share/plymouth/themes/steamos/steamos-galileo.png ]; then
+          rm -f $out/share/plymouth/themes/steamos/steamos.png
+          cp $out/share/plymouth/themes/steamos/steamos-galileo.png $out/share/plymouth/themes/steamos/steamos.png
+        fi
+      '';
+    }))
+  ];
   boot.kernelModules = [ "ecryptfs" ];
 
   # Networking
