@@ -41,6 +41,7 @@
   jovian.decky-loader.user = "deck";
 
   # Boot configuration - Steam Deck OLED plymouth
+  boot.plymouth.enable = true;
   boot.plymouth.theme = "steamos";
   boot.plymouth.themePackages = [
     (pkgs.steamdeck-hw-theme.overrideAttrs (oldAttrs: {
@@ -53,7 +54,15 @@
       '';
     }))
   ];
+  boot.loader.timeout = 0;
+  boot.initrd.systemd.enable = true;
+  boot.initrd.verbose = false;
+  boot.consoleLogLevel = 0;
   boot.kernelModules = [ "ecryptfs" ];
+  boot.kernelParams = [
+    "quiet"
+    "udev.log_level=0"
+  ];
 
   # Networking
   networking.hostName = "steamdeck";
