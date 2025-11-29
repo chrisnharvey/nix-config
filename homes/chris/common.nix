@@ -63,12 +63,13 @@
 
   programs.git = {
     enable = true;
-    userName = "Chris Harvey";
-    userEmail = "chris@chrisnharvey.com";
+    settings = {
+        user.name = "Chris Harvey";
+        user.email = "chris@chrisnharvey.com";
+
+        url."git@github.com:".insteadOf = "https://github.com/";
+    };
     signing.key = "0B5B154A0538BD357EE58189024E65A3F7E92A36";
     signing.signByDefault = true;
-    extraConfig = {
-      url."git@github.com:".insteadOf = "https://github.com/";
-    };
   };
 }
