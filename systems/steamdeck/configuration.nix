@@ -27,8 +27,10 @@
     allowReboot = true;
   };
 
+  # Auto-wake to perform update, ensure AC power and and wait for network
   systemd.timers.nixos-upgrade.timerConfig.WakeSystem = true;
   systemd.services.nixos-upgrade.unitConfig.ConditionACPower = true;
+  systemd.services.nixos-upgrade.unitConfig.ExecStartPre = "/var/run/current-system/sw/bin/nm-online --quiet";
 
   services.displayManager.autoLogin.enable = true;
   services.displayManager.autoLogin.user = "deck";
