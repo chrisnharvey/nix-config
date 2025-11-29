@@ -7,6 +7,7 @@
 {
   programs.niri = {
     enable = true;
+    package = pkgs.niri-stable;
   };
 
   security.soteria.enable = true;

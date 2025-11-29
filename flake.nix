@@ -27,6 +27,7 @@
 
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=v0.6.0";
 
+    niri.url = "github:sodiboo/niri-flake";
     elephant.url = "github:abenz1267/elephant";
     walker.url = "github:abenz1267/walker?ref=master";
     walker.inputs.elephant.follows = "elephant";
@@ -62,6 +63,7 @@
       home-manager-unstable,
       zfs-multi-mount,
       nix-flatpak,
+      niri,
       walker,
       dankMaterialShell,
       jovian,
@@ -92,6 +94,11 @@
             # Note: configuration.nix itself is also a Nixpkgs Module,
             ./systems/dell-laptop/configuration.nix
 
+            # Niri overlay
+            {
+              nixpkgs.overlays = [ niri.overlays.niri ];
+            }
+
             home-manager-unstable.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
@@ -116,6 +123,11 @@
             # old configuration file can still take effect.
             # Note: configuration.nix itself is also a Nixpkgs Module,
             ./systems/steamdeck/configuration.nix
+
+            # Niri overlay
+            {
+              nixpkgs.overlays = [ niri.overlays.niri ];
+            }
 
             home-manager-unstable.nixosModules.home-manager
             {
