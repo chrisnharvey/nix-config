@@ -283,7 +283,7 @@
     pciutils
     inxi
     killall
-    linuxPackages_latest.perf
+    perf
     fwts
     wget
     git
