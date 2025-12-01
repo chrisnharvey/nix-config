@@ -17,7 +17,7 @@
 
     # Desktop environment
     ../../desktops/niri.nix
-    ../../desktops/niri-greeter.nix
+    ../../desktops/ly.nix
   ];
 
   # Nix configuration - Walker binary cache for faster builds
