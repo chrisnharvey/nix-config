@@ -1,0 +1,56 @@
+# MacBook NixOS Configuration
+# Development MacBook running Niri window manager
+
+{ config, pkgs, ... }:
+
+{
+  imports = [
+    # Common modules
+    ../../modules/common
+    ../../modules/hardware/laptop.nix
+    ../../modules/users/chris.nix
+    ../../modules/common/printing.nix
+
+    # Hardware configuration
+    ./hardware-configuration.nix
+    ./filesystems.nix
+
+    # Desktop environment
+    ../../desktops/niri.nix
+    ../../desktops/ly.nix
+  ];
+
+  # Nix configuration - Walker binary cache for faster builds
+  nix.settings.substituters = [
+    "https://cache.nixos.org/"
+    "https://walker.cachix.org"
+  ];
+  nix.settings.trusted-public-keys = [
+    "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+    "walker.cachix.org-1:fG8q+uAaMqhsMxWjwvk0IMb4mFPFLqHjuvfwQxE4oJM="
+  ];
+
+  # Auto upgrade
+  system.autoUpgrade = {
+    enable = true;
+    operation = "boot";
+    flake = "github:chrisnharvey/nix-config";
+    dates = "20:00";
+  };
+  systemd.services.nixos-upgrade.unitConfig.ConditionACPower = true;
+
+  # Networking
+  networking.hostId = "3fa9c2d1";
+  networking.hostName = "macbook-nixos";
+
+  # Keybase
+  services.keybase.enable = true;
+  services.kbfs.enable = true;
+
+  # Firewall
+  networking.firewall.allowedTCPPorts = [
+    8081 # Expo
+  ];
+
+  system.stateVersion = "24.11";
+}
