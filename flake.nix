@@ -158,6 +158,17 @@
               # Pass inputs to home-manager
               home-manager.extraSpecialArgs = { inherit inputs; };
             }
+
+            # CI override: disable peripheral firmware extraction so assertion doesn't fire
+            (
+              { lib, ... }:
+              let
+                inCi = lib.strings.toLower (builtins.getEnv "CI") == "true";
+              in
+              {
+                hardware.asahi.extractPeripheralFirmware = lib.mkForce (!inCi);
+              }
+            )
           ];
         };
 
