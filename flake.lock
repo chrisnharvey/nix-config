@@ -31,11 +31,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1764443544,
-        "narHash": "sha256-dCHXqJLUL4yTpFteUGaDg25u9ckIUrIrwfxuhySaz+g=",
+        "lastModified": 1765043981,
+        "narHash": "sha256-UEX2OrYcL0HIPpYteLY9ZoUlmGLfdwCLE28wNHuq/eo=",
         "owner": "chrisnharvey",
         "repo": "DankMaterialShell",
-        "rev": "c92ca3748a1d3248593b6add19834411c1b3341d",
+        "rev": "ef1e8079ffde8c637b2ed1296cc5f284f36c9c28",
         "type": "github"
       },
       "original": {
