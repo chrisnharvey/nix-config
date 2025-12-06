@@ -6,9 +6,9 @@ input {
             // You can set rules, model, layout, variant and options.
             // For more information, see xkeyboard-config(7).
 
-            // For example:
             layout "gb"
-            // options "grp:win_space_toggle,compose:ralt,ctrl:nocaps"
+            variant "mac"
+            options "altwin:swap_lalt_lwin"
         }
 
         // Enable numlock on startup, omitting this setting disables it.
@@ -54,7 +54,8 @@ input {
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Outputs
 // Remember to uncomment the node by removing "/-"!
 output "eDP-1" {
-    off // Disable Steam Deck built-in display in Niri.
+// Uncomment this line to disable this output.
+// off
 
 // Resolution and, optionally, refresh rate of the output.
 // The format is "<width>x<height>" or "<width>x<height>@<refresh rate>".
@@ -62,14 +63,14 @@ output "eDP-1" {
 // for the resolution.
 // If the mode is omitted altogether or is invalid, niri will pick one automatically.
 // Run `niri msg outputs` while inside a niri instance to list all outputs and their modes.
-    mode "1280x800@60"
+    mode "3024x1890@60.008"
 
 // You can use integer or fractional scale, for example use 1.5 for 150% scale.
-    scale 1
+    scale 1.5
 
 // Transform allows to rotate the output counter-clockwise, valid values are:
 // normal, 90, 180, 270, flipped, flipped-90, flipped-180 and flipped-270.
-    transform "270"
+    transform "normal"
 
 // Position of the output in the global coordinate space.
 // This affects directional monitor actions like "focus-monitor-left", and cursor movement.
@@ -80,7 +81,7 @@ output "eDP-1" {
 // so to put another output directly adjacent to it on the right, set its x to 1920.
 // If the position is unset or results in an overlap, the output is instead placed
 // automatically.
-    position x=5120 y=0
+    position x=3840 y=0
 }
 
 output "Ancor Communications Inc VX24A J8LMQS134724" {
@@ -93,7 +94,7 @@ output "Ancor Communications Inc VX24A J8LMQS134724" {
 // for the resolution.
 // If the mode is omitted altogether or is invalid, niri will pick one automatically.
 // Run `niri msg outputs` while inside a niri instance to list all outputs and their modes.
-    mode "2560x1440@60"
+    mode "1920x1080"
 
 // You can use integer or fractional scale, for example use 1.5 for 150% scale.
     scale 1
@@ -124,7 +125,7 @@ output "Ancor Communications Inc VX24A L3LMQS006419" {
 // for the resolution.
 // If the mode is omitted altogether or is invalid, niri will pick one automatically.
 // Run `niri msg outputs` while inside a niri instance to list all outputs and their modes.
-    mode "2560x1440@60"
+    mode "1920x1080"
 
 // You can use integer or fractional scale, for example use 1.5 for 150% scale.
     scale 1
@@ -142,5 +143,5 @@ output "Ancor Communications Inc VX24A L3LMQS006419" {
 // so to put another output directly adjacent to it on the right, set its x to 1920.
 // If the position is unset or results in an overlap, the output is instead placed
 // automatically.
-    position x=2560 y=0
+    position x=1080 y=0
 }

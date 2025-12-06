@@ -40,6 +40,9 @@
     #jovian.url = "github:Jovian-Experiments/Jovian-NixOS";
     #jovian.inputs.nixpkgs.follows = "nixpkgs-unstable";
     jovian.follows = "chaotic/jovian";
+
+    nixos-apple-silicon.url = "github:nix-community/nixos-apple-silicon";
+    nixos-apple-silicon.inputs.nixpkgs.follows = "nixpkgs-unstable";
   };
 
   # `outputs` are all the build result of the flake.
@@ -66,6 +69,7 @@
       dankMaterialShell,
       jovian,
       chaotic,
+      nixos-apple-silicon,
       ...
     }@inputs:
     {
@@ -128,6 +132,43 @@
               # Pass inputs to home-manager
               home-manager.extraSpecialArgs = { inherit inputs; };
             }
+          ];
+        };
+
+        "macbook-nixos" = nixpkgs-unstable.lib.nixosSystem {
+          system = "aarch64-linux";
+          modules = [
+            nixos-apple-silicon.nixosModules.apple-silicon-support
+            nix-flatpak.nixosModules.nix-flatpak
+            dankMaterialShell.nixosModules.greeter
+
+            # Import the configuration.nix here, so that the
+            # old configuration file can still take effect.
+            # Note: configuration.nix itself is also a Nixpkgs Module,
+            ./systems/macbook-nixos/configuration.nix
+
+            home-manager-unstable.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.useUserService = true;
+
+              home-manager.users.chris = import ./systems/macbook-nixos/homes/chris/home.nix;
+
+              # Pass inputs to home-manager
+              home-manager.extraSpecialArgs = { inherit inputs; };
+            }
+
+            # CI override: disable peripheral firmware extraction so assertion doesn't fire
+            (
+              { lib, ... }:
+              let
+                inCi = lib.strings.toLower (builtins.getEnv "CI") == "true";
+              in
+              {
+                hardware.asahi.extractPeripheralFirmware = lib.mkForce (!inCi);
+              }
+            )
           ];
         };
 
