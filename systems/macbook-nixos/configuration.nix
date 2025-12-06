@@ -22,8 +22,9 @@
 
   boot.loader.timeout = 3;
 
-  hardware.asahi.peripheralFirmwareDirectory = ./firmware;
-#  hardware.asahi.extractPeripheralFirmware = false;
+  # Asahi Linux hardware support (not required if building with --impure)
+  # hardware.asahi.peripheralFirmwareDirectory = ./firmware;
+  # hardware.asahi.extractPeripheralFirmware = false;
 
   # Nix configuration - Walker binary cache for faster builds
   nix.settings.substituters = [
