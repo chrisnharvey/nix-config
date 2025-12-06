@@ -30,7 +30,6 @@
     "io.github.mrvladus.List"
     "org.gnome.SimpleScan"
     "org.gnome.gedit"
-    "org.signal.Signal"
     "org.videolan.VLC"
     "org.gnome.Papers"
     "org.gnome.Loupe"

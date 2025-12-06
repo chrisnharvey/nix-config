@@ -8,15 +8,29 @@
 
 let
   version = "2025.2.5";
-  sha256 = "3JLNOFC6JW0sscnYhPlXn2E/b6dH9ig2FFjSH2Zoc5M=";
+
+  # Architecture-specific configuration
+  sources = {
+    x86_64-linux = {
+      url = "https://download.jetbrains.com/idea/ideaIU-${version}.tar.gz";
+      sha256 = "3JLNOFC6JW0sscnYhPlXn2E/b6dH9ig2FFjSH2Zoc5M=";
+    };
+    aarch64-linux = {
+      url = "https://download.jetbrains.com/idea/ideaIU-${version}-aarch64.tar.gz";
+      sha256 = "YgO528JGGrxZYEp/sxnY4GlIsohkia4DSZ6Y9MGgpXw=";
+    };
+  };
+
+  platform = stdenv.hostPlatform.system;
+  source = sources.${platform} or (throw "Unsupported platform: ${platform}");
 in
 stdenv.mkDerivation rec {
   pname = "intellij-idea-ultimate";
   inherit version;
 
   src = fetchurl {
-    url = "https://download.jetbrains.com/idea/ideaIU-${version}.tar.gz";
-    inherit sha256;
+    url = source.url;
+    sha256 = source.sha256;
   };
 
   nativeBuildInputs = with pkgs; [
@@ -63,8 +77,6 @@ stdenv.mkDerivation rec {
     ps
     usbutils
     e2fsprogs
-    pkgsi686Linux.stdenv.cc.cc.lib
-    pkgsi686Linux.zlib
     libxrandr
     alsa-lib
     dbus
