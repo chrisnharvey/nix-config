@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   # Install restic
@@ -45,8 +50,8 @@
 
       # Pruning configuration
       pruneOpts = [
-        "--keep-daily 7"      # Keep 7 daily backups
-        "--keep-weekly 2"     # Keep 4 weekly backups
+        "--keep-daily 7" # Keep 7 daily backups
+        "--keep-weekly 2" # Keep 4 weekly backups
       ];
 
       # Additional backup options
@@ -66,4 +71,3 @@
     };
   };
 }
-
