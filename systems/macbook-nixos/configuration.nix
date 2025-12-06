@@ -7,7 +7,7 @@
   imports = [
     # Common modules
     ../../modules/common
-    ../../modules/hardware/laptop.nix
+    ../../modules/hardware/macbook-asahi.nix
     ../../modules/users/chris.nix
     ../../modules/common/printing.nix
 
@@ -19,8 +19,6 @@
     ../../desktops/niri.nix
     ../../desktops/ly.nix
   ];
-
-  boot.loader.timeout = 3;
 
   # Asahi Linux hardware support (not required if building with --impure)
   # hardware.asahi.peripheralFirmwareDirectory = ./firmware;
