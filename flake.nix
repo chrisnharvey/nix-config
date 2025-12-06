@@ -174,18 +174,20 @@
       };
 
       darwinConfigurations."Chriss-MacBook-Pro" = nix-darwin.lib.darwinSystem {
-        modules = [ ./systems/macbook/configuration.nix ];
-      };
+        modules = [
+          ./systems/macbook/configuration.nix
 
-      homeConfigurations."chris" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+          home-manager-unstable.darwinModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
 
-        # Specify your home configuration modules here, for example,
-        # the path to your home.nix.
-        modules = [ ./homes/chris ];
+            home-manager.users.chris = import ./systems/macbook/homes/chris/home.nix;
 
-        # Pass inputs to home-manager
-        extraSpecialArgs = { inherit inputs; };
+            # Pass inputs to home-manager
+            home-manager.extraSpecialArgs = { inherit inputs; };
+          }
+        ];
       };
     };
 }

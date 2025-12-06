@@ -1,11 +1,30 @@
 { self, pkgs, ... }:
 
 {
-  # List packages installed in system profile. To search by name, run:
-  # $ nix-env -qaP | grep wget
+  system.primaryUser = "chris";
+
   environment.systemPackages = with pkgs; [
     pkgs.htop
   ];
+
+  homebrew.enable = true;
+
+  homebrew.brews = [
+    "gnupg"
+  ];
+
+  homebrew.casks = [
+    "keybase"
+    "zen"
+    "intellij-idea"
+    "docker-desktop"
+    "obsidian"
+  ];
+
+  users.users.chris = {
+    home = "/Users/chris";
+    shell = pkgs.zsh;
+  };
 
   # Necessary for using flakes on this system.
   nix.settings.experimental-features = "nix-command flakes";
