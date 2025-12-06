@@ -7,13 +7,13 @@ A comprehensive NixOS configuration using Nix Flakes, managing multiple systems 
 - [Quick Reference](QUICKREF.md) - Common tasks and module reference
 - [Contributing Guide](CONTRIBUTING.md) - How to add systems and modify modules
 - [Example Configuration](EXAMPLE-new-system.nix) - Template for new systems
-- [Refactoring Summary](REFACTORING-SUMMARY.md) - Before/after comparison
 
 ## 🖥️ Systems
 
 ### Laptops
 - **dell-laptop** - Primary development laptop running Niri window manager
 - **rose-laptop** - Laptop with GNOME desktop environment
+- **macbook-nixos** - MacBook running NixOS with Asahi Linux support
 
 ### Gaming
 - **steamdeck** - Valve Steam Deck with Jovian NixOS, supporting both GNOME and Niri desktop environments
@@ -22,7 +22,7 @@ A comprehensive NixOS configuration using Nix Flakes, managing multiple systems 
 - **server** - Home server with NFS, Samba, Docker, ZFS, and various services
 
 ### macOS
-- **macbook** - Basic macOS configuration with nix-darwin
+- **macbook** - macOS configuration with nix-darwin
 
 ## 🏠 Desktop Environments
 
@@ -39,6 +39,7 @@ The repository supports multiple desktop environments:
 ├── modules/                # Shared configuration modules
 │   ├── common/             # Common settings for all systems
 │   │   ├── default.nix     # Imports all common modules
+│   │   ├── appimage.nix    # AppImage support
 │   │   ├── development.nix # Android/development tools
 │   │   ├── flatpak.nix     # Flatpak configuration
 │   │   ├── hardware.nix    # Bluetooth, audio, firmware
@@ -59,6 +60,7 @@ The repository supports multiple desktop environments:
 │   │   ├── configuration.nix
 │   │   └── hardware-configuration.nix
 │   ├── rose-laptop/        # Laptop with GNOME
+│   ├── macbook-nixos/      # MacBook with Asahi Linux
 │   ├── steamdeck/          # Steam Deck configuration
 │   ├── server/             # Home server
 │   └── macbook/            # macOS system
@@ -81,6 +83,7 @@ The configuration is now organized into reusable modules for easier management:
 These modules provide shared configuration across all systems:
 
 - **default.nix** - Imports all common modules for convenience
+- **appimage.nix** - AppImage support and binfmt configuration
 - **nix.nix** - Nix daemon settings, garbage collection, unfree packages
 - **locale.nix** - UK locale, timezone, and console keymap
 - **networking.nix** - NetworkManager, Avahi, Tailscale VPN
@@ -145,6 +148,7 @@ home-manager switch --flake .#chris
 
 - `dell-laptop` - Development laptop with Niri WM
 - `rose-laptop` - Laptop with GNOME DE
+- `macbook-nixos` - MacBook with Asahi Linux and Niri
 - `steamdeck` - Valve Steam Deck with Jovian NixOS
 - `server` - Home server configuration
 - `Chriss-MacBook-Pro` - macOS configuration
@@ -247,9 +251,9 @@ Personal configurations in `homes/chris/` include:
 ## 📦 Nix Configuration
 
 ### Versions & Channels
-- **NixOS 25.05** (stable) - Used for server
+- **NixOS 25.11** (stable) - Used for server
 - **nixpkgs-unstable** - Used for desktops and Steam Deck
-- **Home Manager** - Both stable (release-25.05) and custom unstable fork
+- **Home Manager** - Both stable (release-25.11) and custom unstable fork
 - **nix-darwin** - For macOS configuration
 
 ### Key Flake Inputs
