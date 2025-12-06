@@ -4,6 +4,8 @@
     ../../../../homes/chris/niri.nix
   ];
 
+  programs.dankMaterialShell.enableAudioWavelength = false;
+
   home.file.".config/niri/config.kdl".enable = true;
   home.file.".config/niri/config.kdl".text = builtins.readFile ./config/niri/config.kdl;
 

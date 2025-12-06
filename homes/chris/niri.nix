@@ -19,7 +19,6 @@
 
   home.packages = with pkgs; [
     nixfmt
-    cava
     kitty
     grim
     slurp
