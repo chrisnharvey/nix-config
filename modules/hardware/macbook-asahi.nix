@@ -5,6 +5,12 @@
   ...
 }:
 {
+  # Power management for MacBook
+  powerManagement.enable = lib.mkDefault true;
+
+  # UPower for battery management
+  services.upower.enable = lib.mkDefault true;
+
   # Quiet boot
   boot.plymouth.enable = lib.mkDefault true;
   boot.initrd.systemd.enable = lib.mkDefault true;
