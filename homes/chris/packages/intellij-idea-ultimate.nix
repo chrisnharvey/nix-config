@@ -7,17 +7,17 @@
 }:
 
 let
-  version = "2025.2.5";
+  version = "2025.3";
 
   # Architecture-specific configuration
   sources = {
     x86_64-linux = {
       url = "https://download.jetbrains.com/idea/ideaIU-${version}.tar.gz";
-      sha256 = "3JLNOFC6JW0sscnYhPlXn2E/b6dH9ig2FFjSH2Zoc5M=";
+      sha256 = "E/QXS6FsHO8EhxyyYUM1NtACWGwmmoCTksIO4/lJWfU=";
     };
     aarch64-linux = {
       url = "https://download.jetbrains.com/idea/ideaIU-${version}-aarch64.tar.gz";
-      sha256 = "YgO528JGGrxZYEp/sxnY4GlIsohkia4DSZ6Y9MGgpXw=";
+      sha256 = "B8g6nSGfqJRbasy38yhGWFU+XIEgU6l2Ibj4S8Ax5Xw=";
     };
   };
 
