@@ -1,0 +1,44 @@
+name: Build
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: true
+      matrix:
+        hostname:
+          - dell-laptop
+          - rose-laptop
+          - steamdeck
+
+    steps:
+      - uses: actions/checkout@v2.3.2
+
+      - name: "Free disk space for Nix"
+        uses: wimpysworld/nothing-but-nix@main
+        with:
+          hatchet-protocol: 'cleave' # holster, carve, cleave (default), rampage
+
+      - name: "Install Nix ❄️"
+        uses: cachix/install-nix-action@v31.8.4
+        with:
+          extra_nix_config: |
+            substituters = https://cache.garnix.io https://cache.nixos.org/
+            trusted-public-keys = cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g= cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=
+            experimental-features = nix-command flakes ca-derivations
+
+      - name: "Install Cachix ❄️"
+        uses: cachix/cachix-action@v16
+        with:
+          name: chrisnharvey
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+
+      - name: "Build ${{ matrix.config_name }} NixOS config ❄️"
+        run: nix build .#nixosConfigurations.${{ matrix.hostname }}.config.system.build.toplevel -L
