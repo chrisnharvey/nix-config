@@ -22,6 +22,8 @@ jobs:
             runs-on: ubuntu-latest
           - hostname: macbook-nixos
             runs-on: ubuntu-24.04-arm
+          - hostname: server
+            runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2.3.2
