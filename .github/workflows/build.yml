@@ -15,7 +15,7 @@ jobs:
       - uses: cachix/install-nix-action@v27
         with:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
-      - run: nix flake check --impure
+      - run: nix flake check --accept-flake-config --impure
       - run: nix run nixpkgs#nixfmt-tree -- . --ci
 
   build:
