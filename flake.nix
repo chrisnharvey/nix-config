@@ -35,11 +35,8 @@
     dankMaterialShell.url = "github:chrisnharvey/DankMaterialShell?ref=disable-settings-gui";
     dankMaterialShell.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
-    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
-
-    #jovian.url = "github:Jovian-Experiments/Jovian-NixOS";
-    #jovian.inputs.nixpkgs.follows = "nixpkgs-unstable";
-    jovian.follows = "chaotic/jovian";
+    jovian.url = "github:Jovian-Experiments/Jovian-NixOS";
+    jovian.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     nixos-apple-silicon.url = "github:nix-community/nixos-apple-silicon";
     nixos-apple-silicon.inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -68,7 +65,6 @@
       walker,
       dankMaterialShell,
       jovian,
-      chaotic,
       nixos-apple-silicon,
       ...
     }@inputs:
@@ -115,7 +111,6 @@
           modules = [
             nix-flatpak.nixosModules.nix-flatpak
             jovian.nixosModules.default
-            chaotic.nixosModules.default
             # Import the configuration.nix here, so that the
             # old configuration file can still take effect.
             # Note: configuration.nix itself is also a Nixpkgs Module,

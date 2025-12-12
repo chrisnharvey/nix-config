@@ -1,0 +1,53 @@
+name: Build
+
+on:
+  pull_request:
+  push:
+  workflow_run:
+    workflows: ["Update flake.lock"]
+    types:
+      - completed
+
+jobs:
+  build:
+    runs-on: ${{ matrix.runs-on }}
+
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - hostname: dell-laptop
+            runs-on: ubuntu-latest
+          - hostname: rose-laptop
+            runs-on: ubuntu-latest
+          - hostname: steamdeck
+            runs-on: ubuntu-latest
+          - hostname: macbook-nixos
+            runs-on: ubuntu-24.04-arm
+          - hostname: server
+            runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2.3.2
+
+      - name: "Free disk space for Nix"
+        uses: wimpysworld/nothing-but-nix@main
+        with:
+          hatchet-protocol: 'cleave'
+
+      - name: "Install Nix ❄️"
+        uses: cachix/install-nix-action@v31.8.4
+        with:
+          extra_nix_config: |
+            substituters = https://cache.nixos.org/ https://walker.cachix.org https://nixos-apple-silicon.cachix.org https://chrisnharvey.cachix.org
+            trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= walker.cachix.org-1:fG8q+uAaMqhsMxWjwvk0IMb4mFPFLqHjuvfwQxE4oJM= nixos-apple-silicon.cachix.org-1:8psDu5SA5dAD7qA0zMy5UT292TxeEPzIz8VVEr2Js20= chrisnharvey.cachix.org-1:w7UXl6k2s/gFNs/Ai/dTzGo22aNHKAwJMYHkgpxSqHo=
+            experimental-features = nix-command flakes
+
+      - name: "Install Cachix ❄️"
+        uses: cachix/cachix-action@v16
+        with:
+          name: chrisnharvey
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+
+      - name: "Build ${{ matrix.hostname }} NixOS config ❄️"
+        run: nix build .#nixosConfigurations.${{ matrix.hostname }}.config.system.build.toplevel --impure -L

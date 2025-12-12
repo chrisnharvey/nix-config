@@ -1,6 +1,7 @@
 {
   # Import all common modules for a typical desktop/laptop system
   imports = [
+    ./cache.nix
     ./locale.nix
     ./nix.nix
     ./networking.nix
