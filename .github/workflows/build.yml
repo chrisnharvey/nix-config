@@ -3,8 +3,10 @@ name: Build
 on:
   pull_request:
   push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["Update flake.lock"]
+    types:
+      - completed
 
 jobs:
   build:
