@@ -1,6 +1,19 @@
 {
   description = "Chris Nix Flake";
 
+  nixConfig = {
+    extra-substituters = [
+      "https://walker.cachix.org"
+      "https://nixos-apple-silicon.cachix.org"
+      "https://chrisnharvey.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "walker.cachix.org-1:fG8q+uAaMqhsMxWjwvk0IMb4mFPFLqHjuvfwQxE4oJM="
+      "nixos-apple-silicon.cachix.org-1:8psDu5SA5dAD7qA0zMy5UT292TxeEPzIz8VVEr2Js20="
+      "chrisnharvey.cachix.org-1:w7UXl6k2s/gFNs/Ai/dTzGo22aNHKAwJMYHkgpxSqHo="
+    ];
+  };
+
   # This is the standard format for flake.nix.
   # `inputs` are the dependencies of the flake,
   # and `outputs` function will return all the build results of the flake.
