@@ -1,4 +1,4 @@
-name: NixOS - Check and build
+name: Check and build
 
 on:
   push:
@@ -19,7 +19,7 @@ jobs:
       - run: nix flake check --accept-flake-config --impure
       - run: nix run nixpkgs#nixfmt-tree -- . --ci
 
-  build:
+  build_nixos:
     needs: check
     runs-on: ${{ matrix.runs-on }}
 
@@ -37,8 +37,6 @@ jobs:
             runs-on: ubuntu-24.04-arm
           - hostname: server
             runs-on: ubuntu-latest
-          - hostname: server
-            runs-on: macos-latest
 
     steps:
       - uses: actions/checkout@v2.3.2
@@ -64,3 +62,34 @@ jobs:
 
       - name: "Build ${{ matrix.hostname }} NixOS config ❄️"
         run: nix build .#nixosConfigurations.${{ matrix.hostname }}.config.system.build.toplevel --accept-flake-config --impure -L
+
+  build_darwin:
+    needs: check
+    runs-on: ${{ matrix.runs-on }}
+
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - hostname: Chriss-MacBook-Pro
+            runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2.3.2
+
+      - name: "Install Nix ❄️"
+        uses: cachix/install-nix-action@v31.8.4
+        with:
+          extra_nix_config: |
+            substituters = https://cache.nixos.org/ https://chrisnharvey.cachix.org
+            trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= chrisnharvey.cachix.org-1:w7UXl6k2s/gFNs/Ai/dTzGo22aNHKAwJMYHkgpxSqHo=
+            experimental-features = nix-command flakes
+
+      - name: "Install Cachix ❄️"
+        uses: cachix/cachix-action@v16
+        with:
+          name: chrisnharvey
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+
+      - name: "Build ${{ matrix.hostname }} Nix Darwin config ❄️"
+        run: nix build .#darwinConfigurations.${{ matrix.hostname }}.config.system.build.toplevel --accept-flake-config --impure -L
