@@ -259,18 +259,6 @@
     packages = with pkgs; [ ];
   };
 
-  users.groups.virt = { };
-  users.users.virt = {
-    isSystemUser = true;
-    useDefaultShell = true;
-    group = "virt";
-    extraGroups = [ "libvirtd" ];
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIId9wLxRIEy+It8TS6NlLpu/Bg0ug7JivClWZusQUF4x root@adde2bbe3d25"
-    ];
-    packages = with pkgs; [ ];
-  };
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
