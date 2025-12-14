@@ -91,7 +91,6 @@
   # System-specific packages
   environment.systemPackages = with pkgs; [
     ecryptfs
-    msedit
     pciutils
     inxi
     glances

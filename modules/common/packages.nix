@@ -18,5 +18,7 @@
     unzip
     killall
     sshfs-fuse
+    age
+    msedit
   ];
 }

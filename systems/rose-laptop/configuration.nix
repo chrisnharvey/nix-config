@@ -75,7 +75,6 @@
 
   # System-specific packages
   environment.systemPackages = with pkgs; [
-    msedit
     nextcloud-client
     freeoffice
   ];

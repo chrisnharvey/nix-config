@@ -107,7 +107,6 @@
   environment.systemPackages = with pkgs; [
     ecryptfs
     bindfs
-    msedit
     pciutils
     inxi
     glances
