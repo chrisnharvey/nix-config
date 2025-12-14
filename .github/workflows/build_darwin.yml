@@ -1,4 +1,4 @@
-name: Check and build
+name: Darwin - Check and build
 
 on:
   push:
