@@ -8,15 +8,15 @@
   ];
 
   services.skhd = {
-      enable = true;
-      skhdConfig = ''
-        alt - i : open -a "/Applications/IntelliJ IDEA.app"
-        alt - b : open -a "/Applications/Zen.app"
-        alt - m : open -a "Mail"
-        alt - o : open -a "/Applications/Obsidian.app"
-        alt - p : open -a "/Applications/Postman.app"
-      '';
-    };
+    enable = true;
+    skhdConfig = ''
+      alt - i : open -a "/Applications/IntelliJ IDEA.app"
+      alt - b : open -a "/Applications/Zen.app"
+      alt - m : open -a "Mail"
+      alt - o : open -a "/Applications/Obsidian.app"
+      alt - p : open -a "/Applications/Postman.app"
+    '';
+  };
 
   homebrew.enable = true;
 
@@ -25,9 +25,9 @@
   ];
 
   homebrew.brews = [
-      "gnupg"
-      "borgbackup/tap/borgbackup-fuse"
-    ];
+    "gnupg"
+    "borgbackup/tap/borgbackup-fuse"
+  ];
 
   homebrew.casks = [
     "keybase"
