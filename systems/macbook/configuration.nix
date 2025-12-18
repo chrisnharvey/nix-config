@@ -39,6 +39,7 @@
     "macfuse"
     "vorta"
     "caffeine"
+    "syncthing"
   ];
 
   users.users.chris = {

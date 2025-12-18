@@ -14,6 +14,10 @@ in
     # code-cursor
   ];
 
+  services.syncthing.enable = true;
+  services.syncthing.overrideDevices = false;
+  services.syncthing.overrideFolders = false;
+
   xdg.mimeApps = {
     enable = true;
     defaultApplications = {
