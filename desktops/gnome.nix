@@ -10,7 +10,6 @@
   programs.gnome-disks.enable = true;
 
   environment.systemPackages = with pkgs; [
-    gnome-software
     gnomeExtensions.ddterm
     gnomeExtensions.appindicator
     gnomeExtensions.hibernate-status-button

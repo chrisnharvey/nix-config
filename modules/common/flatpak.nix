@@ -34,6 +34,7 @@
     "org.gnome.Papers"
     "org.gnome.Loupe"
     "org.virt_manager.virt-manager"
+    "org.prismlauncher.PrismLauncher"
   ];
 
   # Global flatpak overrides
