@@ -26,6 +26,7 @@
 
   homebrew.brews = [
     "gnupg"
+    "tailscale"
     "borgbackup/tap/borgbackup-fuse"
   ];
 
@@ -39,7 +40,7 @@
     "macfuse"
     "vorta"
     "caffeine"
-    "syncthing"
+    "syncthing-app"
   ];
 
   users.users.chris = {
