@@ -28,19 +28,19 @@
   };
 
   services.flatpak.packages = [
-      "app.zen_browser.zen"
-      "org.gnome.Calendar"
-      "org.gnome.Contacts"
-      "io.github.mrvladus.List"
-      "org.gnome.SimpleScan"
-      "org.gnome.gedit"
-      "org.videolan.VLC"
-      "org.gnome.Papers"
-      "org.gnome.Loupe"
-      "org.prismlauncher.PrismLauncher"
-      "org.vinegarhq.Sober"
-      "io.mrarm.mcpelauncher"
-    ];
+    "app.zen_browser.zen"
+    "org.gnome.Calendar"
+    "org.gnome.Contacts"
+    "io.github.mrvladus.List"
+    "org.gnome.SimpleScan"
+    "org.gnome.gedit"
+    "org.videolan.VLC"
+    "org.gnome.Papers"
+    "org.gnome.Loupe"
+    "org.prismlauncher.PrismLauncher"
+    "org.vinegarhq.Sober"
+    "io.mrarm.mcpelauncher"
+  ];
 
   # Laptop-specific power management
   services.logind.settings.Login.HandleLidSwitch = "suspend-then-hibernate";
