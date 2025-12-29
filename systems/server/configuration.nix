@@ -99,6 +99,12 @@
     };
   };
 
+  services.cadvisor = {
+    enable = true;
+    port = 9090;
+    listenAddress = "0.0.0.0";
+  };
+
   services.prometheus = {
     enable = false;
     exporters = {
