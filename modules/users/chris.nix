@@ -33,6 +33,6 @@
     mountpoint = "/home/%(USER)";
     path = "${pkgs.gocryptfs}/bin/gocryptfs#/home/%(USER).crypt";
     user = "chris";
-    noroot="0";
+    noroot = "0";
   };
 }
