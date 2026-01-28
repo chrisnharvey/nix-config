@@ -20,5 +20,6 @@
     sshfs-fuse
     age
     msedit
+    gocryptfs
   ];
 }
