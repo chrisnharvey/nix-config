@@ -44,7 +44,6 @@
 
   # Boot configuration
   boot.resumeDevice = "/dev/mapper/ROOT";
-  boot.kernelModules = [ "ecryptfs" ];
   boot.kernelPackages = pkgs.linuxPackages_zen;
   boot.kernelParams = [
     "quiet"
@@ -90,7 +89,6 @@
 
   # System-specific packages
   environment.systemPackages = with pkgs; [
-    ecryptfs
     pciutils
     inxi
     glances

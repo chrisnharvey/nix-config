@@ -69,7 +69,6 @@
   boot.initrd.systemd.enable = true;
   boot.initrd.verbose = false;
   boot.consoleLogLevel = 0;
-  boot.kernelModules = [ "ecryptfs" ];
   boot.kernelParams = [
     "quiet"
     "udev.log_level=0"
@@ -105,7 +104,6 @@
 
   # System-specific packages
   environment.systemPackages = with pkgs; [
-    ecryptfs
     bindfs
     pciutils
     inxi
