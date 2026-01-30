@@ -25,6 +25,14 @@
     ];
   };
 
-  # Enable ecryptfs for user encryption
-  security.pam.enableEcryptfs = lib.mkDefault true;
+  security.pam.mount.enable = true;
+
+  users.users.chris.pamMount = {
+    fstype = "fuse";
+    options = "nodev,nosuid,quiet,nonempty,allow_other";
+    mountpoint = "/home/%(USER)";
+    path = "${pkgs.gocryptfs}/bin/gocryptfs#/home/%(USER).crypt";
+    user = "chris";
+    noroot = "0";
+  };
 }
