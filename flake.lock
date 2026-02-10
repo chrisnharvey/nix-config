@@ -128,11 +128,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1770366813,
-        "narHash": "sha256-q6dmMSV2EcA6/EXy2oJXoLgxSGjrKY0bixfYbK4fi/4=",
+        "lastModified": 1770656651,
+        "narHash": "sha256-p0bV6EkZZRHyPm3ZJfo0txhuhy9gSfEAzzFc3zG1iLA=",
         "owner": "Jovian-Experiments",
         "repo": "Jovian-NixOS",
-        "rev": "2af374cd694b45c7d1773edda154081d0ee81f64",
+        "rev": "2a3cd5fe86931bb928d56c11857d2f825014b852",
         "type": "github"
       },
       "original": {
@@ -208,11 +208,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1770381988,
-        "narHash": "sha256-L/sRQY6zC3mtXIYZIlE+MeIazqYhy3ATj4Mcv4FosB4=",
+        "lastModified": 1770630652,
+        "narHash": "sha256-/fhL3g+Rp16vvsNPijhLgBuZeYCv7VJr6OTJpA0ZRnw=",
         "owner": "nix-community",
         "repo": "nixos-apple-silicon",
-        "rev": "e2d8f7d9ea492277add97705f2beca2f20079178",
+        "rev": "f2936008b132717d7cc4616bbac56f7478bb0a58",
         "type": "github"
       },
       "original": {
