@@ -45,7 +45,7 @@
     walker.inputs.elephant.follows = "elephant";
     walker.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
-    dankMaterialShell.url = "github:chrisnharvey/DankMaterialShell?ref=disable-settings-gui";
+    dankMaterialShell.url = "github:AvengeMedia/DankMaterialShell";
     dankMaterialShell.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     jovian.url = "github:Jovian-Experiments/Jovian-NixOS";

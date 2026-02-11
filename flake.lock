@@ -2,45 +2,22 @@
   "nodes": {
     "dankMaterialShell": {
       "inputs": {
-        "dgop": "dgop",
         "nixpkgs": [
           "nixpkgs-unstable"
         ],
         "quickshell": "quickshell"
       },
       "locked": {
-        "lastModified": 1765661249,
-        "narHash": "sha256-aZNFG91WapPWyZ0cGo5VTGjpGLvQ70knskH5EF5/TLY=",
-        "owner": "chrisnharvey",
-        "repo": "DankMaterialShell",
-        "rev": "7d5b149acfce666802f4262670af220ddd4c8b52",
-        "type": "github"
-      },
-      "original": {
-        "owner": "chrisnharvey",
-        "ref": "disable-settings-gui",
-        "repo": "DankMaterialShell",
-        "type": "github"
-      }
-    },
-    "dgop": {
-      "inputs": {
-        "nixpkgs": [
-          "dankMaterialShell",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1762835999,
-        "narHash": "sha256-UykYGrGFOFTmDpKTLNxj1wvd1gbDG4TkqLNSbV0TYwk=",
+        "lastModified": 1770834484,
+        "narHash": "sha256-zCH44A+3GAPiA7SA6sJBVvw0vjK/Gocy+rPmbXcwo+k=",
         "owner": "AvengeMedia",
-        "repo": "dgop",
-        "rev": "799301991cd5dcea9b64245f9d500dcc76615653",
+        "repo": "DankMaterialShell",
+        "rev": "46bb3b613bf1db2d02a7fa7121104fe7c1c52e4f",
         "type": "github"
       },
       "original": {
         "owner": "AvengeMedia",
-        "repo": "dgop",
+        "repo": "DankMaterialShell",
         "type": "github"
       }
     },
@@ -292,16 +269,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1764663772,
-        "narHash": "sha256-sHqLmm0wAt3PC4vczJeBozI1/f4rv9yp3IjkClHDXDs=",
+        "lastModified": 1766725085,
+        "narHash": "sha256-O2aMFdDUYJazFrlwL7aSIHbUSEm3ADVZjmf41uBJfHs=",
         "ref": "refs/heads/master",
-        "rev": "26531fc46ef17e9365b03770edd3fb9206fcb460",
-        "revCount": 713,
+        "rev": "41828c4180fb921df7992a5405f5ff05d2ac2fff",
+        "revCount": 715,
         "type": "git",
         "url": "https://git.outfoxxed.me/quickshell/quickshell"
       },
       "original": {
-        "rev": "26531fc46ef17e9365b03770edd3fb9206fcb460",
+        "rev": "41828c4180fb921df7992a5405f5ff05d2ac2fff",
         "type": "git",
         "url": "https://git.outfoxxed.me/quickshell/quickshell"
       }

@@ -10,7 +10,7 @@
   imports = [
     ./desktop.nix
     inputs.walker.homeManagerModules.default
-    inputs.dankMaterialShell.homeModules.dankMaterialShell.default
+    inputs.dankMaterialShell.homeModules.dank-material-shell
   ];
 
   programs.dankMaterialShell.enable = true;
