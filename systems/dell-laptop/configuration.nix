@@ -17,7 +17,7 @@
 
     # Desktop environment
     ../../desktops/niri.nix
-#    ../../desktops/ly.nix
+    #    ../../desktops/ly.nix
   ];
 
   # Auto upgrade
