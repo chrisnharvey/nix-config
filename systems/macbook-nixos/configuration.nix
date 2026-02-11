@@ -17,7 +17,7 @@
 
     # Desktop environment
     ../../desktops/niri.nix
-#    ../../desktops/ly.nix
+    #    ../../desktops/ly.nix
   ];
 
   # Asahi Linux hardware support (not required if building with --impure)
