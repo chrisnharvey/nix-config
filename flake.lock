@@ -2,45 +2,22 @@
   "nodes": {
     "dankMaterialShell": {
       "inputs": {
-        "dgop": "dgop",
         "nixpkgs": [
           "nixpkgs-unstable"
         ],
         "quickshell": "quickshell"
       },
       "locked": {
-        "lastModified": 1765661249,
-        "narHash": "sha256-aZNFG91WapPWyZ0cGo5VTGjpGLvQ70knskH5EF5/TLY=",
-        "owner": "chrisnharvey",
-        "repo": "DankMaterialShell",
-        "rev": "7d5b149acfce666802f4262670af220ddd4c8b52",
-        "type": "github"
-      },
-      "original": {
-        "owner": "chrisnharvey",
-        "ref": "disable-settings-gui",
-        "repo": "DankMaterialShell",
-        "type": "github"
-      }
-    },
-    "dgop": {
-      "inputs": {
-        "nixpkgs": [
-          "dankMaterialShell",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1762835999,
-        "narHash": "sha256-UykYGrGFOFTmDpKTLNxj1wvd1gbDG4TkqLNSbV0TYwk=",
+        "lastModified": 1771039596,
+        "narHash": "sha256-fMSBH/7m1sZDW89xrSBRfjuF9+g8QVaOEu2xoumFuqI=",
         "owner": "AvengeMedia",
-        "repo": "dgop",
-        "rev": "799301991cd5dcea9b64245f9d500dcc76615653",
+        "repo": "DankMaterialShell",
+        "rev": "124106de878586ebf43c4a7a19eae81058b9fcb0",
         "type": "github"
       },
       "original": {
         "owner": "AvengeMedia",
-        "repo": "dgop",
+        "repo": "DankMaterialShell",
         "type": "github"
       }
     },
@@ -106,16 +83,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1765661285,
-        "narHash": "sha256-PZ+bMZ5aZa3t+qFlj7ocVIRDqYnLybTDGG/Mp2i9iqI=",
-        "owner": "chrisnharvey",
+        "lastModified": 1771037579,
+        "narHash": "sha256-NX5XuhGcsmk0oEII2PEtMRgvh2KaAv3/WWQsOpxAgR4=",
+        "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "041996976d3a17eef00a72fd59befb689d4c78cc",
+        "rev": "05e6dc0f6ed936f918cb6f0f21f1dad1e4c53150",
         "type": "github"
       },
       "original": {
-        "owner": "chrisnharvey",
-        "ref": "user-service",
+        "owner": "nix-community",
         "repo": "home-manager",
         "type": "github"
       }
@@ -208,11 +184,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1770630652,
-        "narHash": "sha256-/fhL3g+Rp16vvsNPijhLgBuZeYCv7VJr6OTJpA0ZRnw=",
+        "lastModified": 1771054135,
+        "narHash": "sha256-0RYmnOk40U4ZGbW/+3rHlNndrsuHCz9h+xequKWgwHQ=",
         "owner": "nix-community",
         "repo": "nixos-apple-silicon",
-        "rev": "f2936008b132717d7cc4616bbac56f7478bb0a58",
+        "rev": "357186cca0f4c7801ff16970e4b6a05e74fd88e0",
         "type": "github"
       },
       "original": {
@@ -239,11 +215,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1770841267,
-        "narHash": "sha256-9xejG0KoqsoKEGp2kVbXRlEYtFFcDTHjidiuX8hGO44=",
+        "lastModified": 1771008912,
+        "narHash": "sha256-gf2AmWVTs8lEq7z/3ZAsgnZDhWIckkb+ZnAo5RzSxJg=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "ec7c70d12ce2fc37cb92aff673dcdca89d187bae",
+        "rev": "a82ccc39b39b621151d6732718e3e250109076fa",
         "type": "github"
       },
       "original": {
@@ -293,16 +269,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1764663772,
-        "narHash": "sha256-sHqLmm0wAt3PC4vczJeBozI1/f4rv9yp3IjkClHDXDs=",
+        "lastModified": 1766725085,
+        "narHash": "sha256-O2aMFdDUYJazFrlwL7aSIHbUSEm3ADVZjmf41uBJfHs=",
         "ref": "refs/heads/master",
-        "rev": "26531fc46ef17e9365b03770edd3fb9206fcb460",
-        "revCount": 713,
+        "rev": "41828c4180fb921df7992a5405f5ff05d2ac2fff",
+        "revCount": 715,
         "type": "git",
         "url": "https://git.outfoxxed.me/quickshell/quickshell"
       },
       "original": {
-        "rev": "26531fc46ef17e9365b03770edd3fb9206fcb460",
+        "rev": "41828c4180fb921df7992a5405f5ff05d2ac2fff",
         "type": "git",
         "url": "https://git.outfoxxed.me/quickshell/quickshell"
       }

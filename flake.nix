@@ -35,7 +35,7 @@
     home-manager.url = "github:nix-community/home-manager?ref=release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    home-manager-unstable.url = "github:chrisnharvey/home-manager?ref=user-service";
+    home-manager-unstable.url = "github:nix-community/home-manager";
     home-manager-unstable.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=v0.6.0";
@@ -45,7 +45,7 @@
     walker.inputs.elephant.follows = "elephant";
     walker.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
-    dankMaterialShell.url = "github:chrisnharvey/DankMaterialShell?ref=disable-settings-gui";
+    dankMaterialShell.url = "github:AvengeMedia/DankMaterialShell";
     dankMaterialShell.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     jovian.url = "github:Jovian-Experiments/Jovian-NixOS";
@@ -109,7 +109,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.useUserService = true;
+              home-manager.startAsUserService = true;
 
               home-manager.users.chris = import ./systems/dell-laptop/homes/chris/home.nix;
 
@@ -133,7 +133,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.useUserService = true;
+              home-manager.startAsUserService = true;
 
               home-manager.users.chris = import ./systems/steamdeck/homes/chris/home.nix;
 
@@ -159,7 +159,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.useUserService = true;
+              home-manager.startAsUserService = true;
 
               home-manager.users.chris = import ./systems/macbook-nixos/homes/chris/home.nix;
 
