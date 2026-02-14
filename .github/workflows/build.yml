@@ -23,7 +23,7 @@ jobs:
     runs-on: ${{ matrix.runs-on }}
 
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         include:
           - hostname: dell-laptop
