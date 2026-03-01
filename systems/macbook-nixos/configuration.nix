@@ -16,7 +16,7 @@
     #./filesystems.nix
 
     # Desktop environment
-#    ../../desktops/niri.nix
+    ../../desktops/niri.nix
     #    ../../desktops/ly.nix
   ];
 
