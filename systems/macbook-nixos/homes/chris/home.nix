@@ -5,7 +5,7 @@
     ../../../../homes/chris/common.nix
     # ../../homes/chris/gnome.nix
     # ../../homes/chris/hyprland.nix
-    ./niri.nix
+#    ./niri.nix
   ];
 
   programs.borgmatic.backups.home.location.repositories = [

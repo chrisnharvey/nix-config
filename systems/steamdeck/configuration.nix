@@ -15,7 +15,7 @@
 
     # Desktop environments
     ./gnome.nix
-    ../../desktops/niri.nix
+#    ../../desktops/niri.nix
   ];
 
   # Auto upgrade
