@@ -1,7 +1,7 @@
 name: Check and build
 
 on:
-  push:
+  pull_request:
   workflow_run:
     workflows: ["Update flake.lock"]
     types:
