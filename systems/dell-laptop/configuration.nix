@@ -34,13 +34,13 @@
   services.logind.settings.Login.HandleSuspendKey = "suspend-then-hibernate";
   services.logind.settings.Login.HandlePowerKey = "hibernate";
 
-  systemd.sleep.extraConfig = ''
-    AllowSuspend=no
-    AllowHibernation=yes
-    AllowHybridSleep=yes
-    AllowSuspendThenHibernate=yes
-    HibernateDelaySec=1h
-  '';
+  systemd.sleep.settings.Sleep = {
+    AllowSuspend = "no";
+    AllowHibernation = "yes";
+    AllowHybridSleep = "yes";
+    AllowSuspendThenHibernate = "yes";
+    HibernateDelaySec = "1h";
+  };
 
   # Boot configuration
   boot.resumeDevice = "/dev/mapper/ROOT";

@@ -10,7 +10,6 @@
     htop
     btop
     powertop
-    glances
     git
     tmux
     gnupg
