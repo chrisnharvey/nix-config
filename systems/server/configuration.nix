@@ -42,6 +42,11 @@
       "flakes"
     ];
 
+    settings.trusted-users = [
+      "root",
+      "chris"
+    ];
+
     gc = {
       automatic = true;
       dates = "daily";
