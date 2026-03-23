@@ -43,7 +43,7 @@
     ];
 
     settings.trusted-users = [
-      "root",
+      "root"
       "chris"
     ];
 
