@@ -65,6 +65,11 @@
   powerManagement.enable = true;
   powerManagement.powertop.enable = true;
 
+  services.ollama = {
+    enable = true;
+    package = pkgs.ollama-vulkan;
+  };
+
   services.syncthing = {
     enable = true;
     guiAddress = "192.168.10.9:8384";
