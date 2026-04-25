@@ -32,10 +32,10 @@ jobs:
             runs-on: ubuntu-latest
           - hostname: rose-laptop
             runs-on: ubuntu-latest
-          - hostname: steamdeck
-            runs-on: ubuntu-latest
-          - hostname: macbook-nixos
-            runs-on: ubuntu-24.04-arm
+#          - hostname: steamdeck
+#            runs-on: ubuntu-latest
+#          - hostname: macbook-nixos
+#            runs-on: ubuntu-24.04-arm
           - hostname: server
             runs-on: ubuntu-latest
 
