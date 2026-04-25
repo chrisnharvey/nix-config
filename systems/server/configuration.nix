@@ -207,6 +207,17 @@
         "force group" = "users";
         "write list" = "";
       };
+      TimeMachine = {
+        path = "/data/data/files/TimeMachine";
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+        "force user" = "chris";
+        "force group" = "users";
+        "vfs objects" = "fruit streams_xattr catia";
+        "fruit:time machine" = "yes";
+        "fruit:time machine max size" = "1TB";
+      };
     };
   };
 
