@@ -41,6 +41,8 @@
     "vorta"
     "caffeine"
     "syncthing-app"
+    "android-studio"
+    "temurin@21"
   ];
 
   users.users.chris = {
