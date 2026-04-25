@@ -113,6 +113,9 @@
     enable = true;
     port = 9090;
     listenAddress = "0.0.0.0";
+    extraOptions = [
+      "--disable_metrics=disk"
+    ];
   };
 
   services.prometheus = {
@@ -120,6 +123,9 @@
     exporters = {
       node.enable = true;
       zfs.enable = true;
+      zfs.extraFlags = [
+        "--pool=data"
+      ];
       libvirt.enable = true;
       smartctl.enable = true;
       process = {
