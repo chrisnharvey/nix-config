@@ -33,6 +33,7 @@
     "data"
     "vms"
   ];
+  boot.zfs.forceImportRoot = false;
   boot.zfs.requestEncryptionCredentials = false;
   services.zfs.autoScrub.enable = true;
 
