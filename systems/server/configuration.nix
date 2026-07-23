@@ -9,6 +9,63 @@
   ...
 }:
 
+let
+  # Host <-> ipvlan-container shims. The kernel won't hairpin traffic
+  # between an ipvlan parent and its children, so the host needs its own
+  # ipvlan child per parent interface to reach containers on it.
+  # One entry per parent interface that hosts a Docker ipvlan network
+  # you need host access to/from.
+  ipvlanShims = {
+    # HA and friends on the LAN ipvlan network (parent br0).
+    # .250 must be unused / outside the OPNsense DHCP pool.
+    shim-br0 = {
+      parent = "br0";
+      address = "192.168.10.250/32";
+      routes = [ "192.168.10.11/32" ]; # Home Assistant — or Docker's --ip-range as one block
+    };
+
+    # Uncomment and fix the subnet if containers on vlan40's ipvlan
+    # network need host access:
+    # shim-vlan40 = {
+    #   parent = "vlan40";
+    #   address = "192.168.40.250/32";
+    #   routes = [ "192.168.40.0/24" ]; # or specific /32s
+    # };
+  };
+
+  shimNetdevs = lib.mapAttrs' (name: shim: {
+    name = "30-${name}";
+    value = {
+      netdevConfig = {
+        Name = name;
+        Kind = "ipvlan";
+      };
+      ipvlanConfig.Mode = "L2";
+    };
+  }) ipvlanShims;
+
+  shimNetworks = lib.mapAttrs' (name: shim: {
+    name = "40-${name}";
+    value = {
+      matchConfig.Name = name;
+      address = [ shim.address ];
+      routes = map (dest: { Destination = dest; }) shim.routes;
+      linkConfig.RequiredForOnline = "no";
+    };
+  }) ipvlanShims;
+
+  # Parent -> shim name, for attaching IPVLAN= to the parent's network unit
+  shimsByParent = lib.mapAttrs' (name: shim: {
+    name = shim.parent;
+    value = name;
+  }) ipvlanShims;
+
+  shimFor =
+    parent:
+    lib.optionalAttrs (shimsByParent ? ${parent}) {
+      networkConfig.IPVLAN = shimsByParent.${parent};
+    };
+in
 {
   imports = [
     # Include the results of the hardware scan.
@@ -227,29 +284,86 @@
 
   networking.hostId = "c1613a14";
   networking.hostName = "server"; # Define your hostname.
-  networking.vlans.vlan15 = {
-    id = 15;
-    interface = "br0";
+
+  # systemd-networkd manages all interfaces
+  networking.useDHCP = false;
+  networking.useNetworkd = true;
+
+  systemd.network = {
+    enable = true;
+
+    netdevs = {
+      "10-br0" = {
+        netdevConfig = {
+          Name = "br0";
+          Kind = "bridge";
+        };
+      };
+      "20-vlan15" = {
+        netdevConfig = {
+          Name = "vlan15";
+          Kind = "vlan";
+        };
+        vlanConfig.Id = 15;
+      };
+      "20-vlan40" = {
+        netdevConfig = {
+          Name = "vlan40";
+          Kind = "vlan";
+        };
+        vlanConfig.Id = 40;
+      };
+      "20-vlan50" = {
+        netdevConfig = {
+          Name = "vlan50";
+          Kind = "vlan";
+        };
+        vlanConfig.Id = 50;
+      };
+    }
+    // shimNetdevs;
+
+    networks = {
+      # Enslave the NIC to the bridge
+      "10-enp0s31f6" = {
+        matchConfig.Name = "enp0s31f6";
+        networkConfig.Bridge = "br0";
+      };
+
+      # br0: DHCP, carries the VLANs (and its shim, via shimFor)
+      "20-br0" = lib.recursiveUpdate {
+        matchConfig.Name = "br0";
+        networkConfig.DHCP = "ipv4";
+        vlan = [
+          "vlan15"
+          "vlan40"
+          "vlan50"
+        ];
+        linkConfig.RequiredForOnline = "routable";
+      } (shimFor "br0");
+
+      # VLAN interfaces: up, no host addresses (parents for Docker ipvlan)
+      "30-vlan15" = lib.recursiveUpdate {
+        matchConfig.Name = "vlan15";
+        linkConfig.RequiredForOnline = "no";
+      } (shimFor "vlan15");
+      "30-vlan40" = lib.recursiveUpdate {
+        matchConfig.Name = "vlan40";
+        linkConfig.RequiredForOnline = "no";
+      } (shimFor "vlan40");
+      "30-vlan50" = lib.recursiveUpdate {
+        matchConfig.Name = "vlan50";
+        linkConfig.RequiredForOnline = "no";
+      } (shimFor "vlan50");
+    }
+    // shimNetworks;
   };
-  networking.vlans.vlan40 = {
-    id = 40;
-    interface = "br0";
-  };
-  networking.vlans.vlan50 = {
-    id = 50;
-    interface = "br0";
-  };
-  networking.interfaces.br0.useDHCP = true;
-  networking.bridges.br0.interfaces = [ "enp0s31f6" ];
 
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
-  networking.networkmanager.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/London";
@@ -279,7 +393,6 @@
     isNormalUser = true;
     description = "Chris";
     extraGroups = [
-      "networkmanager"
       "docker"
       "wheel"
       "libvirtd"
@@ -338,8 +451,8 @@
 
   services.cockpit.enable = true;
   services.cockpit.plugins = [ pkgs.cockpit-machines ];
-  services.cockpit.settings.WebService.Origins = lib.mkForce
-    "https://192.168.10.9:9090 wss://192.168.10.9:9090";
+  services.cockpit.settings.WebService.Origins =
+    lib.mkForce "https://192.168.10.9:9090 wss://192.168.10.9:9090";
 
   security.polkit.extraConfig = ''
     polkit.addRule(function(action, subject) {
