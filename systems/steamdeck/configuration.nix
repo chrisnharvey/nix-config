@@ -46,6 +46,11 @@
   jovian.decky-loader.enable = true;
   jovian.decky-loader.user = "deck";
 
+  # decky-loader builds with pnpm, which is currently flagged insecure in nixpkgs.
+  nixpkgs.config.permittedInsecurePackages = [
+    "pnpm-9.15.9"
+  ];
+
   # Boot configuration - Steam Deck OLED plymouth
   boot.plymouth.enable = true;
   boot.plymouth.theme = "steamos";
