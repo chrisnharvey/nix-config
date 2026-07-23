@@ -25,6 +25,7 @@
   ];
 
   homebrew.brews = [
+    "msedit"
     "gnupg"
     "tailscale"
     "borgbackup/tap/borgbackup-fuse"
