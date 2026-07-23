@@ -60,7 +60,8 @@ let
     value = name;
   }) ipvlanShims;
 
-  shimFor = parent:
+  shimFor =
+    parent:
     lib.optionalAttrs (shimsByParent ? ${parent}) {
       networkConfig.IPVLAN = shimsByParent.${parent};
     };
@@ -319,7 +320,8 @@ in
         };
         vlanConfig.Id = 50;
       };
-    } // shimNetdevs;
+    }
+    // shimNetdevs;
 
     networks = {
       # Enslave the NIC to the bridge
@@ -353,7 +355,8 @@ in
         matchConfig.Name = "vlan50";
         linkConfig.RequiredForOnline = "no";
       } (shimFor "vlan50");
-    } // shimNetworks;
+    }
+    // shimNetworks;
   };
 
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -448,8 +451,8 @@ in
 
   services.cockpit.enable = true;
   services.cockpit.plugins = [ pkgs.cockpit-machines ];
-  services.cockpit.settings.WebService.Origins = lib.mkForce
-    "https://192.168.10.9:9090 wss://192.168.10.9:9090";
+  services.cockpit.settings.WebService.Origins =
+    lib.mkForce "https://192.168.10.9:9090 wss://192.168.10.9:9090";
 
   security.polkit.extraConfig = ''
     polkit.addRule(function(action, subject) {
