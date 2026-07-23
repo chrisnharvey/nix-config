@@ -15,7 +15,7 @@
     gcc
     php
     phpPackages.composer
-    nodejs
+    nodejs_22 # nodejs (24.15.0) has an fd regression that breaks Metro bundles with EBADF; revert once 24.15.x is fixed
   ];
 
   home.sessionVariables = {
