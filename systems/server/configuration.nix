@@ -298,6 +298,7 @@
   environment.systemPackages = with pkgs; [
     #  pkgs.k3s
     #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    virt-manager
     msedit
     pciutils
     inxi
@@ -335,7 +336,23 @@
 
   programs.zsh.enable = true;
 
+  services.cockpit.enable = true;
+  services.cockpit.plugins = [ pkgs.cockpit-machines ];
+  services.cockpit.settings.WebService.Origins = lib.mkForce
+    "https://192.168.10.9:9090 wss://192.168.10.9:9090";
+
+  security.polkit.extraConfig = ''
+    polkit.addRule(function(action, subject) {
+      if ((action.id == "org.libvirt.unix.manage" ||
+           action.id == "org.libvirt.unix.monitor") &&
+          subject.user == "libvirtdbus") {
+        return polkit.Result.YES;
+      }
+    });
+  '';
+
   virtualisation.libvirtd.enable = true;
+  virtualisation.libvirtd.dbus.enable = true;
   virtualisation.libvirtd.allowedBridges = [ "br0" ];
   virtualisation.libvirtd.onShutdown = "shutdown";
   virtualisation.libvirtd.onBoot = "ignore";
