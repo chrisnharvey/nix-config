@@ -125,9 +125,6 @@
     exporters = {
       node.enable = true;
       zfs.enable = true;
-      zfs.extraFlags = [
-        "--pool=data"
-      ];
       libvirt.enable = true;
       smartctl.enable = true;
       process = {
