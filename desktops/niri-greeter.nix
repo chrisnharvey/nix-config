@@ -7,7 +7,7 @@
 {
   services.greetd.enable = true;
 
-  programs.dankMaterialShell.greeter = {
+  programs.dms-greeter = {
     enable = true;
     compositor.name = "niri";
     configHome = "/home/chris";
