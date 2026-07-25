@@ -48,6 +48,9 @@
     dankMaterialShell.url = "github:AvengeMedia/DankMaterialShell";
     dankMaterialShell.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
+    dank-greeter.url = "github:AvengeMedia/dank-greeter";
+    dank-greeter.inputs.nixpkgs.follows = "nixpkgs-unstable";
+
     jovian.url = "github:Jovian-Experiments/Jovian-NixOS";
     jovian.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
@@ -77,6 +80,7 @@
       nix-flatpak,
       walker,
       dankMaterialShell,
+      dank-greeter,
       jovian,
       nixos-apple-silicon,
       ...
@@ -98,7 +102,7 @@
           system = "x86_64-linux";
           modules = [
             nix-flatpak.nixosModules.nix-flatpak
-            dankMaterialShell.nixosModules.greeter
+            dank-greeter.nixosModules.default
 
             # Import the configuration.nix here, so that the
             # old configuration file can still take effect.
@@ -148,7 +152,7 @@
           modules = [
             nixos-apple-silicon.nixosModules.apple-silicon-support
             nix-flatpak.nixosModules.nix-flatpak
-            dankMaterialShell.nixosModules.greeter
+            dank-greeter.nixosModules.default
 
             # Import the configuration.nix here, so that the
             # old configuration file can still take effect.
