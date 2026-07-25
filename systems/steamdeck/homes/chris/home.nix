@@ -2,10 +2,12 @@
   config,
   pkgs,
   lib,
+  inputs,
   ...
 }:
 {
   imports = [
+    inputs.nix-index-database.homeModules.default
     ../../../../homes/chris/backup.nix
     ../../../../homes/chris/common.nix
     # ../../homes/chris/gnome.nix
