@@ -8,6 +8,7 @@
   imports = [
     ../../../../homes/chris/backup.nix
     ../../../../homes/chris/common.nix
+    ../../../../homes/chris/tools.nix
     # ../../homes/chris/gnome.nix
     # ../../homes/chris/hyprland.nix
     ./niri.nix
