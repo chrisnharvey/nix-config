@@ -13,6 +13,7 @@ in
   # systems/macbook/configuration.nix.
   home.packages = with pkgs; [
     (pkgs.herdr or unstable.herdr)
+    claude-code
     fresh-editor
     lazygit
     lazysql

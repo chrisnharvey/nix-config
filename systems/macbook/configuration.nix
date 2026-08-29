@@ -51,6 +51,7 @@
     "android-studio"
     "temurin@21"
     "ghostty"
+    "claude-code"
   ];
 
   users.users.chris = {
