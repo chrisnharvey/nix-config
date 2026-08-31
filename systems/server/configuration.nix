@@ -93,6 +93,7 @@ in
   boot.zfs.forceImportRoot = false;
   boot.zfs.requestEncryptionCredentials = false;
   services.zfs.autoScrub.enable = true;
+  services.zfs.trim.enable = false;
 
   nix = {
     settings.experimental-features = [
@@ -121,7 +122,8 @@ in
   };
 
   powerManagement.enable = true;
-  powerManagement.powertop.enable = true;
+  powerManagement.powertop.enable = false;
+  powerManagement.scsiLinkPolicy = "max_performance";
 
   services.ollama = {
     enable = true;
