@@ -29,6 +29,12 @@
     "gnupg"
     "tailscale"
     "borgbackup/tap/borgbackup-fuse"
+    "herdr"
+    "fresh-editor"
+    "lazygit"
+    "lazysql"
+    "lego"
+    "opentofu"
   ];
 
   homebrew.casks = [
@@ -44,6 +50,8 @@
     "syncthing-app"
     "android-studio"
     "temurin@21"
+    "ghostty"
+    "claude-code"
   ];
 
   users.users.chris = {
