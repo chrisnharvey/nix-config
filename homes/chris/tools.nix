@@ -8,7 +8,8 @@ let
   unstable = inputs.nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system};
 in
 {
-  # CLI/dev tooling shared across the NixOS machines.
+  # Headless-safe CLI/dev tooling shared across every NixOS machine.
+  # GUI apps (e.g. ghostty) belong in the individual machine configs.
   # The Darwin machine installs the equivalents via Homebrew, see
   # systems/macbook/configuration.nix.
   home.packages = with pkgs; [
@@ -17,7 +18,6 @@ in
     fresh-editor
     lazygit
     lazysql
-    ghostty
     lego
     opentofu
   ];

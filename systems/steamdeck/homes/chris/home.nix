@@ -18,6 +18,10 @@
     "ssh://chris@192.168.10.9/data/data/files/Backups/steamdeck"
   ];
 
+  home.packages = with pkgs; [
+    ghostty
+  ];
+
   dconf.settings = {
     # Workspace behavior
     "org/gnome/mutter" = {
