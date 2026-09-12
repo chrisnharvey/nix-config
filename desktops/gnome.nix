@@ -38,7 +38,6 @@
       gnome-characters
       gnome-calendar
       gnome-music
-      gnome-photos
       gnome-terminal
       gnome-tour
       hitori # sudoku game
