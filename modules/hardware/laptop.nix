@@ -17,8 +17,6 @@
 
   # Quiet boot
   boot.plymouth.enable = lib.mkDefault true;
-  boot.initrd.systemd.enable = lib.mkDefault true;
-  boot.initrd.verbose = lib.mkDefault false;
   boot.consoleLogLevel = lib.mkDefault 0;
 
   # Systemd-boot
