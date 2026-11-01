@@ -72,6 +72,7 @@ in
     ./hardware-configuration.nix
     ./filesystems.nix
     ./backup.nix
+    ./rollback-guard.nix
   ];
 
   # Bootloader.
