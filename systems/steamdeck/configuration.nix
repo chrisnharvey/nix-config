@@ -71,8 +71,6 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.timeout = 0;
 
-  boot.initrd.systemd.enable = true;
-  boot.initrd.verbose = false;
   boot.consoleLogLevel = 0;
   boot.kernelParams = [
     "quiet"
