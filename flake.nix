@@ -56,6 +56,9 @@
 
     nixos-apple-silicon.url = "github:nix-community/nixos-apple-silicon";
     nixos-apple-silicon.inputs.nixpkgs.follows = "nixpkgs-unstable";
+
+    nix-index-database.url = "github:nix-community/nix-index-database";
+    nix-index-database.inputs.nixpkgs.follows = "nixpkgs-unstable";
   };
 
   # `outputs` are all the build result of the flake.
@@ -83,6 +86,7 @@
       dank-greeter,
       jovian,
       nixos-apple-silicon,
+      nix-index-database,
       ...
     }@inputs:
     {
@@ -150,6 +154,7 @@
         "macbook-nixos" = nixpkgs-unstable.lib.nixosSystem {
           system = "aarch64-linux";
           modules = [
+            nix-index-database.nixosModules.default
             nixos-apple-silicon.nixosModules.apple-silicon-support
             nix-flatpak.nixosModules.nix-flatpak
             dank-greeter.nixosModules.default
@@ -228,6 +233,7 @@
 
       darwinConfigurations."Chriss-MacBook-Pro" = nix-darwin.lib.darwinSystem {
         modules = [
+          nix-index-database.darwinModules.nix-index
           ./systems/macbook/configuration.nix
 
           home-manager-unstable.darwinModules.home-manager
