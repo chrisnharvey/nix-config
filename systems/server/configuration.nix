@@ -144,6 +144,7 @@ in
     enable = true;
     package = pkgsUnstable.claude-code;
     name = "homelab";
+    capacity = 50;
     defaultOwner = "chrisnharvey";
     gitName = config.home-manager.users.chris.programs.git.settings.user.name;
     gitEmail = config.home-manager.users.chris.programs.git.settings.user.email;
