@@ -1,28 +1,27 @@
-# Claude Agents (agent host on `server`)
+# Claude Agents
 
-`server` runs a single `claude remote-control` server as a systemd service
-(`claude-agents`). From the Claude mobile app or [claude.ai/code](https://claude.ai/code)
-you can start a session on the **homelab** environment that behaves like a cloud agent:
+The [`claude-agents`](../modules/services/claude-agents.nix) module turns a NixOS host into an agent
+host: it runs a single `claude remote-control` server as a systemd service (`claude-agents`). From
+the Claude mobile app or [claude.ai/code](https://claude.ai/code) you can start a session on that
+host that behaves like a cloud agent:
 
 1. The session starts in an empty scratch folder.
-2. It clones whichever GitHub repo you name in your prompt (default owner `chrisnharvey`).
-3. It works on a `claude/<slug>` branch, commits (signed, as you), pushes and opens a **draft PR**.
+2. It clones whichever GitHub repo you name in your prompt (optionally with a default owner).
+3. It works on a `claude/<slug>` branch, commits (signed, as the configured identity), pushes and
+   opens a **draft PR**.
 
 There is no per-repo configuration. Adding a new repo needs no changes here, only access for the
 GitHub token (see [GitHub token](#github-token)).
 
-The module is [`modules/services/claude-agents.nix`](../modules/services/claude-agents.nix). It has
-generic defaults; the `server`-specific values are set in
-[`systems/server/configuration.nix`](../systems/server/configuration.nix):
+Example:
 
 ```nix
 services.claude-agents = {
   enable = true;
-  package = pkgsUnstable.claude-code;   # claude-code from nixpkgs-unstable
-  name = "homelab";
-  defaultOwner = "chrisnharvey";
-  gitName = config.home-manager.users.chris.programs.git.settings.user.name;
-  gitEmail = config.home-manager.users.chris.programs.git.settings.user.email;
+  name = "my-agents";                  # shown in claude.ai/code
+  defaultOwner = "my-github-user";
+  gitName = "Jane Doe";
+  gitEmail = "jane@example.com";       # must be verified on GitHub for signed commits
 };
 ```
 
@@ -33,7 +32,7 @@ claude.ai/code / Claude app
         │  (outbound HTTPS only, no inbound ports)
         ▼
 claude-agents.service  ── user `claude`, cwd /var/lib/claude/agents (not a git repo)
-  claude remote-control --name homelab --spawn worktree --capacity 6 --permission-mode acceptEdits
+  claude remote-control --name <name> --spawn worktree --capacity 6 --permission-mode acceptEdits
         │
         │ new session → WorktreeCreate hook (managed settings)
         ▼
@@ -47,7 +46,7 @@ gh repo clone owner/repo .  →  branch claude/<slug>  →  commit  →  push  �
 |---|---|---|
 | Service | `systemd.services.claude-agents` | `restartIfChanged = false`, so a rebuild doesn't kill running agents. `Restart=always`. Hardened with `ProtectSystem=strict` etc.; only `/var/lib/claude` is writable. |
 | User | `claude`, home `/var/lib/claude` | System user. Holds the Claude login, gh token and signing key. |
-| Managed settings | `/etc/claude-code/managed-settings.json` | `WorktreeCreate` hook + `permissions.allow` for `git`, `gh repo clone`, `gh pr create`, `gh pr view`, `nix-shell`, `nix shell`, `nix develop`, `nix search`. Applies to **every user** on `server`. |
+| Managed settings | `/etc/claude-code/managed-settings.json` | `WorktreeCreate` hook + `permissions.allow` for `git`, `gh repo clone`, `gh pr create`, `gh pr view`, `nix-shell`, `nix shell`, `nix develop`, `nix search`. Applies to **every user** on the host. |
 | Agent instructions | `/var/lib/claude/agents/CLAUDE.md` | Symlink into the Nix store (tmpfiles `L+`). The workflow sessions follow. |
 | Scratch folders | `/var/lib/claude/agents/sessions/` | Removed by `systemd-tmpfiles` after 14 days. There is deliberately no `WorktreeRemove` hook. |
 | Signing key | `/var/lib/claude/.ssh/signing_key` | ed25519, generated on first service start (`ExecStartPre`), never in the Nix store. |
@@ -58,7 +57,7 @@ gh repo clone owner/repo .  →  branch claude/<slug>  →  commit  →  push  �
 
 - **`cwd` is inside a git repo:** acts like Claude Code's default
   (`git worktree add -b worktree-<name> <top>/.claude/worktrees/<name>`). This keeps
-  `claude --worktree`, subagent isolation etc. working for other users on `server`.
+  `claude --worktree`, subagent isolation etc. working for other users on the host.
 - **Otherwise:** `mkdir -p <cwd>/sessions/<name>` and returns that. This is the agent-host case.
 
 It prints only the path on stdout; everything else goes to stderr.
@@ -88,8 +87,7 @@ Unfree packages aren't allowed in these shells.
 Spawned sessions inherit these from the service, so nothing depends on `~/.gitconfig`:
 
 - **Identity:** `GIT_AUTHOR_*` / `GIT_COMMITTER_*` from `services.claude-agents.gitName` /
-  `gitEmail`. On `server` these come from the home-manager git config (`homes/chris/common.nix`).
-  If unset, git uses the `claude` user's own git config.
+  `gitEmail`. If unset, git uses the `claude` user's own git config.
 - **HTTPS only:** `git@github.com:` and `ssh://git@github.com/` are rewritten to
   `https://github.com/`, so a gh `git_protocol` of `ssh` or SSH submodule URLs don't hit
   "Host key verification failed".
@@ -104,24 +102,24 @@ identity or signing.
 
 ## Options
 
-| Option | Default | `server` | |
-|---|---|---|---|
-| `enable` | `false` | `true` | |
-| `package` | `pkgs.claude-code` | unstable `claude-code` | See [Updating Claude Code](#updating-claude-code). |
-| `name` | `networking.hostName` | `"homelab"` | Name shown in claude.ai/code. |
-| `capacity` | `6` | | Max concurrent sessions, **including** the pre-created one (see [Known limitations](#known-limitations)). |
-| `permissionMode` | `"acceptEdits"` | | Permission mode for spawned sessions. |
-| `defaultOwner` | `null` | `"chrisnharvey"` | GitHub owner assumed when the prompt doesn't name one. |
-| `gitName` / `gitEmail` | `null` | home-manager git identity | Commit author/committer. Set both or neither. |
-| `signCommits` | `true` | | Sign commits and tags with the dedicated SSH key. |
+All under `services.claude-agents`:
+
+| Option | Default | |
+|---|---|---|
+| `enable` | `false` | |
+| `package` | `pkgs.claude-code` | See [Updating Claude Code](#updating-claude-code). |
+| `name` | `networking.hostName` | Name shown in claude.ai/code. |
+| `capacity` | `6` | Max concurrent sessions, **including** the pre-created one (see [Known limitations](#known-limitations)). |
+| `permissionMode` | `"acceptEdits"` | Permission mode for spawned sessions. |
+| `defaultOwner` | `null` | GitHub owner assumed when the prompt doesn't name one. |
+| `gitName` / `gitEmail` | `null` | Commit author/committer. Set both or neither. |
+| `signCommits` | `true` | Sign commits and tags with the dedicated SSH key. |
 
 ## Setup procedure
 
 ### 1. Deploy
 
-```bash
-sudo nixos-rebuild --flake ~/nix-config switch
-```
+Enable the module and run `nixos-rebuild switch`.
 
 Until step 2 is done the service fails and restarts every 10s with
 `You must be logged in to use Remote Control`. That's expected. Stop it while you do the setup so it
@@ -143,8 +141,8 @@ sudo -u claude -H bash -lc '
 '
 ```
 
-Run these from a directory the `claude` user can read (for example not inside `/home/chris`),
-otherwise git prints `failed to stat` errors.
+Run these from a directory the `claude` user can read (for example not inside your home
+directory), otherwise git prints `failed to stat` errors.
 
 - `claude auth login` **must** be a claude.ai subscription login. API keys, `ANTHROPIC_AUTH_TOKEN`,
   `apiKeyHelper` and `claude setup-token` / `CLAUDE_CODE_OAUTH_TOKEN` tokens can't establish Remote
@@ -189,10 +187,10 @@ systemctl status claude-agents
 journalctl -u claude-agents -f
 ```
 
-`homelab` should appear in the Code tab of the app / claude.ai/code. Start a **new** session with
-something like:
+The host should appear under its `name` in the Code tab of the app / claude.ai/code. Start a
+**new** session with something like:
 
-> in nix-config, add a comment to README and open a draft PR
+> in &lt;repo&gt;, add a comment to the README and open a draft PR
 
 Then check:
 
@@ -202,8 +200,8 @@ sudo -u claude bash -c 'cd /var/lib/claude/agents/sessions && for d in */; do
 done'
 ```
 
-Expect a `bridge-<session id>` folder on a `claude/...` branch, authored as you, and a draft PR
-whose commit shows Verified.
+Expect a `bridge-<session id>` folder on a `claude/...` branch, authored as `gitName`/`gitEmail`,
+and a draft PR whose commit shows Verified.
 
 ## Operations
 
@@ -219,11 +217,17 @@ whose commit shows Verified.
 
 ### Updating Claude Code
 
-The auto-updater is disabled (`DISABLE_AUTOUPDATER=1`). On `server` the package comes from
-`nixpkgs-unstable` (`pkgsUnstable` in `systems/server/configuration.nix`, with only `claude-code`
-allowed as unfree; `inputs` reaches the server config through `specialArgs` in `flake.nix`). It
-updates when `flake.lock` is updated. Stable nixpkgs lags well behind (2.1.223 vs 2.1.311 at the
-time of writing).
+The auto-updater is disabled (`DISABLE_AUTOUPDATER=1`); the version is whatever `package` is.
+`claude-code` moves fast and stable nixpkgs can lag well behind, so consider taking it from
+`nixpkgs-unstable` (it's unfree, so that nixpkgs instance needs to allow it):
+
+```nix
+services.claude-agents.package =
+  (import inputs.nixpkgs-unstable {
+    inherit (pkgs.stdenv.hostPlatform) system;
+    config.allowUnfreePredicate = pkg: lib.getName pkg == "claude-code";
+  }).claude-code;
+```
 
 After an update lands, restart the service to pick it up (`restartIfChanged = false`).
 
@@ -243,13 +247,11 @@ After an update lands, restart the service to pick it up (`restartIfChanged = fa
 ## Known limitations
 
 - **One pre-created session.** The server always creates one session in `~/agents` itself, which
-  takes a capacity slot (so 5 of 6 slots are for new sessions). `CLAUDE.md` tells that session to
+  takes a capacity slot (so `capacity - 1` slots are for new sessions). `CLAUDE.md` tells that session to
   work in a new folder under `sessions/` if you use it. `--no-create-session-in-dir` would avoid
   this but triggers the 409 above.
-- **The hook applies to every user on `server`.** For your own `claude --worktree` sessions there,
+- **The hook applies to every user on the host.** For your own `claude --worktree` sessions there,
   the `worktree-<name>` branch isn't deleted when the worktree is removed (Claude Code never deletes
   branches created by a hook).
 - **`-c` overrides.** A session could still bypass identity/signing with `git -c ...`; only
   `CLAUDE.md` asks it not to.
-- **Auto-upgrade.** `system.autoUpgrade` builds `server` from the GitHub repo's default branch (`main`), so changes here only
-  survive the nightly upgrade once merged.
