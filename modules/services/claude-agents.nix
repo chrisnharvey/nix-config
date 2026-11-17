@@ -9,8 +9,8 @@
 #
 # Each session started from claude.ai/code or the Claude app gets an empty
 # scratch folder under ${agentsDir}/sessions (via the WorktreeCreate hook),
-# clones the repo named in the prompt, works on a branch and pushes it. It only
-# opens a draft PR when asked to.
+# clones the repo named in the prompt and commits to a local branch. It only
+# pushes and opens a draft PR when asked to.
 # No per-repo configuration lives here.
 #
 # One-time manual setup (as the claude user) is required after the first
@@ -96,13 +96,16 @@ let
          `CLAUDE.md` (if it has one) and follow it.
       3. Create a branch named `claude/<short-slug-of-the-task>`. Never commit
          to the default branch.
-      4. When you're done: commit, push the branch, and reply with a short
-         summary and the branch name.
-      5. Don't open a pull request unless the user has explicitly asked for
-         one, either in the task or later in the conversation. Finishing the
-         work is not a request for a PR. If they haven't asked, end your reply
-         by asking whether they'd like you to open a draft PR. When they ask,
-         open it with `gh pr create --draft` and reply with the PR URL.
+      4. When you're done, commit to your local branch and reply with a short
+         summary of the changes.
+      5. Don't push and don't open a pull request until the user explicitly
+         asks you to, either in the task or later in the conversation.
+         Finishing the work is not a request to push. If they haven't asked,
+         end your reply by asking whether they'd like you to push the branch
+         and open a draft PR.
+      6. When they ask: push the branch with `git push -u origin <branch>`,
+         open a draft PR with `gh pr create --draft`, and reply with the PR
+         URL.
 
       ## Tools
 
