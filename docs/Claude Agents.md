@@ -7,8 +7,9 @@ host that behaves like a cloud agent:
 
 1. The session starts in an empty scratch folder.
 2. It clones whichever GitHub repo you name in your prompt (optionally with a default owner).
-3. It works on a `claude/<slug>` branch, commits (signed, as the configured identity), pushes and
-   opens a **draft PR**.
+3. It works on a `claude/<slug>` branch, commits (signed, as the configured identity) and pushes.
+4. It **doesn't open a PR on its own**: it asks whether you want a draft PR and only opens one
+   (`gh pr create --draft`) once you say so. Ask for one in your prompt to skip the question.
 
 There is no per-repo configuration. Adding a new repo needs no changes here, only access for the
 GitHub token (see [GitHub token](#github-token)).
@@ -39,7 +40,7 @@ claude-agents.service  ── user `claude`, cwd /var/lib/claude/agents (not a g
 /var/lib/claude/agents/sessions/<name>/   ← empty scratch folder per session
         │  reads /var/lib/claude/agents/CLAUDE.md (picked up from the parent folder)
         ▼
-gh repo clone owner/repo .  →  branch claude/<slug>  →  commit  →  push  →  gh pr create --draft
+gh repo clone owner/repo .  →  branch claude/<slug>  →  commit  →  push  →  (when asked) gh pr create --draft
 ```
 
 | Piece | Where | Notes |
