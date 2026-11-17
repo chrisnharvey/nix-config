@@ -47,7 +47,7 @@ gh repo clone owner/repo .  →  branch claude/<slug>  →  commit  →  push  �
 |---|---|---|
 | Service | `systemd.services.claude-agents` | `restartIfChanged = false`, so a rebuild doesn't kill running agents. `Restart=always`. Hardened with `ProtectSystem=strict` etc.; only `/var/lib/claude` is writable. |
 | User | `claude`, home `/var/lib/claude` | System user. Holds the Claude login, gh token and signing key. |
-| Managed settings | `/etc/claude-code/managed-settings.json` | `WorktreeCreate` hook + `permissions.allow` for `git`, `gh repo clone`, `gh pr create`, `gh pr view`. Applies to **every user** on `server`. |
+| Managed settings | `/etc/claude-code/managed-settings.json` | `WorktreeCreate` hook + `permissions.allow` for `git`, `gh repo clone`, `gh pr create`, `gh pr view`, `nix-shell`, `nix shell`, `nix develop`, `nix search`. Applies to **every user** on `server`. |
 | Agent instructions | `/var/lib/claude/agents/CLAUDE.md` | Symlink into the Nix store (tmpfiles `L+`). The workflow sessions follow. |
 | Scratch folders | `/var/lib/claude/agents/sessions/` | Removed by `systemd-tmpfiles` after 14 days. There is deliberately no `WorktreeRemove` hook. |
 | Signing key | `/var/lib/claude/.ssh/signing_key` | ed25519, generated on first service start (`ExecStartPre`), never in the Nix store. |
@@ -62,6 +62,26 @@ gh repo clone owner/repo .  →  branch claude/<slug>  →  commit  →  push  �
 - **Otherwise:** `mkdir -p <cwd>/sessions/<name>` and returns that. This is the agent-host case.
 
 It prints only the path on stdout; everything else goes to stderr.
+
+### Tools via Nix
+
+Almost nothing is installed for the `claude` user, and sessions can't install anything system-wide.
+`CLAUDE.md` tells sessions to run package managers and other tools through Nix, preferring the
+repo's own dev shell:
+
+```bash
+nix develop -c npm ci                       # repo has a flake dev shell
+nix-shell --run 'npm ci'                    # repo has shell.nix / default.nix
+nix-shell -p nodejs --run 'npm ci'          # ad hoc
+nix shell nixpkgs#go -c go mod tidy         # ad hoc (flakes)
+nix search nixpkgs <name>                   # find package names
+```
+
+`nix-shell`, `nix shell`, `nix develop` and `nix search` are pre-approved in the managed settings.
+Because `--run` / `-c` take any command, this effectively lets sessions run any command without
+asking, and `nix develop` also runs the repo's `shellHook`. The service sets `NIX_PATH` from
+`nix.nixPath` (services don't get the login one), so `<nixpkgs>` resolves to the system's nixpkgs.
+Unfree packages aren't allowed in these shells.
 
 ### Git setup (all via the service environment)
 

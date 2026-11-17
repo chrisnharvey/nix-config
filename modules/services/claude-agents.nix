@@ -68,6 +68,12 @@ let
       "Bash(gh repo clone:*)"
       "Bash(gh pr create:*)"
       "Bash(gh pr view:*)"
+      # Ad-hoc tools (npm, go, cargo, ...) via Nix instead of global installs.
+      # Note: these effectively allow any command, via --run / -c.
+      "Bash(nix-shell:*)"
+      "Bash(nix shell:*)"
+      "Bash(nix develop:*)"
+      "Bash(nix search:*)"
     ];
   };
 
@@ -91,6 +97,24 @@ let
        to the default branch.
     4. When you're done: push the branch, open a draft PR with
        `gh pr create --draft`, and reply with the PR URL.
+
+    ## Tools
+
+    This host runs NixOS and very little is installed globally, and you can't
+    install anything system-wide. When you need a tool, package manager or
+    runtime (node/npm, go, python/pip, cargo, make, jq, ...), run it through
+    Nix instead:
+
+    - If the repo has a dev shell (`flake.nix` with `devShells`, or
+      `shell.nix`/`default.nix`), use it so you get the project's versions:
+      `nix develop -c npm ci` or `nix-shell --run 'npm ci'`.
+    - Otherwise use a throwaway shell with the packages you need:
+      `nix-shell -p nodejs --run 'npm ci'`,
+      `nix shell nixpkgs#go -c go mod tidy`.
+    - Find package names with `nix search nixpkgs <name>`.
+
+    Don't try `apt`, `sudo`, `npm install -g`, `pip install --user` or
+    `curl | sh` installers.
     ''
     + lib.optionalString (cfg.gitName != null) ''
 
@@ -266,6 +290,9 @@ in
       environment = {
         HOME = home;
         DISABLE_AUTOUPDATER = "1";
+        # Services don't get the login NIX_PATH; without it `nix-shell -p`
+        # can't find <nixpkgs>.
+        NIX_PATH = lib.concatStringsSep ":" config.nix.nixPath;
       }
       # Commit identity. Env vars take precedence over `git -c user.*` and
       # any git config, so sessions can't commit under another identity.
