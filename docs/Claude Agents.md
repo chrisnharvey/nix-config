@@ -39,13 +39,13 @@ services.claude-agents = {
 claude.ai/code / Claude app
         │  (outbound HTTPS only, no inbound ports)
         ▼
-claude-agents.service  ── user `claude`, cwd /var/lib/claude/agents (not a git repo), sandboxed, no LAN
+claude-agents.service  ── user `claude`, cwd <agentsDir> (default /var/lib/claude/agents, not a git repo), sandboxed, no LAN
   claude remote-control --settings <settings.json> --name <name> --spawn worktree --capacity 6 --permission-mode acceptEdits
         │
         │ new session → WorktreeCreate hook (from the --settings file)
         ▼
-/var/lib/claude/agents/sessions/<name>/   ← scratch folder per session, `git init`ed by the hook
-        │  reads /var/lib/claude/agents/CLAUDE.md (picked up from the parent folder)
+<agentsDir>/sessions/<name>/   ← scratch folder per session, `git init`ed by the hook
+        │  reads <agentsDir>/CLAUDE.md (picked up from the parent folder)
         ▼
 git remote add origin https://github.com/owner/repo.git  →  git fetch  →  git remote set-head origin --auto
         ▼
@@ -54,12 +54,12 @@ checkout <default>  →  branch claude/<slug>  →  commit  →  (when asked) pu
 
 | Piece | Where | Notes |
 |---|---|---|
-| Service | `systemd.services.claude-agents`, in `claude-agents.slice` | `restartIfChanged = false`, so a rebuild doesn't kill running agents. `Restart=always`. Sandboxed, only `/var/lib/claude` is writable (see [Sandboxing](#sandboxing)); no local network (see [Network](#network)). |
+| Service | `systemd.services.claude-agents`, in `claude-agents.slice` | `restartIfChanged = false`, so a rebuild doesn't kill running agents. `Restart=always`. Sandboxed, only `/var/lib/claude` and `agentsDir` are writable (see [Sandboxing](#sandboxing)); no local network (see [Network](#network)). |
 | User | `claude`, home `/var/lib/claude` | System user. Holds the Claude login, gh token and signing key. |
 | Settings | `--settings /nix/store/…-claude-agents-settings.json` | `WorktreeCreate` hook + `permissions.allow` for `git`, `gh pr create`, `gh pr view`, `nix-shell`, `nix shell`, `nix develop`, `nix search`. Only for this service and its sessions, not for anyone else using Claude Code on the host. |
-| Agent instructions | `/var/lib/claude/agents/CLAUDE.md` | Symlink into the Nix store (tmpfiles `L+`). The workflow sessions follow. |
-| Scratch folders | `/var/lib/claude/agents/sessions/` | Removed as a whole by `claude-agents-cleanup.timer` after 14 days without changes (see [Session cleanup](#session-cleanup)). There is deliberately no `WorktreeRemove` hook. |
-| Saved work | `/var/lib/claude/agents/archive/` | Git bundles of unpushed work from removed folders. Deleted by `systemd-tmpfiles` after 90 days. |
+| Agent instructions | `<agentsDir>/CLAUDE.md` | Symlink into the Nix store (tmpfiles `L+`). The workflow sessions follow. |
+| Scratch folders | `<agentsDir>/sessions/` | Removed as a whole by `claude-agents-cleanup.timer` after 14 days without changes (see [Session cleanup](#session-cleanup)). There is deliberately no `WorktreeRemove` hook. |
+| Saved work | `<agentsDir>/archive/` | Git bundles of unpushed work from removed folders. Deleted by `systemd-tmpfiles` after 90 days. |
 | Signing key | `/var/lib/claude/.ssh/signing_key` | ed25519, generated on first service start (`ExecStartPre`), never in the Nix store. |
 
 ### The WorktreeCreate hook
@@ -139,8 +139,8 @@ about it.
 
 ### Sandboxing
 
-The service and the cleanup job run with `ProtectSystem=strict` (only `/var/lib/claude` is writable),
-`ProtectHome`, `PrivateTmp`, `PrivateDevices`, `PrivateIPC`, `ProtectProc=invisible` (other users'
+The service and the cleanup job run with `ProtectSystem=strict` (only `/var/lib/claude` and
+`agentsDir` are writable, and for the cleanup job only `agentsDir`), `ProtectHome`, `PrivateTmp`, `PrivateDevices`, `PrivateIPC`, `ProtectProc=invisible` (other users'
 processes are hidden), `ProtectKernelTunables`, `ProtectKernelModules`, `ProtectKernelLogs`,
 `ProtectControlGroups`, `ProtectClock`, `ProtectHostname`, `NoNewPrivileges`, an empty capability
 bounding set, `RestrictSUIDSGID`, `RestrictRealtime`, `LockPersonality`,
@@ -163,7 +163,7 @@ time: a session still in use after 14 days could lose files and git objects, unp
 included.)
 
 Before removing a folder, it saves whatever would be lost from each repo in it to
-`/var/lib/claude/agents/archive/<folder>.bundle`: commits that aren't on a remote-tracking branch, a
+`<agentsDir>/archive/<folder>.bundle`: commits that aren't on a remote-tracking branch, a
 detached `HEAD`, and uncommitted changes (untracked files too, ignored ones not) as
 `refs/archive/uncommitted`. `<folder>.txt` next to it records the repo's origin. A folder with nothing
 unpushed is removed without a bundle. If it can't save a repo's work (for example because the repo
@@ -172,7 +172,7 @@ is corrupt), it keeps the folder and the unit fails, so `systemctl --failed` sho
 To restore saved work, in a clone of that repo:
 
 ```bash
-sudo install -o "$USER" /var/lib/claude/agents/archive/<folder>.bundle /tmp/
+sudo install -o "$USER" <agentsDir>/archive/<folder>.bundle /tmp/
 git bundle list-heads /tmp/<folder>.bundle
 git fetch /tmp/<folder>.bundle 'refs/*:refs/restored/*'   # and HEAD:restored-head if it's listed
 ```
@@ -207,6 +207,7 @@ All under `services.claude-agents`:
 | `enable` | `false` | |
 | `package` | `pkgs.claude-code` | See [Updating Claude Code](#updating-claude-code). |
 | `name` | `networking.hostName` | Name shown in claude.ai/code. |
+| `agentsDir` | `"/var/lib/claude/agents"` | Working directory: holds `CLAUDE.md`, `sessions/` and `archive/`. See [Moving the agents directory](#moving-the-agents-directory). |
 | `capacity` | `6` | Max concurrent sessions, **including** the pre-created one (see [Known limitations](#known-limitations)). |
 | `permissionMode` | `"acceptEdits"` | Permission mode for spawned sessions. |
 | `defaultOwner` | `null` | GitHub owner assumed when the prompt doesn't name one. |
@@ -236,7 +237,7 @@ sudo -u claude -H bash -lc '
   claude auth login                     # choose the claude.ai (subscription) option
   gh auth login                         # GitHub.com → HTTPS → paste token (see below)
   gh config set git_protocol https
-  cd ~/agents && claude                 # accept "trust this folder", then quit
+  cd ~/agents && claude                 # (or your agentsDir) accept "trust this folder", then quit
   claude remote-control                 # answer y to "Enable Remote Control?", then Ctrl-C
 '
 ```
@@ -295,7 +296,7 @@ The host should appear under its `name` in the Code tab of the app / claude.ai/c
 Then check:
 
 ```bash
-sudo -u claude bash -c 'cd /var/lib/claude/agents/sessions && for d in */; do
+sudo -u claude bash -c 'cd /var/lib/claude/agents/sessions && for d in */; do   # or <agentsDir>/sessions
   echo "$d: $(git -C "$d" branch --show-current 2>/dev/null) $(git -C "$d" log -1 --format="%an <%ae> sig=%G?" 2>/dev/null)"
 done'
 ```
@@ -333,14 +334,32 @@ services.claude-agents.package =
 
 After an update lands, restart the service to pick it up (`restartIfChanged = false`).
 
+### Moving the agents directory
+
+`agentsDir` can live outside the `claude` user's home (for example on a bigger or snapshotted
+filesystem). The module creates it with `systemd-tmpfiles` (missing parents are created owned by
+root, mode 0755), adds it to `ReadWritePaths` and sets `RequiresMountsFor` on it for the service and
+the cleanup job. The home directory, with the Claude login, gh token, signing key and session
+transcripts, stays at `/var/lib/claude`.
+
+After changing it:
+
+1. `nixos-rebuild switch` creates the new directory and its `CLAUDE.md` symlink.
+2. Trust the new folder once, as in step 2 of the setup:
+   `sudo -u claude -H bash -lc 'cd <agentsDir> && claude'`, accept, then quit.
+3. `sudo systemctl restart claude-agents` (ends running sessions).
+
+Neither the cleanup job nor `systemd-tmpfiles` looks at the old directory any more. Push or move
+anything you want to keep out of its `sessions/` and `archive/` folders, then delete it.
+
 ## Troubleshooting
 
 | Symptom | Cause / fix |
 |---|---|
 | Service restarts every 10s: `You must be logged in to use Remote Control` | Step 2 not done, or the login expired: `sudo -u claude -H claude auth login`. |
 | `Remote Control requires claude.ai subscription auth` | An API key or token is in use. Don't set `ANTHROPIC_API_KEY`, `ANTHROPIC_AUTH_TOKEN`, `CLAUDE_CODE_OAUTH_TOKEN`, `DISABLE_GROWTHBOOK`, `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC` or `CLAUDE_CODE_DISABLE_FEATURE_FLAGS` in the unit or in `env` of any settings file. |
-| `Workspace not trusted` | Run `claude` once interactively in `~/agents` as the `claude` user (step 2). |
-| `Registration: Failed with status 409: This folder is already served by a terminal claude remote-control` | Seen when adding `--no-create-session-in-dir` while the previous server's sessions were still unarchived. Don't add that flag. Also check nothing else is running `claude remote-control` in `~/agents`. |
+| `Workspace not trusted` | Run `claude` once interactively in `agentsDir` as the `claude` user (step 2). Needed again after changing `agentsDir`. |
+| `Registration: Failed with status 409: This folder is already served by a terminal claude remote-control` | Seen when adding `--no-create-session-in-dir` while the previous server's sessions were still unarchived. Don't add that flag. Also check nothing else is running `claude remote-control` in `agentsDir`. |
 | Session says the fetch failed on **SSH host key verification** | Something is using SSH. The service rewrites GitHub SSH URLs to HTTPS; if you see this, check the unit still has the `GIT_CONFIG_*` variables (`systemctl show claude-agents -p Environment`) and that the service was restarted after the rebuild. |
 | Commits authored as `Claude <noreply@anthropic.com>` | The session overrode the identity because none was set. The service sets `GIT_AUTHOR_*`; restart it after rebuilding. |
 | Commits **Unverified** | Signing key not added on GitHub as a *Signing Key*, or the commit email isn't verified on your account. |
@@ -351,7 +370,7 @@ After an update lands, restart the service to pick it up (`restartIfChanged = fa
 
 ## Known limitations
 
-- **One pre-created session.** The server always creates one session in `~/agents` itself, which
+- **One pre-created session.** The server always creates one session in `agentsDir` itself, which
   takes a capacity slot (so `capacity - 1` slots are for new sessions). `CLAUDE.md` tells that session to
   work in a new folder under `sessions/` if you use it. `--no-create-session-in-dir` would avoid
   this but triggers the 409 above.

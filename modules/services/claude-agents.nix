@@ -21,7 +21,7 @@ let
   cfg = config.services.claude-agents;
 
   home = "/var/lib/claude";
-  agentsDir = "${home}/agents";
+  inherit (cfg) agentsDir;
   sessionsDir = "${agentsDir}/sessions";
   archiveDir = "${agentsDir}/archive";
 
@@ -433,7 +433,10 @@ let
     PrivateDevices = true;
     PrivateIPC = true;
     ProtectSystem = "strict";
-    ReadWritePaths = [ home ];
+    ReadWritePaths = [
+      home
+      agentsDir
+    ];
     ProtectHome = true;
     ProtectProc = "invisible";
     ProtectKernelTunables = true;
@@ -466,6 +469,22 @@ in
       default = config.networking.hostName;
       defaultText = lib.literalExpression "config.networking.hostName";
       description = "Name shown for this host in claude.ai/code and the Claude app.";
+    };
+
+    agentsDir = lib.mkOption {
+      type = lib.types.pathWith {
+        inStore = false;
+        absolute = true;
+      };
+      default = "${home}/agents";
+      example = "/srv/claude/agents";
+      description = ''
+        Working directory of the agent host. It holds the agents' CLAUDE.md,
+        a `sessions/` folder with one scratch git repo per session, and an
+        `archive/` folder for work saved by the cleanup. Missing parent
+        directories are created owned by root. The claude user must have
+        trusted this folder once interactively (see docs/Claude Agents.md).
+      '';
     };
 
     capacity = lib.mkOption {
@@ -526,10 +545,10 @@ in
       type = lib.types.ints.positive;
       default = 14;
       description = ''
-        Remove a session's folder under ${sessionsDir} once neither the
+        Remove a session's folder under `agentsDir`/sessions once neither the
         folder nor the session's transcript has changed for this many days.
         Unpushed commits and uncommitted changes are saved as a git bundle in
-        ${archiveDir} first, and bundles are kept for 90 days.
+        `agentsDir`/archive first, and bundles are kept for 90 days.
       '';
     };
 
@@ -588,6 +607,7 @@ in
       wantedBy = [ "multi-user.target" ];
       wants = [ "network-online.target" ];
       after = [ "network-online.target" ];
+      unitConfig.RequiresMountsFor = [ agentsDir ];
 
       # Don't kill running agent sessions on nixos-rebuild switch
       restartIfChanged = false;
@@ -696,6 +716,7 @@ in
 
     systemd.services.claude-agents-cleanup = {
       description = "Remove inactive Claude agent session folders";
+      unitConfig.RequiresMountsFor = [ agentsDir ];
       serviceConfig = sandbox // {
         Type = "oneshot";
         User = "claude";
