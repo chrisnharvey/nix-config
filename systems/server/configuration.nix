@@ -72,6 +72,7 @@ in
     ./hardware-configuration.nix
     ./filesystems.nix
     ./backup.nix
+    ../../modules/services/claude-agents.nix
   ];
 
   # Bootloader.
@@ -130,6 +131,8 @@ in
     package = pkgs.ollama-vulkan;
     host = "0.0.0.0";
   };
+
+  services.claude-agents.enable = true;
 
   services.syncthing = {
     enable = true;

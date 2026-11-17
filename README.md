@@ -7,6 +7,7 @@ A comprehensive NixOS configuration using Nix Flakes, managing multiple systems 
 - [Quick Reference](QUICKREF.md) - Common tasks and module reference
 - [Contributing Guide](CONTRIBUTING.md) - How to add systems and modify modules
 - [Example Configuration](EXAMPLE-new-system.nix) - Template for new systems
+- [Claude Agents](docs/Claude%20Agents.md) - Claude Code agent host on `server`
 
 ## 🖥️ Systems
 
