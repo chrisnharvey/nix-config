@@ -79,42 +79,42 @@ let
 
   agentsClaudeMd = pkgs.writeText "claude-agents-CLAUDE.md" (
     ''
-    # Agent host instructions
+      # Agent host instructions
 
-    You are running as a remote agent on a home server. Follow this workflow:
+      You are running as a remote agent on a home server. Follow this workflow:
 
-    0. If your working directory is `${agentsDir}` itself (not a folder
-       under `sessions/`), first create `${agentsDir}/sessions/<short-slug>`
-       and do all work there.
-    1. You start in an empty scratch folder. Work out which GitHub repository
-       the task is about${
-         lib.optionalString (cfg.defaultOwner != null) " (default owner: `${cfg.defaultOwner}`)"
-       }. If it's ambiguous, ask before doing anything else.
-    2. Clone it into the current folder with
-       `gh repo clone <owner>/<repo> .`, then read that repository's
-       `CLAUDE.md` (if it has one) and follow it.
-    3. Create a branch named `claude/<short-slug-of-the-task>`. Never commit
-       to the default branch.
-    4. When you're done: push the branch, open a draft PR with
-       `gh pr create --draft`, and reply with the PR URL.
+      0. If your working directory is `${agentsDir}` itself (not a folder
+         under `sessions/`), first create `${agentsDir}/sessions/<short-slug>`
+         and do all work there.
+      1. You start in an empty scratch folder. Work out which GitHub repository
+         the task is about${
+           lib.optionalString (cfg.defaultOwner != null) " (default owner: `${cfg.defaultOwner}`)"
+         }. If it's ambiguous, ask before doing anything else.
+      2. Clone it into the current folder with
+         `gh repo clone <owner>/<repo> .`, then read that repository's
+         `CLAUDE.md` (if it has one) and follow it.
+      3. Create a branch named `claude/<short-slug-of-the-task>`. Never commit
+         to the default branch.
+      4. When you're done: push the branch, open a draft PR with
+         `gh pr create --draft`, and reply with the PR URL.
 
-    ## Tools
+      ## Tools
 
-    This host runs NixOS and very little is installed globally, and you can't
-    install anything system-wide. When you need a tool, package manager or
-    runtime (node/npm, go, python/pip, cargo, make, jq, ...), run it through
-    Nix instead:
+      This host runs NixOS and very little is installed globally, and you can't
+      install anything system-wide. When you need a tool, package manager or
+      runtime (node/npm, go, python/pip, cargo, make, jq, ...), run it through
+      Nix instead:
 
-    - If the repo has a dev shell (`flake.nix` with `devShells`, or
-      `shell.nix`/`default.nix`), use it so you get the project's versions:
-      `nix develop -c npm ci` or `nix-shell --run 'npm ci'`.
-    - Otherwise use a throwaway shell with the packages you need:
-      `nix-shell -p nodejs --run 'npm ci'`,
-      `nix shell nixpkgs#go -c go mod tidy`.
-    - Find package names with `nix search nixpkgs <name>`.
+      - If the repo has a dev shell (`flake.nix` with `devShells`, or
+        `shell.nix`/`default.nix`), use it so you get the project's versions:
+        `nix develop -c npm ci` or `nix-shell --run 'npm ci'`.
+      - Otherwise use a throwaway shell with the packages you need:
+        `nix-shell -p nodejs --run 'npm ci'`,
+        `nix shell nixpkgs#go -c go mod tidy`.
+      - Find package names with `nix search nixpkgs <name>`.
 
-    Don't try `apt`, `sudo`, `npm install -g`, `pip install --user` or
-    `curl | sh` installers.
+      Don't try `apt`, `sudo`, `npm install -g`, `pip install --user` or
+      `curl | sh` installers.
     ''
     + lib.optionalString (cfg.gitName != null) ''
 
@@ -303,28 +303,29 @@ in
         GIT_COMMITTER_EMAIL = cfg.gitEmail;
       }
       // gitConfigEnv (
-      {
-        # Auth is a gh token over HTTPS, not SSH: rewrite SSH GitHub URLs
-        # (from gh's git_protocol, submodules, etc.) so clone/push don't hit
-        # SSH host key verification.
-        "url.https://github.com/.insteadOf" = [
-          "git@github.com:"
-          "ssh://git@github.com/"
-        ];
-        # `gh auth setup-git` writes an absolute /nix/store path to gh, which
-        # breaks once that gh is garbage-collected. Reset the helper list
-        # (empty value) and use gh from PATH instead.
-        "credential.https://github.com.helper" = [
-          ""
-          "!gh auth git-credential"
-        ];
-      }
-      // lib.optionalAttrs cfg.signCommits {
-        "gpg.format" = [ "ssh" ];
-        "user.signingKey" = [ signingKey ];
-        "commit.gpgSign" = [ "true" ];
-        "tag.gpgSign" = [ "true" ];
-      });
+        {
+          # Auth is a gh token over HTTPS, not SSH: rewrite SSH GitHub URLs
+          # (from gh's git_protocol, submodules, etc.) so clone/push don't hit
+          # SSH host key verification.
+          "url.https://github.com/.insteadOf" = [
+            "git@github.com:"
+            "ssh://git@github.com/"
+          ];
+          # `gh auth setup-git` writes an absolute /nix/store path to gh, which
+          # breaks once that gh is garbage-collected. Reset the helper list
+          # (empty value) and use gh from PATH instead.
+          "credential.https://github.com.helper" = [
+            ""
+            "!gh auth git-credential"
+          ];
+        }
+        // lib.optionalAttrs cfg.signCommits {
+          "gpg.format" = [ "ssh" ];
+          "user.signingKey" = [ signingKey ];
+          "commit.gpgSign" = [ "true" ];
+          "tag.gpgSign" = [ "true" ];
+        }
+      );
 
       serviceConfig = {
         User = "claude";
