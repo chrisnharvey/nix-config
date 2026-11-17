@@ -6,10 +6,18 @@
   config,
   pkgs,
   lib,
+  inputs,
   ...
 }:
 
 let
+  # nixpkgs-unstable, for packages that move faster than the stable release.
+  # Only claude-code is allowed to be unfree here.
+  pkgsUnstable = import inputs.nixpkgs-unstable {
+    inherit (pkgs.stdenv.hostPlatform) system;
+    config.allowUnfreePredicate = pkg: lib.getName pkg == "claude-code";
+  };
+
   # Host <-> ipvlan-container shims. The kernel won't hairpin traffic
   # between an ipvlan parent and its children, so the host needs its own
   # ipvlan child per parent interface to reach containers on it.
@@ -132,7 +140,14 @@ in
     host = "0.0.0.0";
   };
 
-  services.claude-agents.enable = true;
+  services.claude-agents = {
+    enable = true;
+    package = pkgsUnstable.claude-code;
+    name = "homelab";
+    defaultOwner = "chrisnharvey";
+    gitName = config.home-manager.users.chris.programs.git.settings.user.name;
+    gitEmail = config.home-manager.users.chris.programs.git.settings.user.email;
+  };
 
   services.syncthing = {
     enable = true;

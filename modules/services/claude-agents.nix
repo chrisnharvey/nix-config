@@ -71,7 +71,8 @@ let
     ];
   };
 
-  agentsClaudeMd = pkgs.writeText "claude-agents-CLAUDE.md" ''
+  agentsClaudeMd = pkgs.writeText "claude-agents-CLAUDE.md" (
+    ''
     # Agent host instructions
 
     You are running as a remote agent on a home server. Follow this workflow:
@@ -80,8 +81,9 @@ let
        under `sessions/`), first create `${agentsDir}/sessions/<short-slug>`
        and do all work there.
     1. You start in an empty scratch folder. Work out which GitHub repository
-       the task is about (default owner: `${cfg.defaultOwner}`). If it's
-       ambiguous, ask before doing anything else.
+       the task is about${
+         lib.optionalString (cfg.defaultOwner != null) " (default owner: `${cfg.defaultOwner}`)"
+       }. If it's ambiguous, ask before doing anything else.
     2. Clone it into the current folder with
        `gh repo clone <owner>/<repo> .`, then read that repository's
        `CLAUDE.md` (if it has one) and follow it.
@@ -89,12 +91,19 @@ let
        to the default branch.
     4. When you're done: push the branch, open a draft PR with
        `gh pr create --draft`, and reply with the PR URL.
+    ''
+    + lib.optionalString (cfg.gitName != null) ''
 
-    Git commit identity and commit signing are already set up via the
-    environment. Don't run `git config user.*` or `git config` for signing,
-    don't pass `-c user.*`, `-c commit.gpgsign`, `--no-gpg-sign` or similar.
-    If a commit fails to sign, stop and report the error.
-  '';
+      Git commit identity is set via the environment. Don't change it (no
+      `git config user.*`, no `-c user.*`).
+    ''
+    + lib.optionalString cfg.signCommits ''
+
+      Commits are signed automatically. Don't disable signing (no
+      `-c commit.gpgsign=false`, `--no-gpg-sign` or similar). If a commit fails
+      to sign, stop and report the error.
+    ''
+  );
 
   # Dedicated SSH key used only for signing commits. Generated on first start
   # (never in the Nix store); add the .pub to GitHub as a *signing* key.
@@ -151,7 +160,8 @@ in
 
     name = lib.mkOption {
       type = lib.types.str;
-      default = "homelab";
+      default = config.networking.hostName;
+      defaultText = lib.literalExpression "config.networking.hostName";
       description = "Name shown for this host in claude.ai/code and the Claude app.";
     };
 
@@ -175,23 +185,28 @@ in
     };
 
     defaultOwner = lib.mkOption {
-      type = lib.types.str;
-      default = "chrisnharvey";
+      type = lib.types.nullOr lib.types.str;
+      default = null;
+      example = "octocat";
       description = "GitHub owner assumed when a prompt names a repo without one.";
     };
 
     gitName = lib.mkOption {
-      type = lib.types.str;
-      default = config.home-manager.users.chris.programs.git.settings.user.name;
-      defaultText = lib.literalExpression "config.home-manager.users.chris.programs.git.settings.user.name";
-      description = "Author/committer name for commits made by agent sessions.";
+      type = lib.types.nullOr lib.types.str;
+      default = null;
+      description = ''
+        Author/committer name for commits made by agent sessions. If null,
+        git falls back to the claude user's own git config.
+      '';
     };
 
     gitEmail = lib.mkOption {
-      type = lib.types.str;
-      default = config.home-manager.users.chris.programs.git.settings.user.email;
-      defaultText = lib.literalExpression "config.home-manager.users.chris.programs.git.settings.user.email";
-      description = "Author/committer email for commits made by agent sessions.";
+      type = lib.types.nullOr lib.types.str;
+      default = null;
+      description = ''
+        Author/committer email for commits made by agent sessions. If null,
+        git falls back to the claude user's own git config.
+      '';
     };
 
     signCommits = lib.mkOption {
@@ -206,6 +221,13 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    assertions = [
+      {
+        assertion = (cfg.gitName == null) == (cfg.gitEmail == null);
+        message = "services.claude-agents: set both gitName and gitEmail, or neither.";
+      }
+    ];
+
     users.users.claude = {
       isSystemUser = true;
       group = "claude";
@@ -244,9 +266,10 @@ in
       environment = {
         HOME = home;
         DISABLE_AUTOUPDATER = "1";
-
-        # Commit identity. Env vars take precedence over `git -c user.*` and
-        # any git config, so sessions can't commit under another identity.
+      }
+      # Commit identity. Env vars take precedence over `git -c user.*` and
+      # any git config, so sessions can't commit under another identity.
+      // lib.optionalAttrs (cfg.gitName != null) {
         GIT_AUTHOR_NAME = cfg.gitName;
         GIT_AUTHOR_EMAIL = cfg.gitEmail;
         GIT_COMMITTER_NAME = cfg.gitName;

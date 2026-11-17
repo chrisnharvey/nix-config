@@ -11,9 +11,20 @@ you can start a session on the **homelab** environment that behaves like a cloud
 There is no per-repo configuration. Adding a new repo needs no changes here, only access for the
 GitHub token (see [GitHub token](#github-token)).
 
-The module is [`modules/services/claude-agents.nix`](../modules/services/claude-agents.nix). It's
-enabled in [`systems/server/configuration.nix`](../systems/server/configuration.nix) with
-`services.claude-agents.enable = true;`.
+The module is [`modules/services/claude-agents.nix`](../modules/services/claude-agents.nix). It has
+generic defaults; the `server`-specific values are set in
+[`systems/server/configuration.nix`](../systems/server/configuration.nix):
+
+```nix
+services.claude-agents = {
+  enable = true;
+  package = pkgsUnstable.claude-code;   # claude-code from nixpkgs-unstable
+  name = "homelab";
+  defaultOwner = "chrisnharvey";
+  gitName = config.home-manager.users.chris.programs.git.settings.user.name;
+  gitEmail = config.home-manager.users.chris.programs.git.settings.user.email;
+};
+```
 
 ## How it works
 
@@ -56,8 +67,9 @@ It prints only the path on stdout; everything else goes to stderr.
 
 Spawned sessions inherit these from the service, so nothing depends on `~/.gitconfig`:
 
-- **Identity:** `GIT_AUTHOR_*` / `GIT_COMMITTER_*` come from your home-manager git config
-  (`homes/chris/common.nix`). Overridable with `services.claude-agents.gitName` / `gitEmail`.
+- **Identity:** `GIT_AUTHOR_*` / `GIT_COMMITTER_*` from `services.claude-agents.gitName` /
+  `gitEmail`. On `server` these come from the home-manager git config (`homes/chris/common.nix`).
+  If unset, git uses the `claude` user's own git config.
 - **HTTPS only:** `git@github.com:` and `ssh://git@github.com/` are rewritten to
   `https://github.com/`, so a gh `git_protocol` of `ssh` or SSH submodule URLs don't hit
   "Host key verification failed".
@@ -72,16 +84,16 @@ identity or signing.
 
 ## Options
 
-| Option | Default | |
-|---|---|---|
-| `enable` | `false` | |
-| `package` | `pkgs.claude-code` | See [Updating Claude Code](#updating-claude-code). |
-| `name` | `"homelab"` | Name shown in claude.ai/code. |
-| `capacity` | `6` | Max concurrent sessions, **including** the pre-created one (see [Known limitations](#known-limitations)). |
-| `permissionMode` | `"acceptEdits"` | Permission mode for spawned sessions. |
-| `defaultOwner` | `"chrisnharvey"` | GitHub owner assumed when the prompt doesn't name one. |
-| `gitName` / `gitEmail` | from `home-manager.users.chris.programs.git` | Commit author/committer. |
-| `signCommits` | `true` | Sign commits and tags with the dedicated SSH key. |
+| Option | Default | `server` | |
+|---|---|---|---|
+| `enable` | `false` | `true` | |
+| `package` | `pkgs.claude-code` | unstable `claude-code` | See [Updating Claude Code](#updating-claude-code). |
+| `name` | `networking.hostName` | `"homelab"` | Name shown in claude.ai/code. |
+| `capacity` | `6` | | Max concurrent sessions, **including** the pre-created one (see [Known limitations](#known-limitations)). |
+| `permissionMode` | `"acceptEdits"` | | Permission mode for spawned sessions. |
+| `defaultOwner` | `null` | `"chrisnharvey"` | GitHub owner assumed when the prompt doesn't name one. |
+| `gitName` / `gitEmail` | `null` | home-manager git identity | Commit author/committer. Set both or neither. |
+| `signCommits` | `true` | | Sign commits and tags with the dedicated SSH key. |
 
 ## Setup procedure
 
@@ -187,11 +199,13 @@ whose commit shows Verified.
 
 ### Updating Claude Code
 
-The auto-updater is disabled (`DISABLE_AUTOUPDATER=1`); the version comes from `pkgs.claude-code`
-on the `server`'s nixpkgs (stable). At the time of writing that's **2.1.223**, well behind the
-latest release. To run something newer, set `services.claude-agents.package`, for example from
-`nixpkgs-unstable` passed in through `specialArgs`, an overlay, or a claude-code flake input. Then
-rebuild and restart the service.
+The auto-updater is disabled (`DISABLE_AUTOUPDATER=1`). On `server` the package comes from
+`nixpkgs-unstable` (`pkgsUnstable` in `systems/server/configuration.nix`, with only `claude-code`
+allowed as unfree; `inputs` reaches the server config through `specialArgs` in `flake.nix`). It
+updates when `flake.lock` is updated. Stable nixpkgs lags well behind (2.1.223 vs 2.1.311 at the
+time of writing).
+
+After an update lands, restart the service to pick it up (`restartIfChanged = false`).
 
 ## Troubleshooting
 
