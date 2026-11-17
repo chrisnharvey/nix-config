@@ -5,8 +5,10 @@ host: it runs a single `claude remote-control` server as a systemd service (`cla
 the Claude mobile app or [claude.ai/code](https://claude.ai/code) you can start a session on that
 host that behaves like a cloud agent:
 
-1. The session starts in an empty scratch folder.
-2. It clones whichever GitHub repo you name in your prompt (optionally with a default owner).
+1. The session starts in its own scratch folder, which is already an empty git repo so the Claude
+   app's diff pane works (see [The WorktreeCreate hook](#the-worktreecreate-hook)).
+2. It fetches whichever GitHub repo you name in your prompt into that folder (optionally with a
+   default owner) and checks out the default branch.
 3. It works on a `claude/<slug>` branch and commits locally (signed, as the configured identity).
 4. It **doesn't push or open a PR on its own**: it asks whether you want the branch pushed and a
    draft PR opened, and only does both once you say so. Ask for a draft PR in your prompt to skip
@@ -38,17 +40,19 @@ claude-agents.service  ── user `claude`, cwd /var/lib/claude/agents (not a g
         │
         │ new session → WorktreeCreate hook (managed settings)
         ▼
-/var/lib/claude/agents/sessions/<name>/   ← empty scratch folder per session
+/var/lib/claude/agents/sessions/<name>/   ← scratch folder per session, `git init`ed by the hook
         │  reads /var/lib/claude/agents/CLAUDE.md (picked up from the parent folder)
         ▼
-gh repo clone owner/repo .  →  branch claude/<slug>  →  commit  →  (when asked) push  →  gh pr create --draft
+git remote add origin https://github.com/owner/repo.git  →  git fetch  →  git remote set-head origin --auto
+        ▼
+checkout <default>  →  branch claude/<slug>  →  commit  →  (when asked) push  →  gh pr create --draft
 ```
 
 | Piece | Where | Notes |
 |---|---|---|
 | Service | `systemd.services.claude-agents` | `restartIfChanged = false`, so a rebuild doesn't kill running agents. `Restart=always`. Hardened with `ProtectSystem=strict` etc.; only `/var/lib/claude` is writable. |
 | User | `claude`, home `/var/lib/claude` | System user. Holds the Claude login, gh token and signing key. |
-| Managed settings | `/etc/claude-code/managed-settings.json` | `WorktreeCreate` hook + `permissions.allow` for `git`, `gh repo clone`, `gh pr create`, `gh pr view`, `nix-shell`, `nix shell`, `nix develop`, `nix search`. Applies to **every user** on the host. |
+| Managed settings | `/etc/claude-code/managed-settings.json` | `WorktreeCreate` hook + `permissions.allow` for `git`, `gh pr create`, `gh pr view`, `nix-shell`, `nix shell`, `nix develop`, `nix search`. Applies to **every user** on the host. |
 | Agent instructions | `/var/lib/claude/agents/CLAUDE.md` | Symlink into the Nix store (tmpfiles `L+`). The workflow sessions follow. |
 | Scratch folders | `/var/lib/claude/agents/sessions/` | Removed by `systemd-tmpfiles` after 14 days. There is deliberately no `WorktreeRemove` hook. |
 | Signing key | `/var/lib/claude/.ssh/signing_key` | ed25519, generated on first service start (`ExecStartPre`), never in the Nix store. |
@@ -60,9 +64,30 @@ gh repo clone owner/repo .  →  branch claude/<slug>  →  commit  →  (when a
 - **`cwd` is inside a git repo:** acts like Claude Code's default
   (`git worktree add -b worktree-<name> <top>/.claude/worktrees/<name>`). This keeps
   `claude --worktree`, subagent isolation etc. working for other users on the host.
-- **Otherwise:** `mkdir -p <cwd>/sessions/<name>` and returns that. This is the agent-host case.
+- **Otherwise:** `mkdir -p <cwd>/sessions/<name>`, `git init -q` in it, and returns that. This is
+  the agent-host case.
 
-It prints only the path on stdout; everything else goes to stderr.
+It prints only the path on stdout; everything else (including git's output) goes to stderr.
+
+The `git init` is there for the diff pane in the Claude app, which needs the session's folder to be
+in a git repo. A session whose folder wasn't a repo when it started is tagged `config:no-git-repo`
+and gets no diff pane, even after the agent has put a repo there. Because the folder already has a
+`.git`, `CLAUDE.md` tells the agent not to clone but to add `origin`, fetch,
+`git remote set-head origin --auto`, check out the default branch from `origin/HEAD`, and then
+create its `claude/<slug>` branch. The diff pane can then compare that branch against the default
+branch.
+
+**Picking up a changed hook.** The hook's command is a `/nix/store` path inside
+`/etc/claude-code/managed-settings.json`. The Claude Code hooks docs say direct edits to settings
+files are "normally picked up automatically by the file watcher", but on NixOS that file is a
+symlink to `/etc/static/...`, and a rebuild swaps the `/etc/static` symlink rather than writing to the
+watched file, so the running server may keep using the old hook. This wasn't confirmed either way, and
+`restartIfChanged = false` means the rebuild won't restart it for you. After changing the hook, run
+`sudo systemctl restart claude-agents` (this ends running sessions). To check without restarting,
+start a new session and see whether its folder has a `.git`:
+`sudo ls -a /var/lib/claude/agents/sessions/<newest>/`. `CLAUDE.md` takes effect for new sessions
+without a restart, and runs `git init` itself if the folder isn't a repo, so a server still running
+the old hook keeps working (just without the diff pane).
 
 ### Tools via Nix
 
@@ -157,7 +182,7 @@ directory), otherwise git prints `failed to stat` errors.
 
 Use a **fine-grained personal access token** limited to your repos, with:
 
-- **Contents:** read and write (clone, push)
+- **Contents:** read and write (fetch, push)
 - **Pull requests:** read and write (`gh pr create`, `gh pr view`)
 - **Metadata:** read (always required)
 
@@ -242,7 +267,7 @@ After an update lands, restart the service to pick it up (`restartIfChanged = fa
 | `Remote Control requires claude.ai subscription auth` | An API key or token is in use. Don't set `ANTHROPIC_API_KEY`, `ANTHROPIC_AUTH_TOKEN`, `CLAUDE_CODE_OAUTH_TOKEN`, `DISABLE_GROWTHBOOK`, `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC` or `CLAUDE_CODE_DISABLE_FEATURE_FLAGS` in the unit or in `env` of any settings file. |
 | `Workspace not trusted` | Run `claude` once interactively in `~/agents` as the `claude` user (step 2). |
 | `Registration: Failed with status 409: This folder is already served by a terminal claude remote-control` | Seen when adding `--no-create-session-in-dir` while the previous server's sessions were still unarchived. Don't add that flag. Also check nothing else is running `claude remote-control` in `~/agents`. |
-| Session says the clone failed on **SSH host key verification** | Something is using SSH. The service rewrites GitHub SSH URLs to HTTPS; if you see this, check the unit still has the `GIT_CONFIG_*` variables (`systemctl show claude-agents -p Environment`) and that the service was restarted after the rebuild. |
+| Session says the fetch failed on **SSH host key verification** | Something is using SSH. The service rewrites GitHub SSH URLs to HTTPS; if you see this, check the unit still has the `GIT_CONFIG_*` variables (`systemctl show claude-agents -p Environment`) and that the service was restarted after the rebuild. |
 | Commits authored as `Claude <noreply@anthropic.com>` | The session overrode the identity because none was set. The service sets `GIT_AUTHOR_*`; restart it after rebuilding. |
 | Commits **Unverified** | Signing key not added on GitHub as a *Signing Key*, or the commit email isn't verified on your account. |
 | Push fails with credential errors after a nixpkgs update | Shouldn't happen with the env-based helper. If `~/.gitconfig` of `claude` has an old `/nix/store/.../gh` helper, it's ignored for github.com, but you can remove it. |
