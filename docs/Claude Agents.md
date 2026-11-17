@@ -14,6 +14,10 @@ host that behaves like a cloud agent:
    draft PR opened, and only does both once you say so. Ask for a draft PR in your prompt to skip
    the question.
 
+Sessions are sandboxed and can reach the internet but not the local network (see
+[Network](#network) and [Sandboxing](#sandboxing)). Folders of inactive sessions are removed after
+saving any unpushed work (see [Session cleanup](#session-cleanup)).
+
 There is no per-repo configuration. Adding a new repo needs no changes here, only access for the
 GitHub token (see [GitHub token](#github-token)).
 
@@ -35,10 +39,10 @@ services.claude-agents = {
 claude.ai/code / Claude app
         │  (outbound HTTPS only, no inbound ports)
         ▼
-claude-agents.service  ── user `claude`, cwd /var/lib/claude/agents (not a git repo)
-  claude remote-control --name <name> --spawn worktree --capacity 6 --permission-mode acceptEdits
+claude-agents.service  ── user `claude`, cwd /var/lib/claude/agents (not a git repo), sandboxed, no LAN
+  claude remote-control --settings <settings.json> --name <name> --spawn worktree --capacity 6 --permission-mode acceptEdits
         │
-        │ new session → WorktreeCreate hook (managed settings)
+        │ new session → WorktreeCreate hook (from the --settings file)
         ▼
 /var/lib/claude/agents/sessions/<name>/   ← scratch folder per session, `git init`ed by the hook
         │  reads /var/lib/claude/agents/CLAUDE.md (picked up from the parent folder)
@@ -50,11 +54,12 @@ checkout <default>  →  branch claude/<slug>  →  commit  →  (when asked) pu
 
 | Piece | Where | Notes |
 |---|---|---|
-| Service | `systemd.services.claude-agents` | `restartIfChanged = false`, so a rebuild doesn't kill running agents. `Restart=always`. Hardened with `ProtectSystem=strict` etc.; only `/var/lib/claude` is writable. |
+| Service | `systemd.services.claude-agents`, in `claude-agents.slice` | `restartIfChanged = false`, so a rebuild doesn't kill running agents. `Restart=always`. Sandboxed, only `/var/lib/claude` is writable (see [Sandboxing](#sandboxing)); no local network (see [Network](#network)). |
 | User | `claude`, home `/var/lib/claude` | System user. Holds the Claude login, gh token and signing key. |
-| Managed settings | `/etc/claude-code/managed-settings.json` | `WorktreeCreate` hook + `permissions.allow` for `git`, `gh pr create`, `gh pr view`, `nix-shell`, `nix shell`, `nix develop`, `nix search`. Applies to **every user** on the host. |
+| Settings | `--settings /nix/store/…-claude-agents-settings.json` | `WorktreeCreate` hook + `permissions.allow` for `git`, `gh pr create`, `gh pr view`, `nix-shell`, `nix shell`, `nix develop`, `nix search`. Only for this service and its sessions, not for anyone else using Claude Code on the host. |
 | Agent instructions | `/var/lib/claude/agents/CLAUDE.md` | Symlink into the Nix store (tmpfiles `L+`). The workflow sessions follow. |
-| Scratch folders | `/var/lib/claude/agents/sessions/` | Removed by `systemd-tmpfiles` after 14 days. There is deliberately no `WorktreeRemove` hook. |
+| Scratch folders | `/var/lib/claude/agents/sessions/` | Removed as a whole by `claude-agents-cleanup.timer` after 14 days without changes (see [Session cleanup](#session-cleanup)). There is deliberately no `WorktreeRemove` hook. |
+| Saved work | `/var/lib/claude/agents/archive/` | Git bundles of unpushed work from removed folders. Deleted by `systemd-tmpfiles` after 90 days. |
 | Signing key | `/var/lib/claude/.ssh/signing_key` | ed25519, generated on first service start (`ExecStartPre`), never in the Nix store. |
 
 ### The WorktreeCreate hook
@@ -62,8 +67,8 @@ checkout <default>  →  branch claude/<slug>  →  commit  →  (when asked) pu
 `--spawn worktree` normally needs a git repo. Instead the hook decides per call:
 
 - **`cwd` is inside a git repo:** acts like Claude Code's default
-  (`git worktree add -b worktree-<name> <top>/.claude/worktrees/<name>`). This keeps
-  `claude --worktree`, subagent isolation etc. working for other users on the host.
+  (`git worktree add -b worktree-<name> <top>/.claude/worktrees/<name>`). This keeps worktrees
+  that sessions create themselves (subagent isolation, `EnterWorktree`) working.
 - **Otherwise:** `mkdir -p <cwd>/sessions/<name>`, `git init -q` in it, and returns that. This is
   the agent-host case.
 
@@ -77,17 +82,14 @@ and gets no diff pane, even after the agent has put a repo there. Because the fo
 create its `claude/<slug>` branch. The diff pane can then compare that branch against the default
 branch.
 
-**Picking up a changed hook.** The hook's command is a `/nix/store` path inside
-`/etc/claude-code/managed-settings.json`. The Claude Code hooks docs say direct edits to settings
-files are "normally picked up automatically by the file watcher", but on NixOS that file is a
-symlink to `/etc/static/...`, and a rebuild swaps the `/etc/static` symlink rather than writing to the
-watched file, so the running server may keep using the old hook. This wasn't confirmed either way, and
-`restartIfChanged = false` means the rebuild won't restart it for you. After changing the hook, run
-`sudo systemctl restart claude-agents` (this ends running sessions). To check without restarting,
-start a new session and see whether its folder has a `.git`:
-`sudo ls -a /var/lib/claude/agents/sessions/<newest>/`. `CLAUDE.md` takes effect for new sessions
-without a restart, and runs `git init` itself if the folder isn't a repo, so a server still running
-the old hook keeps working (just without the diff pane).
+**Picking up a changed hook or settings.** Remote Control reads the `--settings` file once, when it
+starts. It pins the file's contents and refuses to start a session if the file is later missing or
+different. The file is a store path, so it never changes, and `ExecStartPre` keeps the running
+server's copy (and the hook it points to) from being garbage-collected with the GC root
+`/nix/var/nix/gcroots/claude-agents-settings`. Because a rebuild doesn't restart the service
+(`restartIfChanged = false`), the server keeps the old hook and permissions until you run
+`sudo systemctl restart claude-agents` (this ends running sessions). `CLAUDE.md` takes effect for new
+sessions without a restart.
 
 ### Tools via Nix
 
@@ -103,11 +105,80 @@ nix shell nixpkgs#go -c go mod tidy         # ad hoc (flakes)
 nix search nixpkgs <name>                   # find package names
 ```
 
-`nix-shell`, `nix shell`, `nix develop` and `nix search` are pre-approved in the managed settings.
+`nix-shell`, `nix shell`, `nix develop` and `nix search` are pre-approved in the service's settings.
 Because `--run` / `-c` take any command, this effectively lets sessions run any command without
 asking, and `nix develop` also runs the repo's `shellHook`. The service sets `NIX_PATH` from
 `nix.nixPath` (services don't get the login one), so `<nixpkgs>` resolves to the system's nixpkgs.
 Unfree packages aren't allowed in these shells.
+
+### Network
+
+Sessions can reach the internet but not the local network. The service's `IPAddressDeny` blocks
+private IPv4 (`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`), the CGNAT range `100.64.0.0/10`
+(also used by WireGuard and Tailscale), link-local, multicast and reserved ranges, and on IPv6
+unique-local (`fc00::/7`, which includes Thread/Matter networks), link-local and multicast. systemd
+enforces this with BPF on the service's cgroup, so it covers every process a session starts, and a
+blocked connection fails straight away with "Operation not permitted". `CLAUDE.md` tells sessions
+about it.
+
+- **IPv6 on the LAN.** LAN devices have public IPv6 addresses, so they can't be blocked with a fixed
+  range (and this repo is public, so the prefix isn't written down here).
+  `claude-agents-block-site-ipv6` takes the host's global IPv6 addresses and on-link routes, widens
+  each to its /48 (the most an ISP delegates to one site, so VLANs the host isn't on are covered
+  too), and blocks those for `claude-agents.slice` with `systemctl set-property --runtime`. It runs
+  before the server starts and every 15 minutes, to catch a late router advertisement or a new
+  prefix. Check with `systemctl show claude-agents.slice -p IPAddressDeny`.
+- **DNS** goes through systemd-resolved on `127.0.0.53`, which does the upstream lookups itself. The
+  module asserts that resolved is enabled.
+- **Loopback** stays reachable by default (`allowLoopback`), so sessions can run tests against
+  servers or databases they start. That also reaches this host's own services that listen on all
+  interfaces (Docker-published ports, Samba, NFS, SSH, ...), though not through its LAN address. Set
+  `allowLoopback = false` to block loopback too, except for DNS.
+- **Nix** builds and binary cache downloads are done by `nix-daemon`, which isn't in the service's
+  cgroup, so they aren't affected (a binary cache on the LAN would still work).
+
+### Sandboxing
+
+The service and the cleanup job run with `ProtectSystem=strict` (only `/var/lib/claude` is writable),
+`ProtectHome`, `PrivateTmp`, `PrivateDevices`, `PrivateIPC`, `ProtectProc=invisible` (other users'
+processes are hidden), `ProtectKernelTunables`, `ProtectKernelModules`, `ProtectKernelLogs`,
+`ProtectControlGroups`, `ProtectClock`, `ProtectHostname`, `NoNewPrivileges`, an empty capability
+bounding set, `RestrictSUIDSGID`, `RestrictRealtime`, `LockPersonality`,
+`SystemCallArchitectures=native`, and `RestrictAddressFamilies` limited to Unix, IPv4, IPv6 and
+netlink sockets. With the network rules, `systemd-analyze security claude-agents` goes from 8.5
+("EXPOSED") to 3.6 ("OK").
+
+Left out because they break tools that sessions commonly run: `MemoryDenyWriteExecute` (JITs such as
+node and bun), `RestrictNamespaces` and `SystemCallFilter` (Chromium's and bubblewrap's sandboxes,
+debuggers), `ProcSubset=pid` (hides `/proc/cpuinfo` and `/proc/meminfo`, which build tools read) and
+`PrivateUsers`.
+
+### Session cleanup
+
+`claude-agents-cleanup.timer` runs daily. It removes a session's folder, as a whole, once three
+things are true: nothing in it has changed for `sessionRetentionDays` (14), nothing in the session's
+transcript under `~/.claude/projects/` has either, and no running process has its working directory
+in it. (This replaces aging the folders with `systemd-tmpfiles`, which deletes old files one at a
+time: a session still in use after 14 days could lose files and git objects, unpushed commits
+included.)
+
+Before removing a folder, it saves whatever would be lost from each repo in it to
+`/var/lib/claude/agents/archive/<folder>.bundle`: commits that aren't on a remote-tracking branch, a
+detached `HEAD`, and uncommitted changes (untracked files too, ignored ones not) as
+`refs/archive/uncommitted`. `<folder>.txt` next to it records the repo's origin. A folder with nothing
+unpushed is removed without a bundle. If it can't save a repo's work (for example because the repo
+is corrupt), it keeps the folder and the unit fails, so `systemctl --failed` shows it.
+
+To restore saved work, in a clone of that repo:
+
+```bash
+sudo install -o "$USER" /var/lib/claude/agents/archive/<folder>.bundle /tmp/
+git bundle list-heads /tmp/<folder>.bundle
+git fetch /tmp/<folder>.bundle 'refs/*:refs/restored/*'   # and HEAD:restored-head if it's listed
+```
+
+A bundle only holds what wasn't on the remote, so the clone needs the commits it builds on
+(`git bundle verify` checks).
 
 ### Git setup (all via the service environment)
 
@@ -141,6 +212,8 @@ All under `services.claude-agents`:
 | `defaultOwner` | `null` | GitHub owner assumed when the prompt doesn't name one. |
 | `gitName` / `gitEmail` | `null` | Commit author/committer. Set both or neither. |
 | `signCommits` | `true` | Sign commits and tags with the dedicated SSH key. |
+| `sessionRetentionDays` | `14` | Remove a session's folder after this many days without changes. See [Session cleanup](#session-cleanup). |
+| `allowLoopback` | `true` | Let sessions connect to `localhost`. See [Network](#network). |
 
 ## Setup procedure
 
@@ -237,9 +310,10 @@ and a draft PR whose commit shows Verified.
 - **Logs:** `journalctl -u claude-agents`. The server redraws its status screen into stdout, so
   expect ~80 lines/min. It's kept anyway because some fatal errors (e.g. the 409 below) are only
   printed there.
-- **Scratch folders** in `sessions/` are cleaned up after 14 days by `systemd-tmpfiles-clean`.
-  Agents don't push unless asked, so unpushed work only lives there: ask the session to push
-  anything you want to keep before then.
+- **Scratch folders** in `sessions/` are removed after 14 days without changes, and unpushed work
+  is saved to `archive/` for another 90 days (see [Session cleanup](#session-cleanup)). Agents don't
+  push unless asked, so ask the session to push anything you want to keep. Cleanup runs are logged
+  in `journalctl -u claude-agents-cleanup`.
 - **Revoking access:** remove the signing key and/or token on GitHub, or
   `sudo -u claude -H gh auth logout`. For Claude, `sudo -u claude -H claude auth logout`.
 
@@ -270,6 +344,9 @@ After an update lands, restart the service to pick it up (`restartIfChanged = fa
 | Session says the fetch failed on **SSH host key verification** | Something is using SSH. The service rewrites GitHub SSH URLs to HTTPS; if you see this, check the unit still has the `GIT_CONFIG_*` variables (`systemctl show claude-agents -p Environment`) and that the service was restarted after the rebuild. |
 | Commits authored as `Claude <noreply@anthropic.com>` | The session overrode the identity because none was set. The service sets `GIT_AUTHOR_*`; restart it after rebuilding. |
 | Commits **Unverified** | Signing key not added on GitHub as a *Signing Key*, or the commit email isn't verified on your account. |
+| A session can't reach something on the LAN, or gets "Operation not permitted" connecting to a private address | Expected, see [Network](#network). |
+| Session doesn't start: `The settings file … has changed since Remote Control started` or `Settings file not found` | The server's `--settings` file was deleted or replaced, which the GC root should prevent. Restart the service. |
+| `claude-agents-cleanup.service` failed | It couldn't save the unpushed work in a folder, so it kept it. `journalctl -u claude-agents-cleanup` names the folder. Rescue or delete it by hand. |
 | Push fails with credential errors after a nixpkgs update | Shouldn't happen with the env-based helper. If `~/.gitconfig` of `claude` has an old `/nix/store/.../gh` helper, it's ignored for github.com, but you can remove it. |
 
 ## Known limitations
@@ -278,8 +355,13 @@ After an update lands, restart the service to pick it up (`restartIfChanged = fa
   takes a capacity slot (so `capacity - 1` slots are for new sessions). `CLAUDE.md` tells that session to
   work in a new folder under `sessions/` if you use it. `--no-create-session-in-dir` would avoid
   this but triggers the 409 above.
-- **The hook applies to every user on the host.** For your own `claude --worktree` sessions there,
-  the `worktree-<name>` branch isn't deleted when the worktree is removed (Claude Code never deletes
-  branches created by a hook).
+- **Worktree branches stay.** For worktrees that sessions create themselves, the `worktree-<name>`
+  branch isn't deleted when the worktree is removed (Claude Code never deletes branches created by
+  a hook).
+- **IPv6 prefixes are a guess.** Blocking the /48 around the host's own prefixes doesn't cover a
+  site with a larger delegation or unrelated extra prefixes. A prefix the host no longer has stays
+  blocked until the next reboot.
+- **Loopback.** With `allowLoopback` (the default), this host's services that listen on all
+  interfaces are reachable through `localhost`.
 - **`-c` overrides.** A session could still bypass identity/signing with `git -c ...`; only
   `CLAUDE.md` asks it not to.
