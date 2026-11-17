@@ -8,8 +8,8 @@
 # Single `claude remote-control` server acting as an "agent host".
 #
 # Each session started from claude.ai/code or the Claude app gets an empty
-# scratch folder under ${agentsDir}/sessions (via the WorktreeCreate hook),
-# clones the repo named in the prompt and commits to a local branch. It only
+# git repo under ${agentsDir}/sessions (via the WorktreeCreate hook), fetches
+# the repo named in the prompt into it and commits to a local branch. It only
 # pushes and opens a draft PR when asked to.
 # No per-repo configuration lives here.
 #
@@ -26,7 +26,8 @@ let
   # WorktreeCreate hook. Lives in managed settings, so it applies to every
   # user on this host:
   #   - inside a git repo: behave like Claude Code's default git worktree
-  #   - otherwise: hand out an empty scratch folder under <cwd>/sessions
+  #   - otherwise: hand out an empty git repo (no commits, no remote) under
+  #     <cwd>/sessions
   # Only the final path may go to stdout; everything else goes to stderr.
   worktreeCreate = pkgs.writeShellScript "claude-worktree-create" ''
     set -euo pipefail
@@ -48,6 +49,9 @@ let
     else
       dir="$cwd/sessions/$name"
       mkdir -p "$dir"
+      # Make the folder a repo up front: the session's git state is checked
+      # when it starts, before the agent fetches anything (see CLAUDE.md).
+      git -C "$dir" init -q >&2
     fi
 
     echo "$dir"
@@ -66,7 +70,6 @@ let
     ];
     permissions.allow = [
       "Bash(git:*)"
-      "Bash(gh repo clone:*)"
       "Bash(gh pr create:*)"
       "Bash(gh pr view:*)"
       # Ad-hoc tools (npm, go, cargo, ...) via Nix instead of global installs.
@@ -85,17 +88,28 @@ let
       You are running as a remote agent on a home server. Follow this workflow:
 
       0. If your working directory is `${agentsDir}` itself (not a folder
-         under `sessions/`), first create `${agentsDir}/sessions/<short-slug>`
-         and do all work there.
-      1. You start in an empty scratch folder. Work out which GitHub repository
-         the task is about${
+         under `sessions/`), first create `${agentsDir}/sessions/<short-slug>`,
+         run `git init -q` in it, and do all work there.
+      1. You start in an empty git repository (no commits, no remote). Work
+         out which GitHub repository the task is about${
            lib.optionalString (cfg.defaultOwner != null) " (default owner: `${cfg.defaultOwner}`)"
          }. If it's ambiguous, ask before doing anything else.
-      2. Clone it into the current folder with
-         `gh repo clone <owner>/<repo> .`, then read that repository's
-         `CLAUDE.md` (if it has one) and follow it.
-      3. Create a branch named `claude/<short-slug-of-the-task>`. Never commit
-         to the default branch.
+      2. Don't clone: the folder already has a `.git`, so `git clone` and
+         `gh repo clone` would fail. Fetch the repository into it instead,
+         running these one at a time:
+
+         ```bash
+         git init -q    # only if `git status` says this isn't a git repository
+         git remote add origin https://github.com/<owner>/<repo>.git
+         git fetch origin
+         git remote set-head origin --auto
+         git symbolic-ref --short refs/remotes/origin/HEAD   # prints origin/<default>
+         git checkout -b <default> --track origin/<default>
+         ```
+
+         Then read that repository's `CLAUDE.md` (if it has one) and follow it.
+      3. Create a branch with `git checkout -b claude/<short-slug-of-the-task>`.
+         Never commit to the default branch.
       4. When you're done, commit to your local branch and reply with a short
          summary of the changes.
       5. Don't push and don't open a pull request until the user explicitly
