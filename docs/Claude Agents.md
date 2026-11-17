@@ -7,8 +7,10 @@ host that behaves like a cloud agent:
 
 1. The session starts in an empty scratch folder.
 2. It clones whichever GitHub repo you name in your prompt (optionally with a default owner).
-3. It works on a `claude/<slug>` branch, commits (signed, as the configured identity), pushes and
-   opens a **draft PR**.
+3. It works on a `claude/<slug>` branch and commits locally (signed, as the configured identity).
+4. It **doesn't push or open a PR on its own**: it asks whether you want the branch pushed and a
+   draft PR opened, and only does both once you say so. Ask for a draft PR in your prompt to skip
+   the question.
 
 There is no per-repo configuration. Adding a new repo needs no changes here, only access for the
 GitHub token (see [GitHub token](#github-token)).
@@ -39,7 +41,7 @@ claude-agents.service  ── user `claude`, cwd /var/lib/claude/agents (not a g
 /var/lib/claude/agents/sessions/<name>/   ← empty scratch folder per session
         │  reads /var/lib/claude/agents/CLAUDE.md (picked up from the parent folder)
         ▼
-gh repo clone owner/repo .  →  branch claude/<slug>  →  commit  →  push  →  gh pr create --draft
+gh repo clone owner/repo .  →  branch claude/<slug>  →  commit  →  (when asked) push  →  gh pr create --draft
 ```
 
 | Piece | Where | Notes |
@@ -210,8 +212,9 @@ and a draft PR whose commit shows Verified.
 - **Logs:** `journalctl -u claude-agents`. The server redraws its status screen into stdout, so
   expect ~80 lines/min. It's kept anyway because some fatal errors (e.g. the 409 below) are only
   printed there.
-- **Scratch folders** in `sessions/` are cleaned up after 14 days by `systemd-tmpfiles-clean`. Push
-  anything you want to keep.
+- **Scratch folders** in `sessions/` are cleaned up after 14 days by `systemd-tmpfiles-clean`.
+  Agents don't push unless asked, so unpushed work only lives there: ask the session to push
+  anything you want to keep before then.
 - **Revoking access:** remove the signing key and/or token on GitHub, or
   `sudo -u claude -H gh auth logout`. For Claude, `sudo -u claude -H claude auth logout`.
 
